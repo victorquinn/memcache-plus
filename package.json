@@ -1,0 +1,32 @@
+{
+  "name": "memcache-plus",
+  "version": "0.0.0",
+  "description": "Better memcache for node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/victorquinn/memcache-plus"
+  },
+  "keywords": [
+    "memcache",
+    "memcached",
+    "cache",
+    "promise"
+  ],
+  "author": "Victor Quinn <mail@victorquinn.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/victorquinn/memcache-plus/issues"
+  },
+  "homepage": "https://github.com/victorquinn/memcache-plus",
+  "devDependencies": {
+    "mocha": "^1.20.1"
+  },
+  "dependencies": {
+    "debug": "^1.0.0",
+    "hashring": "^2.0.1"
+  }
+}
