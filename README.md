@@ -10,4 +10,6 @@ Memcache Plus - Better memcache for node
 * Focus on cleanliness and simplicity
 * Support for binaries (planned) which the other memcache libraries for Node don't support
 
-Proudly developed in Washington, D.C. by [SocialRadar](http://socialradar.com)
+Proudly developed in Washington, D.C. by:
+
+[![SocialRadar](https://raw.github.com/socialradar/batch-request/master/social-radar-black-orange.png)](http://socialradar.com)
