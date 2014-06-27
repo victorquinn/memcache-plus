@@ -10,6 +10,7 @@ Memcache Plus - Better memcache for node
 * Focus on cleanliness and simplicity
 * Support for binaries (planned) which the other memcache libraries for Node don't support
 * Cached retrieve - simply pass a function for retrieving a value and a key and memcache-plus will do the whole "check key, if it exists return it, if not run the function to retrieve it, set the value, and return it" for you
+* Command buffering - start issuing commands right away, *memcache-plus* will automatically wait until connected then flush that buffer
 
 Proudly developed in Washington, D.C. by:
 
