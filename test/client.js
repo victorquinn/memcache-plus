@@ -1,12 +1,12 @@
 
-var should = require("chai").should();
+require('chai').should();
 
 var Client = require('../lib/client');
 
-describe("Client", function() {
-    it("should initialize with defaults", function() {
+describe('Client', function() {
+    it('should initialize with defaults', function() {
         var cache = new Client();
-        cache.should.have.property("hosts");
-        cache.hosts.should.be.an("array");
+        cache.should.have.property('hosts');
+        cache.hosts.should.be.an('array');
     });
 });
