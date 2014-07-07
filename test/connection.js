@@ -37,17 +37,33 @@ describe('Connection', function() {
         });
     });
 
-    it('does not reconnect, if disabled and connection lost', function(done) {
-        connection = new Connection({ reconnect: false });
-        connection.client.on('connect', function() {
-            connection.client.end();
+    describe('does not reconnect when', function() {
+        it('reconnect is disabled and connection lost', function(done) {
+            connection = new Connection({ reconnect: false });
             connection.client.on('connect', function() {
-                done(new Error('The client should not have attempted to reconnect'));
+                connection.client.end();
+                connection.client.on('connect', function() {
+                    done(new Error('The client should not have attempted to reconnect'));
+                });
+                setTimeout(function() {
+                    done();
+                }, 50);
             });
-            setTimeout(function() {
-                done();
-            }, 50);
         });
+
+        it('intentionally disconnected', function(done) {
+            connection = new Connection();
+            connection.client.on('connect', function() {
+                connection.disconnect();
+                connection.client.on('connect', function() {
+                    done(new Error('The client should not have attempted to reconnect'));
+                });
+                setTimeout(function() {
+                    done();
+                }, 50);
+            });
+        });
+        
     });
 
     afterEach(function() {
