@@ -9,7 +9,7 @@ var Client = require('../lib/client');
 
 describe('Client', function() {
     describe('initialization', function() {
-        it('initializes with defaults', function() {
+        it('with defaults', function() {
             var cache = new Client();
             cache.should.have.property('reconnect');
             cache.reconnect.should.be.a('boolean');
@@ -21,7 +21,7 @@ describe('Client', function() {
             var cache = new Client();
             cache.should.have.property('connections');
             cache.connections.should.be.an('object');
-            cache.connections[':11211'].client.on('connect', function() {
+            _.sample(cache.connections).client.on('connect', function() {
                 done();
             });
         });
@@ -36,6 +36,18 @@ describe('Client', function() {
             var cache = new Client();
             cache.should.have.property('ring');
             cache.ring.should.be.an.instanceof(require('hashring'));
+        });
+
+        it('with default port with single connection', function() {
+            var cache = new Client('localhost');
+            cache.connections['localhost'].should.have.property('port');
+            cache.connections['localhost'].port.should.equal('11211');
+        });
+
+        it('with default port with multiple connections', function() {
+            var cache = new Client(['localhost']);
+            cache.connections['localhost'].should.have.property('port');
+            cache.connections['localhost'].port.should.equal('11211');
         });
     });
 
