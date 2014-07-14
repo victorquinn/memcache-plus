@@ -1,4 +1,3 @@
-
 require('chai').should();
 var _ = require('lodash'),
     chance = require('chance').Chance(),
@@ -49,6 +48,25 @@ describe('Client', function() {
             cache.connections['localhost'].should.have.property('port');
             cache.connections['localhost'].port.should.equal('11211');
         });
+
+        /**
+         * Only comment this out when we have an Elasticache autodiscovery cluster to test against.
+         *   Ideally one day this can be mocked, but for now just selectively enabling it
+         */
+        it('supports autodiscovery', function(done) {
+            var cache = new Client({ hosts: ['victor.di6cba.cfg.use1.cache.amazonaws.com'], autodiscover: true });
+            var val = chance.word();
+
+            cache.set('test', val)
+                .then(function() {
+                    return cache.get('test');
+                })
+                .then(function(v) {
+                    val.should.equal(v);
+                    done();
+                });
+        });
+        /* */
     });
 
     describe('set and get', function() {
@@ -61,16 +79,16 @@ describe('Client', function() {
             cache.should.have.property('set');
         });
 
-        describe('should throw an error', function() {
-            it('if called without a key', function() {
+        describe('should throw an error if called', function() {
+            it('without a key', function() {
                 expect(function() { cache.set(); }).to.throw('Cannot set without key!');
             });
 
-            it('if called with a key that is too long', function() {
+            it('with a key that is too long', function() {
                 expect(function() { cache.set(chance.word({length: 251})); }).to.throw('less than 250 characters');
             });
 
-            it('if called with a non-string key', function() {
+            it('with a non-string key', function() {
                 expect(function() { cache.set({blah: 'test'}, 'val'); }).to.throw('not string key');
                 expect(function() { cache.set([1, 2], 'val'); }).to.throw('not string key');
                 expect(function() { cache.set(_.noop, 'val'); }).to.throw('not string key');
@@ -134,5 +152,48 @@ describe('Client', function() {
             return Promise.all([item1, item2, item3]);
         });
 
+    });
+
+    describe('Helpers', function() {
+        describe('splitHost()', function() {
+            it('exists', function() {
+                var client = new Client();
+                client.should.have.property('splitHost');
+            });
+
+            it('works with no port', function() {
+                var client = new Client();
+                var hostName = chance.word();
+
+                var host = client.splitHost(hostName);
+                host.should.have.property('host');
+                host.should.have.property('port');
+                host.host.should.equal(hostName);
+                host.port.should.equal('11211');
+            });
+
+            it('works with just a port', function() {
+                var client = new Client();
+                var port = chance.natural({ max: 65536 }).toString();
+
+                var host = client.splitHost(':' + port);
+                host.should.have.property('host');
+                host.should.have.property('port');
+                host.host.should.equal('localhost');
+                host.port.should.equal(port);
+            });
+
+            it('works with both a host and port', function() {
+                var client = new Client();
+                var hostName = chance.word();
+                var port = chance.natural({ max: 65536 }).toString();
+
+                var host = client.splitHost(hostName + ':' + port);
+                host.should.have.property('host');
+                host.should.have.property('port');
+                host.host.should.equal(hostName);
+                host.port.should.equal(port);
+            });
+        });
     });
 });

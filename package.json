@@ -31,7 +31,8 @@
     "grunt-mocha-test": "^0.11.0",
     "jshint-stylish": "^0.2.0",
     "json-stringify-safe": "^5.0.0",
-    "mocha": "^1.20.1"
+    "mocha": "^1.20.1",
+    "sinon": "^1.10.3"
   },
   "dependencies": {
     "bluebird": "^2.1.3",
