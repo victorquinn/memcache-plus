@@ -2,7 +2,8 @@
 require('chai').should();
 var _ = require('lodash'),
     chance = require('chance').Chance(),
-    expect = require('chai').expect;
+    expect = require('chai').expect,
+    Promise = require('bluebird');
 
 var Client = require('../lib/client');
 
@@ -74,5 +75,52 @@ describe('Client', function() {
                     val.should.equal(v);
                 });
         });
+
+        it('works with callbacks as well', function(done) {
+            var val = chance.word();
+            cache.set('mykey', val, function(err) {
+                if (err !== null) {
+                    done(err);
+                }
+                cache.get('mykey', function(err, v) {
+                    if (err !== null) {
+                        done(err);
+                    }
+                    val.should.equal(v);
+                    done();
+                });
+            });
+        });
+
+        it('multiple should not conflict', function() {
+            var val1 = chance.word(), val2 = chance.word(), val3 = chance.word();
+
+            var item1 = cache.set('mykey1', val1)
+                    .then(function() {
+                        return cache.get('mykey1');
+                    })
+                    .then(function(v) {
+                        val1.should.equal(v);
+                    });
+
+            var item2 = cache.set('mykey2', val2)
+                    .then(function() {
+                        return cache.get('mykey2');
+                    })
+                    .then(function(v) {
+                        val2.should.equal(v);
+                    });
+
+            var item3 = cache.set('mykey3', val3)
+                    .then(function() {
+                        return cache.get('mykey3');
+                    })
+                    .then(function(v) {
+                        val3.should.equal(v);
+                    });
+
+            return Promise.all([item1, item2, item3]);
+        });
+
     });
 });
