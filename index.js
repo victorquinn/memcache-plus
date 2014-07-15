@@ -3,4 +3,4 @@
  * Module dependencies
  */
 
-exports.client = require("./lib/client");
+exports = require("./lib/client");
