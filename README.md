@@ -2,6 +2,10 @@
 
 Memcache Plus - Better memcache for node
 
+[![Build Status](https://travis-ci.org/socialradar/memcache-plus.svg?branch=master)](https://travis-ci.org/socialradar/memcache-plus)
+
+[![NPM](https://nodei.co/npm/memcache-plus.png)](https://nodei.co/npm/memcache-plus?downloads=true)
+
 ## What makes it "Plus"?
 
 * Native support for Promises or Callbacks
