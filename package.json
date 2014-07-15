@@ -14,14 +14,16 @@
     "memcache",
     "memcached",
     "cache",
-    "promise"
+    "promise",
+    "elasticache",
+    "cluster"
   ],
   "author": "Victor Quinn <mail@victorquinn.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/victorquinn/memcache-plus/issues"
+    "url": "https://github.com/socialradar/memcache-plus/issues"
   },
-  "homepage": "https://github.com/victorquinn/memcache-plus",
+  "homepage": "https://github.com/socialradar/memcache-plus",
   "devDependencies": {
     "chai": "^1.9.1",
     "chance": "^0.5.9",
