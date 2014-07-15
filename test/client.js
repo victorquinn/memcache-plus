@@ -151,6 +151,53 @@ describe('Client', function() {
             return Promise.all([item1, item2, item3]);
         });
 
+        describe('get to key that does not exist returns error', function() {
+            it('with Promise', function() {
+                return cache.get(chance.word())
+                    .catch(function(err) {
+                        // Since we catch this error here, it won't bubble up the stack
+                        // which is what we want, else it'd report this test as a failure.
+                        // Note, under other circumstances, this would be a Promise anti-pattern.
+                        err.should.be.ok;
+                        err.type.should.equal('NotFoundError');
+                    });
+            });
+
+            it('with Callback', function(done) {
+                cache.get(chance.word(), function(err) {
+                    err.should.be.ok;
+                    err.type.should.equal('NotFoundError');
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('delete', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('delete');
+            cache.delete.should.be.a('function');
+        });
+
+        it('works', function() {
+            var key = chance.word();
+
+            return cache.set(key, 'myvalue')
+                .then(function() {
+                    return cache.delete(key);
+                })
+                .then(function() {
+                    return cache.get(key);
+                })
+                .catch(function(err) {
+                    err.type.should.equal('NotFoundError');
+                });
+        });
     });
 
     describe('Helpers', function() {
