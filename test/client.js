@@ -52,7 +52,6 @@ describe('Client', function() {
         /**
          * Only comment this out when we have an Elasticache autodiscovery cluster to test against.
          *   Ideally one day this can be mocked, but for now just selectively enabling it
-         */
         it('supports autodiscovery', function(done) {
             var cache = new Client({ hosts: ['victor.di6cba.cfg.use1.cache.amazonaws.com'], autodiscover: true });
             var val = chance.word();
@@ -66,7 +65,7 @@ describe('Client', function() {
                     done();
                 });
         });
-        /* */
+        */
     });
 
     describe('set and get', function() {

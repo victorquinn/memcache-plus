@@ -1,14 +1,14 @@
 {
   "name": "memcache-plus",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Better memcache for node",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/victorquinn/memcache-plus"
+    "url": "git://github.com/socialradar/memcache-plus"
   },
   "keywords": [
     "memcache",
