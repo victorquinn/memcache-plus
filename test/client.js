@@ -181,9 +181,9 @@ describe('Client', function() {
                         return cache.getMulti(['val1', 'val2']);
                     })
                     .then(function(vals) {
-                        vals.should.be.an('array');
-                        vals[0].should.equal(val1);
-                        vals[1].should.equal(val2);
+                        vals.should.be.an('object');
+                        vals['val1'].should.equal(val1);
+                        vals['val2'].should.equal(val2);
                     });
             });
 
@@ -198,24 +198,61 @@ describe('Client', function() {
                         return cache.get([key1, key2]);
                     })
                     .then(function(vals) {
-                        vals.should.be.an('array');
-                        vals[0].should.equal(val1);
-                        vals[1].should.equal(val2);
+                        vals.should.be.an('object');
+                        vals[key1].should.equal(val1);
+                        vals[key2].should.equal(val2);
                     });
             });
 
             it('works if some values not found', function() {
-                var key = chance.word();
-                var val = chance.word();
+                var key = chance.word(),
+                    key2 = chance.word(),
+                    val = chance.word();
 
                 return cache.set(key, val)
                     .then(function() {
-                        return cache.getMulti([key, chance.word()]);
+                        return cache.getMulti([key, key2]);
                     })
                     .then(function(vals) {
-                        vals.should.be.an('array');
-                        vals[0].should.equal(val);
-                        expect(vals[1]).to.equal(null);
+                        vals.should.be.an('object');
+                        vals[key].should.equal(val);
+                        expect(vals[key2]).to.equal(null);
+                    });
+            });
+
+            it('works if all values not found', function() {
+                var key = chance.word(),
+                    key2 = chance.word(),
+                    key3 = chance.word(),
+                    val = chance.word();
+
+                return cache.set(key, val)
+                    .then(function() {
+                        return cache.getMulti([key2, key3]);
+                    })
+                    .then(function(vals) {
+                        vals.should.be.an('object');
+                        _.size(vals).should.equal(2);
+                        expect(vals[key2]).to.equal(null);
+                        expect(vals[key3]).to.equal(null);
+                    });
+            });
+
+            it('works if all values not found with callback', function(done) {
+                var key = chance.word(),
+                    key2 = chance.word(),
+                    key3 = chance.word(),
+                    val = chance.word();
+
+                cache.set(key, val)
+                    .then(function() {
+                        cache.getMulti([key2, key3], function(err, vals) {
+                            vals.should.be.an('object');
+                            _.size(vals).should.equal(2);
+                            expect(vals[key2]).to.equal(null);
+                            expect(vals[key3]).to.equal(null);
+                            done(err);
+                        });
                     });
             });
         });
