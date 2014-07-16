@@ -283,6 +283,12 @@ describe('Client', function() {
                     expect(v).to.be.null;
                 });
         });
+
+        it('does not blow up if deleting key that does not exist', function() {
+            var key = chance.word();
+
+            return cache.delete(key);
+        });
     });
 
     describe('deleteMulti', function() {
