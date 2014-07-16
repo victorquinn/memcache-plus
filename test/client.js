@@ -154,20 +154,15 @@ describe('Client', function() {
         describe('get to key that does not exist returns error', function() {
             it('with Promise', function() {
                 return cache.get(chance.word())
-                    .catch(function(err) {
-                        // Since we catch this error here, it won't bubble up the stack
-                        // which is what we want, else it'd report this test as a failure.
-                        // Note, under other circumstances, this would be a Promise anti-pattern.
-                        err.should.be.ok;
-                        err.type.should.equal('NotFoundError');
+                    .then(function(v) {
+                        expect(v).to.be.null;
                     });
             });
 
             it('with Callback', function(done) {
-                cache.get(chance.word(), function(err) {
-                    err.should.be.ok;
-                    err.type.should.equal('NotFoundError');
-                    done();
+                cache.get(chance.word(), function(err, response) {
+                    expect(response).to.be.null;
+                    done(err);
                 });
             });
         });
@@ -247,8 +242,8 @@ describe('Client', function() {
                 .then(function() {
                     return cache.get(key);
                 })
-                .catch(function(err) {
-                    err.type.should.equal('NotFoundError');
+                .then(function(v) {
+                    expect(v).to.be.null;
                 });
         });
     });
@@ -275,14 +270,12 @@ describe('Client', function() {
                 .then(function() {
                     return cache.get(key1);
                 })
-                .catch(function(err) {
-                    err.type.should.equal('NotFoundError');
-                })
-                .then(function() {
+                .then(function(v) {
+                    expect(v).to.be.null;
                     return cache.get(key2);
                 })
-                .catch(function(err) {
-                    err.type.should.equal('NotFoundError');
+                .then(function(v) {
+                    expect(v).to.be.null;
                 });
         });
     });
