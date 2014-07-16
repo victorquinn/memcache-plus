@@ -171,6 +171,27 @@ describe('Client', function() {
                 });
             });
         });
+
+        describe('getMulti', function() {
+            it('exists', function() {
+                cache.should.have.property('getMulti');
+            });
+
+            it('works', function() {
+                var val1 = chance.word(),
+                    val2 = chance.word();
+
+                return Promise.all([cache.set('val1', val1), cache.set('val2', val2)])
+                    .then(function() {
+                        return cache.getMulti(['val1', 'val2']);
+                    })
+                    .then(function(vals) {
+                        vals.should.be.an('array');
+                        vals[0].should.equal(val1);
+                        vals[1].should.equal(val2);
+                    });
+            });
+        });
     });
 
     describe('delete', function() {
