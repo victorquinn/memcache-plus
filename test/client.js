@@ -253,6 +253,40 @@ describe('Client', function() {
         });
     });
 
+    describe('deleteMulti', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('deleteMulti');
+            cache.deleteMulti.should.be.a('function');
+        });
+
+        it('works', function() {
+            var key1 = chance.word(),
+                key2 = chance.word();
+
+            return Promise.all([cache.set(key1, 'myvalue'), cache.set(key2, 'myvalue')])
+                .then(function() {
+                    return cache.deleteMulti([key1, key2]);
+                })
+                .then(function() {
+                    return cache.get(key1);
+                })
+                .catch(function(err) {
+                    err.type.should.equal('NotFoundError');
+                })
+                .then(function() {
+                    return cache.get(key2);
+                })
+                .catch(function(err) {
+                    err.type.should.equal('NotFoundError');
+                });
+        });
+    });
+
     describe('Helpers', function() {
         describe('splitHost()', function() {
             it('exists', function() {
