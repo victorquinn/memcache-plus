@@ -225,7 +225,7 @@ describe('Client', function() {
             });
         });
     });
-
+    // @todo should have cleanup jobs to delete keys we set in memcache
     describe('delete', function() {
         var cache;
         before(function() {
