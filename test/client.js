@@ -193,17 +193,34 @@ describe('Client', function() {
             });
 
             it('get with array of keys delegates to getMulti', function() {
-                var val1 = chance.word(),
+                var key1 = chance.word(),
+                    key2 = chance.word(),
+                    val1 = chance.word(),
                     val2 = chance.word();
 
-                return Promise.all([cache.set('val1', val1), cache.set('val2', val2)])
+                return Promise.all([cache.set(key1, val1), cache.set(key2, val2)])
                     .then(function() {
-                        return cache.get(['val1', 'val2']);
+                        return cache.get([key1, key2]);
                     })
                     .then(function(vals) {
                         vals.should.be.an('array');
                         vals[0].should.equal(val1);
                         vals[1].should.equal(val2);
+                    });
+            });
+
+            it('works if some values not found', function() {
+                var key = chance.word();
+                var val = chance.word();
+
+                return cache.set(key, val)
+                    .then(function() {
+                        return cache.getMulti([key, chance.word()]);
+                    })
+                    .then(function(vals) {
+                        vals.should.be.an('array');
+                        vals[0].should.equal(val);
+                        expect(vals[1]).to.equal(null);
                     });
             });
         });
