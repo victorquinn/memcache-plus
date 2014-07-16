@@ -191,6 +191,21 @@ describe('Client', function() {
                         vals[1].should.equal(val2);
                     });
             });
+
+            it('get with array of keys delegates to getMulti', function() {
+                var val1 = chance.word(),
+                    val2 = chance.word();
+
+                return Promise.all([cache.set('val1', val1), cache.set('val2', val2)])
+                    .then(function() {
+                        return cache.get(['val1', 'val2']);
+                    })
+                    .then(function(vals) {
+                        vals.should.be.an('array');
+                        vals[0].should.equal(val1);
+                        vals[1].should.equal(val2);
+                    });
+            });
         });
     });
 
