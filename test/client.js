@@ -105,6 +105,30 @@ describe('Client', function() {
                 });
         });
 
+        it('works with very large values', function() {
+            var val = chance.word({ length: 600000 });
+
+            return cache.set('mykey', val)
+                .then(function() {
+                    return cache.get('mykey');
+                })
+                .then(function(v) {
+                    val.should.equal(v);
+                });
+        });
+
+        it('works fine with special characters', function() {
+            var val = chance.string({ pool: 'ÀÈÌÒÙàèìòÁÉÍÓÚáéíóúÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüÿæ☃', length: 1000 });
+
+            return cache.set('mykey', val)
+                .then(function() {
+                    return cache.get('mykey');
+                })
+                .then(function(v) {
+                    val.should.equal(v);
+                });
+        });
+
         it('works with callbacks as well', function(done) {
             var val = chance.word();
             cache.set('mykey', val, function(err) {
