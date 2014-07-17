@@ -377,14 +377,12 @@ describe('Client', function() {
                     return cache.deleteMulti([key1, key2]);
                 })
                 .then(function() {
-                    return cache.get(key1);
+                    return Promise.all([cache.get(key1), cache.get(key2)]);
                 })
-                .then(function(v) {
-                    expect(v).to.be.null;
-                    return cache.get(key2);
-                })
-                .then(function(v) {
-                    expect(v).to.be.null;
+                .spread(function(v1, v2) {
+                    expect(v1).to.be.null;
+                    expect(v2).to.be.null;
+                    return;
                 });
         });
     });
@@ -434,6 +432,7 @@ describe('Client', function() {
 
     after(function() {
         var cache = new Client();
+
         // Clean up all of the keys we created
         return cache.deleteMulti(keys);
     });
