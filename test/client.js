@@ -7,6 +7,20 @@ var _ = require('lodash'),
 var Client = require('../lib/client');
 
 describe('Client', function() {
+    var keys = [];
+    // We want a method for generating keys which will store them so we can
+    // do cleanup later and not litter memcache with a bunch of garbage data
+    var getKey = function(opts) {
+        var key;
+        if (opts) {
+            key = chance.word(opts);
+        } else {
+            key = chance.guid();
+        }
+        keys.push(key);
+        return key;
+    };
+
     describe('initialization', function() {
         it('with defaults', function() {
             var cache = new Client();
@@ -84,7 +98,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.set(chance.word({length: 251})); }).to.throw('less than 250 characters');
+                expect(function() { cache.set(chance.string({length: 251}), chance.word()); }).to.throw('less than 250 characters');
             });
 
             it('with a non-string key', function() {
@@ -95,10 +109,11 @@ describe('Client', function() {
         });
 
         it('should work', function() {
-            var val = chance.word();
-            return cache.set('mykey', val)
+            var key = getKey(), val = chance.word();
+
+            return cache.set(key, val)
                 .then(function() {
-                    return cache.get('mykey');
+                    return cache.get(key);
                 })
                 .then(function(v) {
                     val.should.equal(v);
@@ -106,11 +121,11 @@ describe('Client', function() {
         });
 
         it('works with very large values', function() {
-            var val = chance.word({ length: 600000 });
+            var key = getKey(), val = chance.word({ length: 600000 });
 
-            return cache.set('mykey', val)
+            return cache.set(key, val)
                 .then(function() {
-                    return cache.get('mykey');
+                    return cache.get(key);
                 })
                 .then(function(v) {
                     val.should.equal(v);
@@ -118,11 +133,12 @@ describe('Client', function() {
         });
 
         it('works fine with special characters', function() {
-            var val = chance.string({ pool: 'ÀÈÌÒÙàèìòÁÉÍÓÚáéíóúÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüÿæ☃', length: 1000 });
+            var key = getKey(),
+                val = chance.string({ pool: 'ÀÈÌÒÙàèìòÁÉÍÓÚáéíóúÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüÿæ☃', length: 1000 });
 
-            return cache.set('mykey', val)
+            return cache.set(key, val)
                 .then(function() {
-                    return cache.get('mykey');
+                    return cache.get(key);
                 })
                 .then(function(v) {
                     val.should.equal(v);
@@ -130,12 +146,13 @@ describe('Client', function() {
         });
 
         it('works with callbacks as well', function(done) {
-            var val = chance.word();
-            cache.set('mykey', val, function(err) {
+            var key = getKey(), val = chance.word();
+
+            cache.set(key, val, function(err) {
                 if (err !== null) {
                     done(err);
                 }
-                cache.get('mykey', function(err, v) {
+                cache.get(key, function(err, v) {
                     if (err !== null) {
                         done(err);
                     }
@@ -146,33 +163,66 @@ describe('Client', function() {
         });
 
         it('multiple should not conflict', function() {
-            var val1 = chance.word(), val2 = chance.word(), val3 = chance.word();
+            var key1 = getKey(), key2 = getKey(), key3 = getKey(),
+                val1 = chance.word(), val2 = chance.word(), val3 = chance.word();
 
-            var item1 = cache.set('mykey1', val1)
+            var item1 = cache.set(key1, val1)
                     .then(function() {
-                        return cache.get('mykey1');
+                        return cache.get(key1);
                     })
                     .then(function(v) {
                         val1.should.equal(v);
                     });
 
-            var item2 = cache.set('mykey2', val2)
+            var item2 = cache.set(key2, val2)
                     .then(function() {
-                        return cache.get('mykey2');
+                        return cache.get(key2);
                     })
                     .then(function(v) {
                         val2.should.equal(v);
                     });
 
-            var item3 = cache.set('mykey3', val3)
+            var item3 = cache.set(key3, val3)
                     .then(function() {
-                        return cache.get('mykey3');
+                        return cache.get(key3);
                     })
                     .then(function(v) {
                         val3.should.equal(v);
                     });
 
             return Promise.all([item1, item2, item3]);
+        });
+
+        it('many multiple operations should not conflict', function() {
+            var key = getKey(), key1 = getKey(), key2 = getKey(), key3 = getKey(),
+                val1 = chance.word(), val2 = chance.word(), val3 = chance.word();
+
+            
+            return cache.set(key, val1)
+                .then(function() {
+                    return Promise.all([
+                        cache.delete(key),
+                        cache.set(key1, val1),
+                        cache.set(key2, val2),
+                        cache.set(key3, val3)
+                    ]);
+                })
+                .then(function() {
+                    return Promise.all([cache.get(key1), cache.get(key2), cache.get(key3)]);
+                })
+                .then(function(v) {
+                    v[0].should.equal(val1);
+                    v[1].should.equal(val2);
+                    v[2].should.equal(val3);
+
+                    return Promise.all([
+                        cache.get(key1),
+                        cache.deleteMulti([key1, key3])
+                    ]);
+                })
+                .then(function(v) {
+                    v[0].should.equal(val1);
+                });
         });
 
         describe('get to key that does not exist returns error', function() {
@@ -197,25 +247,23 @@ describe('Client', function() {
             });
 
             it('works', function() {
-                var val1 = chance.word(),
-                    val2 = chance.word();
+                var key1 = getKey(), key2 = getKey(),
+                    val1 = chance.word(), val2 = chance.word();
 
-                return Promise.all([cache.set('val1', val1), cache.set('val2', val2)])
+                return Promise.all([cache.set(key1, val1), cache.set(key2, val2)])
                     .then(function() {
-                        return cache.getMulti(['val1', 'val2']);
+                        return cache.getMulti([key1, key2]);
                     })
                     .then(function(vals) {
                         vals.should.be.an('object');
-                        vals['val1'].should.equal(val1);
-                        vals['val2'].should.equal(val2);
+                        vals[key1].should.equal(val1);
+                        vals[key2].should.equal(val2);
                     });
             });
 
             it('get with array of keys delegates to getMulti', function() {
-                var key1 = chance.word(),
-                    key2 = chance.word(),
-                    val1 = chance.word(),
-                    val2 = chance.word();
+                var key1 = getKey(), key2 = getKey(),
+                    val1 = chance.word(), val2 = chance.word();
 
                 return Promise.all([cache.set(key1, val1), cache.set(key2, val2)])
                     .then(function() {
@@ -229,25 +277,22 @@ describe('Client', function() {
             });
 
             it('works if some values not found', function() {
-                var key = chance.word(),
-                    key2 = chance.word(),
+                var key1 = getKey(), key2 = getKey(),
                     val = chance.word();
 
-                return cache.set(key, val)
+                return cache.set(key1, val)
                     .then(function() {
-                        return cache.getMulti([key, key2]);
+                        return cache.getMulti([key1, key2]);
                     })
                     .then(function(vals) {
                         vals.should.be.an('object');
-                        vals[key].should.equal(val);
+                        vals[key1].should.equal(val);
                         expect(vals[key2]).to.equal(null);
                     });
             });
 
             it('works if all values not found', function() {
-                var key = chance.word(),
-                    key2 = chance.word(),
-                    key3 = chance.word(),
+                var key = getKey(), key2 = getKey(), key3 = getKey(),
                     val = chance.word();
 
                 return cache.set(key, val)
@@ -263,9 +308,7 @@ describe('Client', function() {
             });
 
             it('works if all values not found with callback', function(done) {
-                var key = chance.word(),
-                    key2 = chance.word(),
-                    key3 = chance.word(),
+                var key = getKey(), key2 = getKey(), key3 = getKey(),
                     val = chance.word();
 
                 cache.set(key, val)
@@ -294,7 +337,7 @@ describe('Client', function() {
         });
 
         it('works', function() {
-            var key = chance.word();
+            var key = getKey();
 
             return cache.set(key, 'myvalue')
                 .then(function() {
@@ -309,7 +352,7 @@ describe('Client', function() {
         });
 
         it('does not blow up if deleting key that does not exist', function() {
-            var key = chance.word();
+            var key = chance.guid();
 
             return cache.delete(key);
         });
@@ -327,8 +370,7 @@ describe('Client', function() {
         });
 
         it('works', function() {
-            var key1 = chance.word(),
-                key2 = chance.word();
+            var key1 = getKey(), key2 = getKey();
 
             return Promise.all([cache.set(key1, 'myvalue'), cache.set(key2, 'myvalue')])
                 .then(function() {
@@ -389,4 +431,11 @@ describe('Client', function() {
             });
         });
     });
+
+    after(function() {
+        var cache = new Client();
+        // Clean up all of the keys we created
+        return cache.deleteMulti(keys);
+    });
+
 });
