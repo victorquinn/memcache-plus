@@ -376,7 +376,10 @@ describe('Client', function() {
                 .then(function() {
                     return cache.deleteMulti([key1, key2]);
                 })
-                .then(function() {
+                .then(function(d) {
+                    d.should.be.an.object;
+                    _.values(d).indexOf(null).should.equal(-1);
+                    _.every(d).should.be.true;
                     return Promise.all([cache.get(key1), cache.get(key2)]);
                 })
                 .spread(function(v1, v2) {
