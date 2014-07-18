@@ -12,9 +12,11 @@ Memcache Plus - Better memcache for node
 * Elasticache auto discovery baked in
 * Actively developed and used
 * Focus on cleanliness and simplicity
-* Support for binaries (planned) which the other memcache libraries for Node don't support
 * Cached retrieve - simply pass a function for retrieving a value and a key and memcache-plus will do the whole "check key, if it exists return it, if not run the function to retrieve it, set the value, and return it" for you
 * Command buffering - start issuing commands right away, *memcache-plus* will automatically wait until connected then flush that buffer
+* Ability to disable with just a flag on init - sounds trivial, but nice to test with memcache off without altering any of your code
+* Compression built in on a per item basis
+* Support for binaries (planned) which the other memcache libraries for Node don't support
 
 Proudly developed in Washington, D.C. by:
 
