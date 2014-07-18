@@ -225,9 +225,9 @@ describe('Client', function() {
                 });
         });
 
-        describe('get to key that does not exist returns error', function() {
+        describe('get to key that does not exist returns null', function() {
             it('with Promise', function() {
-                return cache.get(chance.word())
+                return cache.get(chance.guid())
                     .then(function(v) {
                         expect(v).to.be.null;
                     });
@@ -430,6 +430,21 @@ describe('Client', function() {
                 host.host.should.equal(hostName);
                 host.port.should.equal(port);
             });
+        });
+    });
+
+    describe('Options', function() {
+        it('can be disabled', function() {
+            var client = new Client({ disabled: true });
+            var key = getKey(), val = chance.word();
+            
+            return client.set(key, val)
+                .then(function() {
+                    return client.get(key);
+                })
+                .then(function(v) {
+                    expect(v).to.be.null;
+                });
         });
     });
 
