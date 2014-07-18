@@ -121,7 +121,7 @@ describe('Client', function() {
         });
 
         it('works with very large values', function() {
-            var key = getKey(), val = chance.word({ length: 600000 });
+            var key = getKey(), val = chance.word({ length: 1000000 });
 
             return cache.set(key, val)
                 .then(function() {
@@ -130,6 +130,12 @@ describe('Client', function() {
                 .then(function(v) {
                     val.should.equal(v);
                 });
+        });
+
+        it('throws error with enormous values (over memcache limit)', function() {
+            var key = getKey(), val = chance.word({ length: 1048578 });
+
+            expect(function() { cache.set(key, val); }).to.throw('Value too large to set in memcache');
         });
 
         it('works fine with special characters', function() {
@@ -437,7 +443,7 @@ describe('Client', function() {
         it('can be disabled', function() {
             var client = new Client({ disabled: true });
             var key = getKey(), val = chance.word();
-            
+
             return client.set(key, val)
                 .then(function() {
                     return client.get(key);
