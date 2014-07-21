@@ -175,6 +175,33 @@ describe('Client', function() {
                     });
             });
 
+            it('getMulti works with compression', function() {
+                var key1 = getKey(), key2 = getKey(),
+                    val1 = chance.word(), val2 = chance.word();
+
+                return Promise.all([cache.set(key1, val1, { compressed: true }), cache.set(key2, val2, { compressed: true })])
+                    .then(function() {
+                        return cache.getMulti([key1, key2], { compressed: true });
+                    })
+                    .then(function(vals) {
+                        vals.should.be.an('object');
+                        vals[key1].should.equal(val1);
+                        vals[key2].should.equal(val2);
+                    });
+            });
+
+            it('get works with a callback', function(done) {
+                var key = getKey(), val = chance.word({ length: 1000 });
+
+                return cache.set(key, val, { compressed: true })
+                    .then(function() {
+                        cache.get(key, { compressed: true }, function(err, v) {
+                            val.should.equal(v);
+                            done(err);
+                        });
+                    });
+            });
+
             it('get for key that should be compressed but is not returns null', function() {
                 var key = getKey(), val = chance.word({ length: 1000 });
 
