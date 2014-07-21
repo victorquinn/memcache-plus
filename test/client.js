@@ -2,6 +2,7 @@ require('chai').should();
 var _ = require('lodash'),
     chance = require('chance').Chance(),
     expect = require('chai').expect,
+    misc = require('../lib/misc'),
     Promise = require('bluebird');
 
 var Client = require('../lib/client');
@@ -132,10 +133,73 @@ describe('Client', function() {
                 });
         });
 
-        it('throws error with enormous values (over memcache limit)', function() {
-            var key = getKey(), val = chance.word({ length: 1048578 });
+        describe('compression', function() {
+            it('does not throw an error if compression specified', function() {
+                var key = getKey(), val = chance.word({ length: 1000 });
+                return cache.set(key, val, { compressed: true });
+            });
 
-            expect(function() { cache.set(key, val); }).to.throw('Value too large to set in memcache');
+            it('works of its own accord', function() {
+                var val = chance.word({ length: 1000 });
+
+                return misc.compress(new Buffer(val))
+                    .then(function(v) {
+                        return misc.decompress(v);
+                    })
+                    .then(function(d) {
+                        d.toString().should.equal(val);
+                    });
+            });
+
+            it('set works with compression', function() {
+                var key = getKey(), val = chance.word({ length: 1000 });
+
+                return cache.set(key, val, { compressed: true })
+                    .then(function() {
+                        return cache.get(key);
+                    })
+                    .then(function(v) {
+                        expect(val.length).to.be.above(v.length);
+                    });
+            });
+
+            it('get works with compression', function() {
+                var key = getKey(), val = chance.word({ length: 1000 });
+
+                return cache.set(key, val, { compressed: true })
+                    .then(function() {
+                        return cache.get(key, { compressed: true });
+                    })
+                    .then(function(v) {
+                        val.should.equal(v);
+                    });
+            });
+
+            it('get for key that should be compressed but is not returns null', function() {
+                var key = getKey(), val = chance.word({ length: 1000 });
+
+                return cache.set(key, val)
+                    .then(function() {
+                        return cache.get(key, { compressed: true });
+                    })
+                    .then(function(v) {
+                        expect(v).to.be.null;
+                    });
+            });
+        });
+
+        it('throws error with enormous values (over memcache limit)', function() {
+            // Limit is 1048577, 1 byte more throws error. We'll go up a few just to be safe
+            var key = getKey(), val = chance.word({ length: 1048590 });
+            return cache.set(key, val)
+                .then(function() {
+                    throw new Error('this code should never get hit');
+                })
+                .catch(function(err) {
+                    err.should.be.ok;
+                    err.should.be.an.instanceof(Error);
+                    err.should.deep.equal(new Error('Value too large to set in memcache'));
+                });
         });
 
         it('works fine with special characters', function() {
