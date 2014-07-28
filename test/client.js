@@ -215,6 +215,12 @@ describe('Client', function() {
             });
         });
 
+        it('throws error when setting a value number', function() {
+            var key = chance.guid(), val = chance.natural();
+
+            expect(function() { cache.set(key, val); }).to.throw('not string value');
+        });
+
         it('throws error with enormous values (over memcache limit)', function() {
             // Limit is 1048577, 1 byte more throws error. We'll go up a few just to be safe
             var key = getKey(), val = chance.word({ length: 1048590 });
