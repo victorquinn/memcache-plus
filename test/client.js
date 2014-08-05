@@ -426,6 +426,27 @@ describe('Client', function() {
                     });
             });
         });
+
+        describe('works with expiration', function() {
+            it('expires', function() {
+                var key = getKey(), val = chance.word();
+
+                return cache.set(key, val, 500)
+                    .then(function() {
+                        return cache.get(key);
+                    })
+                    .then(function(v) {
+                        val.should.equal(v);
+                    })
+                    .delay(1000)
+                    .then(function() {
+                        return cache.get(key);
+                    })
+                    .then(function(v) {
+                        expect(v).to.be.null;
+                    });
+            });
+        });
     });
     // @todo should have cleanup jobs to delete keys we set in memcache
     describe('delete', function() {
