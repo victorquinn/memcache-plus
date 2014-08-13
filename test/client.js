@@ -431,14 +431,14 @@ describe('Client', function() {
             it('expires', function() {
                 var key = getKey(), val = chance.word();
 
-                return cache.set(key, val, 500)
+                return cache.set(key, val, 1)
                     .then(function() {
                         return cache.get(key);
                     })
                     .then(function(v) {
                         val.should.equal(v);
                     })
-                    .delay(1000)
+                    .delay(1001)
                     .then(function() {
                         return cache.get(key);
                     })
