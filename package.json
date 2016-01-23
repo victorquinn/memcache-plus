@@ -41,7 +41,7 @@
     "chai": "^1.9.1",
     "collections": "^1.2.1",
     "debug": "^1.0.0",
-    "hashring": "^3.0.0",
+    "hashring": "^3.2.0",
     "lodash": "^2.4.1",
     "ramda": "^0.2.3"
   }
