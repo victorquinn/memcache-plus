@@ -1,0 +1,48 @@
+{
+  "toc": {
+    "sections": [
+      {
+        "title": "Memcache Plus",
+        "source": "README.md",
+        "url": "index.html",
+        "slug": "index",
+        "headings": [
+          {
+            "title": "What makes it \"Plus\"?",
+            "depth": 2,
+            "id": "what-makes-it-\"plus\""
+          }
+        ]
+      },
+      {
+        "title": "Introduction",
+        "source": "docs/intro/README.md",
+        "url": "intro/index.html",
+        "slug": "intro"
+      }
+    ]
+  },
+  "index": {
+    "index.html": {
+      "source": "README.md",
+      "title": "Memcache Plus",
+      "slug": "index",
+      "headings": [
+        {
+          "title": "What makes it \"Plus\"?",
+          "depth": 2,
+          "id": "what-makes-it-\"plus\""
+        }
+      ]
+    },
+    "intro/index.html": {
+      "source": "docs/intro/README.md",
+      "title": "Introduction",
+      "slug": "intro"
+    }
+  },
+  "sources": {
+    "README.md": "index.html",
+    "docs/intro/README.md": "intro/index.html"
+  }
+}
