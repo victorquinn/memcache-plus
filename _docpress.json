@@ -15,10 +15,17 @@
         ]
       },
       {
-        "title": "Introduction",
+        "title": "Getting Started",
         "source": "docs/intro/README.md",
         "url": "intro/index.html",
-        "slug": "intro"
+        "slug": "intro",
+        "headings": [
+          {
+            "title": "Options",
+            "depth": 2,
+            "id": "options"
+          }
+        ]
       }
     ]
   },
@@ -37,8 +44,15 @@
     },
     "intro/index.html": {
       "source": "docs/intro/README.md",
-      "title": "Introduction",
-      "slug": "intro"
+      "title": "Getting Started",
+      "slug": "intro",
+      "headings": [
+        {
+          "title": "Options",
+          "depth": 2,
+          "id": "options"
+        }
+      ]
     }
   },
   "sources": {

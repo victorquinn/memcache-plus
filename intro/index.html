@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="../assets/style.css?t=a44c9e9d">
     <script src="../assets/script.js?t=2bcc4b59"></script>
-    <title>Introduction</title>
+    <title>Getting Started</title>
     <meta name="viewport" content="width=device-width">
   </head>
   <body class="-menu-visible">
@@ -15,7 +15,91 @@
           <div class="right">
           </div>
         </div>
-        <div class="markdown-body"><p>INTRO GOES HERE YO</p>
+        <div class="markdown-body"><h1 id="installation">Installation</h1>
+<p>Memcache Plus is available on npm:</p>
+<p><a href="https://nodei.co/npm/memcache-plus?downloads=true"><img src="https://nodei.co/npm/memcache-plus.png?downloads=true" alt="NPM"></a></p>
+<h1 id="usage">Usage</h1>
+<p>After installing, it&apos;s easy to start using Memcache Plus:</p>
+<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
+
+<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus();
+</code></pre>
+<p>Then, right away you can start using its methods:</p>
+<pre><code class="lang-javascript">client
+    .get(<span class="pl-s">&apos;my-key&apos;</span>)
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">value</span>) </span>{
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;my-key has a value of &apos;</span>, value);
+    });
+</code></pre>
+<h2 id="options">Options</h2>
+<p>When instantiating Memcache Plus, you can provide the client with an object
+containing any of the following options (default values in parentheses):</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>autodiscover</code></td>
+<td><code>false</code></td>
+<td>whether or not to use <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/AutoDiscovery.html">Elasticache Auto Discovery</a></td>
+</tr>
+<tr>
+<td><code>backoffLimit</code></td>
+<td>10000</td>
+<td>Memcache Plus uses an exponential backoff. This is the maximum limit in milliseconds it will wait before declaring a connection dead</td>
+</tr>
+<tr>
+<td><code>disabled</code></td>
+<td><code>false</code></td>
+<td>whether or not Memcache is disabled. If it is disabled, all of the commands will simply return <code>null</code> as if the key does not exist</td>
+</tr>
+<tr>
+<td><code>hosts</code></td>
+<td><code>null</code></td>
+<td>the list of hosts to connect to. Can be a string for a single host or an array for multiple hosts</td>
+</tr>
+<tr>
+<td><code>maxValueSize</code></td>
+<td>1048576</td>
+<td>the max value that can be stored, in bytes</td>
+</tr>
+<tr>
+<td><code>onNetError</code></td>
+<td><code>function onNetError(err) { console.error(err); }</code></td>
+<td>function to call in the event of a network error</td>
+</tr>
+<tr>
+<td><code>queue</code></td>
+<td><code>true</code></td>
+<td>whether or not to queue commands issued before a connection is established</td>
+</tr>
+<tr>
+<td><code>netTimeout</code></td>
+<td>500</td>
+<td>number of milliseconds to wait before assuming there is a network timeout</td>
+</tr>
+<tr>
+<td><code>reconnect</code></td>
+<td><code>true</code></td>
+<td>whether or not to automatically reconnect if the connection is lost. Memcache Plus includes an exponential backoff to prevent it from spamming a server that is offline</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
+
+<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus({
+    <span class="pl-c">// Specify 2 hosts</span>
+    hosts: [<span class="pl-s">&apos;10.0.0.1&apos;</span>, <span class="pl-s">&apos;10.0.0.2&apos;</span>],
+    <span class="pl-c">// Decrease the netTimeout from the 500ms default to 200ms</span>
+    netTimeout: <span class="hljs-number">200</span>
+});
+</code></pre>
 
         </div>
         <div class="footer-nav">
@@ -27,7 +111,11 @@
           <ul class="submenu">
             <li class="menu-item -level-1"><a href="../index.html" class="link title  link-index">Memcache Plus</a>
             </li>
-            <li class="menu-item -level-1"><a href="../intro/index.html" class="link title -active link-intro">Introduction</a>
+            <li class="menu-item -level-1"><a href="../intro/index.html" class="link title -active link-intro">Getting Started</a>
+              <ul class="headings heading-list">
+                <li class="heading-item -depth-2"><a href="#options" class="hlink link-options">Options</a>
+                </li>
+              </ul>
             </li>
           </ul>
         </li>
