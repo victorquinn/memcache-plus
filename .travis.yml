@@ -1,8 +1,23 @@
 language: node_js
 node_js:
-  - "0.10"
-  - "4.1"
+  - 4
+  - 5
+
+env:
+  global:
+    - GIT_NAME: Travis CI
+    - GIT_EMAIL: mail@victorquinn.com
+    - GITHUB_REPO: socialradar/memcache-plus
+    - GIT_SOURCE: _docpress
+
 before_script:
   - npm install -g grunt-cli
+
+script:
+  - ./node_modules/.bin/docpress build
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then npm install git-update-ghpages && ./node_modules/.bin/git-update-ghpages -e; fi
+
 services:
   - memcached

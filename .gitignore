@@ -25,4 +25,5 @@ build/Release
 node_modules
 
 # Netbeans project folder
-nbproject
+nbproject_docpress
+_docpress
