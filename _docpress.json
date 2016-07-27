@@ -102,6 +102,11 @@
                 "id": "basic-case"
               },
               {
+                "title": "Callbacks",
+                "depth": 3,
+                "id": "callbacks"
+              },
+              {
                 "title": "No value",
                 "depth": 3,
                 "id": "no-value"
@@ -263,6 +268,11 @@
           "title": "Basic case",
           "depth": 3,
           "id": "basic-case"
+        },
+        {
+          "title": "Callbacks",
+          "depth": 3,
+          "id": "callbacks"
         },
         {
           "title": "No value",

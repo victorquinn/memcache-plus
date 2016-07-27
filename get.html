@@ -40,6 +40,14 @@ deserialize it to get your object back.</p>
         <span class="pl-c">// Would print: &quot;Successfully got the object: { firstName: &apos;Victor&apos;, lastName: &apos;Quinn&apos; }&quot;</span>
     });
 </code></pre>
+<h3 id="callbacks">Callbacks</h3>
+<p>Memcache Plus will always return a <a href="https://www.promisejs.org">Promise</a>, but it
+can also take a traditional callback for any of its methods so it can work just
+like most of the other Memcache modules out there. For example:</p>
+<pre><code class="lang-javascript">client.get(<span class="pl-s">&apos;firstName&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">firstName</span>) </span>{
+    <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully gott the value for key firstName: &apos;</span>, firstName);
+});
+</code></pre>
 <h3 id="no-value">No value</h3>
 <p>When there is no value set for a key, Memcache Plus will simply return <code>null</code> as
 the value.</p>
@@ -92,6 +100,8 @@ judiciously!</li>
                 <li class="menu-item -level-2"><a href="get.html" class="link title -active link-get">Get</a>
                   <ul class="headings heading-list">
                     <li class="heading-item -depth-3"><a href="#basic-case" class="hlink link-basic-case">Basic case</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#callbacks" class="hlink link-callbacks">Callbacks</a>
                     </li>
                     <li class="heading-item -depth-3"><a href="#no-value" class="hlink link-no-value">No value</a>
                     </li>
