@@ -33,6 +33,22 @@ client
     });
 ```
 
+### No value
+
+When there is no value set for a key, Memcache Plus will simply return `null` as
+the value.
+
+For example:
+
+```javascript
+client
+    .get('keyThatDoesNotExist')
+    .then(function(value) {
+        console.log('The value is: ', value);
+        // Would print: "The value is: null"
+    });
+```
+
 ### Compression
 
 If an item was written with `set()` with compression enabled, you must specify

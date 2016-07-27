@@ -1,10 +1,12 @@
-# Installation
+# Getting Started
+
+## Installation
 
 Memcache Plus is available on npm:
 
 [![NPM](https://nodei.co/npm/memcache-plus.png?downloads=true)](https://nodei.co/npm/memcache-plus?downloads=true)
 
-# Usage
+## Usage
 
 After installing, it's easy to start using Memcache Plus:
 
@@ -28,7 +30,7 @@ client
     });
 ```
 
-# Options
+## Options
 When instantiating Memcache Plus, you can optionally provide the client with an
 object containing any of the following options (default values in parentheses):
 
@@ -56,3 +58,23 @@ var client = new MemcachePlus({
     netTimeout: 200
 });
 ```
+## Connecting to multiple hosts
+
+Memcache Plus can automatically connect to multiple hosts.
+
+In doing so, it will use a hash ring to handle even distribution of keys among
+multiple servers. It is easy, simply specify multiple hostswhen connecting and
+Memcache Plus will automatically handle the rest!
+
+```javascript
+var MemcachePlus = require('memcache-plus');
+
+var client = new MemcachePlus({
+    // Specify 3 hosts
+    hosts: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
+});
+```
+If you've using Amazon's Elasticache for your Memcache hosting, you can also
+enable [Auto Discovery](elasticache.md) and Memcache Plus will automatically
+connect to your discovery url, find all of the hosts in your cluster, and
+establish connections to all of them.

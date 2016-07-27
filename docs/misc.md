@@ -78,4 +78,5 @@ However, it could break interoperability with other systems as they would expect
 to retrieve just a value and instead get back a complex object.
 
 So we'd like to get this enabled for this module at some point in the future as
-an option but for now we only allow string values.
+an option (or more likely as a companion module dependent on Memcache Plus) but
+for now we only allow string values.

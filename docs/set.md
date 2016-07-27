@@ -13,7 +13,16 @@ client
     });
 ```
 
-Set takes 2 arguments, the key and the value and it returns a Promise.
+### Arguments
+
+`set()` requires 2 arguments and could have up to 4.
+
+The first is always the key and must be a string.  
+The second is always the value and must be a string.  
+The third is optional and could be either: (1) a ttl for this key (2) an options object or (3) a callback  
+The fourth is only present if there is a third argument for ttl or options and a callback is provided.  
+
+### Key and Value must be strings
 
 Both the key and the value must be [strings](misc.md). So if you would like to set an
 Object as a value, you must stringify it first:
@@ -29,6 +38,34 @@ client
     .then(function() {
         console.log('Successfully set the stringified object');
     });
+```
+
+There is more discussion of the rationale behind this [here](misc.md).
+
+### TTL
+
+A key/value pair can be specified with an optional ttl which will specify how
+long (in seconds) that object persists before it is automatically purged from the cache.
+
+For example, to set a value that will stay around in the cache for only 10 seconds:
+
+```javascript
+client.set('firstName', 'Victor', 10);
+```
+
+If you perform a `get()` within 10 seconds for `firstName`, you'll get back
+`"Victor"` but after 10 seconds, you will get `null`.
+
+### Callbacks
+
+Memcache Plus will always return a [Promise](https://www.promisejs.org), but it
+can also take a traditional callback for any of its methods so it can work just
+like most of the other Memcache modules out there. For example:
+
+```javascript
+client.set('firstName', 'Victor', function(err) {
+    console.log('Successfully set the key firstName');
+});
 ```
 
 ### Compression
