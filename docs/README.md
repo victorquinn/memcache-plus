@@ -1,2 +1,5 @@
 * [Memcache Plus](../README.md)
-* [Getting Started](intro/README.md)
+  * [Getting Started](intro.md)
+  * [Set](set.md)
+  * [Get](get.md)
+  * [Miscellaneous](misc.md)

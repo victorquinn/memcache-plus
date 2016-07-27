@@ -14,6 +14,10 @@ var MemcachePlus = require('memcache-plus');
 var client = new MemcachePlus();
 ```
 
+Instantiating the client will automatically establish a connection between your
+running application and your Memcache server. Make sure you do not have a
+firewall rule blocking port 11211 on your Memcache server.
+
 Then, right away you can start using its methods:
 
 ```javascript
