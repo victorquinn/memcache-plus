@@ -30,6 +30,24 @@ client
     });
 ```
 
+## Command Queueing
+
+Memcache Plus will automatically queue and then execute (in order) any commands
+you make before a connection can be established. This means that you can
+instantiate the client and immediately start issuing commands and they will
+automatically execute as soon as a connection is established to your Memcache
+server(s).
+
+This makes it a lot easier to just get going with Memcache Plus than with many
+other Memcache clients for Node since they either require you to write code to
+ensure a connection is established before executing commands or they issue
+failures when commands fail due to lack of connection.
+
+Memcache Plus maintains an internal command queue which it will use until a
+connection is established. This same command queue is utilized if there is a
+momentary drop in the connection, so your code doesn't have to worry about a
+momentary blip like this.
+
 ## Options
 When instantiating Memcache Plus, you can optionally provide the client with an
 object containing any of the following options (default values in parentheses):

@@ -1,6 +1,6 @@
 # Miscellaneous
 
-### Why are only key values allowed?
+### Why are only string keys and values allowed?
 
 #### Background
 

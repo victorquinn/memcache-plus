@@ -2,6 +2,7 @@
   * [Getting Started](intro.md)
   * [Set](set.md)
   * [Get](get.md)
+  * [Get Multi](getmulti.md)
   * [Delete](delete.md)
   * [Elasticache](elasticache.md)
   * [Miscellaneous](misc.md)
