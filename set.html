@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="assets/style.css?t=a44c9e9d">
+    <script src="assets/script.js?t=2bcc4b59"></script>
+    <title>Set</title>
+    <meta name="viewport" content="width=device-width">
+  </head>
+  <body class="-menu-visible">
+    <div class="doc-layout">
+      <div class="toggle menu-toggle js-menu-toggle"></div>
+      <div class="body page-set">
+        <div class="header-nav">
+          <div class="right">
+          </div>
+        </div>
+        <div class="markdown-body"><h1 id="set">Set</h1>
+<h3 id="basic-case">Basic case</h3>
+<p>After you&apos;ve created a client (which will automatically establish a connection),
+you can start issuing commands! The most basic is to set a value:</p>
+<pre><code class="lang-javascript">client
+    .set(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>)
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully set the key firstName&apos;</span>);
+    });
+</code></pre>
+<p>Set takes 2 arguments, the key and the value and it returns a Promise.</p>
+<p>Both the key and the value must be <a href="misc.html">strings</a>. So if you would like to set an
+Object as a value, you must stringify it first:</p>
+<pre><code class="lang-javascript"><span class="pl-k">var</span> myVal = {
+    firstName: <span class="pl-s">&apos;Victor&apos;</span>,
+    lastName: <span class="pl-s">&apos;Quinn&apos;</span>
+};
+
+client
+    .set(<span class="pl-s">&apos;user&apos;</span>, <span class="pl-c1">JSON</span>.stringify(myVal))
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully set the stringified object&apos;</span>);
+    });
+</code></pre>
+<h3 id="compression">Compression</h3>
+<p>Optionally you can request that compression be enabled for a given item:</p>
+<pre><code class="lang-javascript">client.set(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>, { compressed: <span class="pl-c1">true</span> })
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully set the key firstName as compressed data&apos;</span>);
+    });
+</code></pre>
+<p>By enabling this option, every key will be compressed with Node&apos;s
+<a href="https://nodejs.org/api/zlib.html">zlib</a> library prior to being stored.</p>
+<p>This is helpful in the event that you are attempting to store data (such as a
+stringified object) which is too large for the standard Memcache value limit
+size. It is also helpful in situations where the memory allocated to your
+Memcache instance is limited, such as on a Raspberry Pi or some other embedded
+hardware.</p>
+<p>For example, if your Memcache server is set with a limit of 1MB for a value and
+you attempt to store a 1.2MB object, the set will fail. However, enabling
+compression will cause the value to be compressed with zlib before it is stored
+so the size may be reduced significantly and save successfully.</p>
+<p>Notes:</p>
+<ol>
+<li>If you store a value compressed with <code>set()</code> you have to <code>get()</code> it and
+specify that it was compressed. There is no automatic inspection of values to
+determine whether they were set with compression and decompress automatically
+(as this would incur significant performance penalty)</li>
+<li>Enabling compression will reduce the size of the objects stored but it will
+also add a non-negligent performance hit to each <code>set()</code> and <code>get()</code> so use it
+judiciously!</li>
+<li>The maximum key size is 250 bytes. This is a Memcache limitation and this
+library will throw an error if a key larger than that is provided.</li>
+</ol>
+<h3 id="errors">Errors</h3>
+<p>Memcache Plus will throw errors for any unexpected or broken behavior so you
+know quickly if something is wrong with your application. These could be things
+like: trying to <code>set()</code> an item without a key, trying to <code>set()</code> an item that
+is too large, trying to <code>set()</code> with a key that is too long, and many more.</p>
+
+        </div>
+        <div class="footer-nav">
+          <div class="left"><a href="intro.html"><span class="title">Getting Started</span></a></div>
+          <div class="right"><a href="get.html"><span class="label">Next: </span><span class="title">Get</span></a></div>
+        </div>
+      </div>
+      <div class="menu toc-menu">
+        <li class="menu-item -level-0 -parent">
+          <ul class="submenu">
+            <li class="menu-item -level-1 -parent"><a href="index.html" class="link title  link-index">Memcache Plus</a>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="intro.html" class="link title  link-intro">Getting Started</a>
+                </li>
+                <li class="menu-item -level-2"><a href="set.html" class="link title -active link-set">Set</a>
+                  <ul class="headings heading-list">
+                    <li class="heading-item -depth-3"><a href="#basic-case" class="hlink link-basic-case">Basic case</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#compression" class="hlink link-compression">Compression</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#errors" class="hlink link-errors">Errors</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item -level-2"><a href="get.html" class="link title  link-get">Get</a>
+                </li>
+                <li class="menu-item -level-2"><a href="misc.html" class="link title  link-misc">Miscellaneous</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </div>
+  </body>
+</html>

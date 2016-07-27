@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="assets/style.css?t=a44c9e9d">
+    <script src="assets/script.js?t=2bcc4b59"></script>
+    <title>Get</title>
+    <meta name="viewport" content="width=device-width">
+  </head>
+  <body class="-menu-visible">
+    <div class="doc-layout">
+      <div class="toggle menu-toggle js-menu-toggle"></div>
+      <div class="body page-get">
+        <div class="header-nav">
+          <div class="right">
+          </div>
+        </div>
+        <div class="markdown-body"><h1 id="get">Get</h1>
+<h3 id="basic-case">Basic case</h3>
+<p>Now that you&apos;ve used <code>set()</code> to set some values, let&apos;s use <code>get()</code> to retrieve them!</p>
+<pre><code class="lang-javascript">client
+    .get(<span class="pl-s">&apos;firstName&apos;</span>)
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">firstName</span>) </span>{
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully got the key firstName: &apos;</span>, firstName);
+        <span class="pl-c">// Would print: &quot;Successfully got the key firstName: Victor&quot;</span>
+    });
+</code></pre>
+<p>Get takes 1 argument, the key, and it returns a Promise. It has an optional
+second argument which is an object to specify options for this retrieval.</p>
+<p>The key must be a <a href="misc.html">string</a>. The value you get back from the resolution
+of this promise will also be a string, it is up to you to convert it into any
+specific type you need.</p>
+<p>For example, if you had previously <code>set()</code> with an object, you&apos;ll need to
+deserialize it to get your object back.</p>
+<pre><code class="lang-javascript">client
+    .get(<span class="pl-s">&apos;user&apos;</span>)
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">u</span>) </span>{
+        <span class="pl-k">var</span> user = <span class="pl-c1">JSON</span>.parse(u);
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully got the object: &apos;</span>, user);
+        <span class="pl-c">// Would print: &quot;Successfully got the object: { firstName: &apos;Victor&apos;, lastName: &apos;Quinn&apos; }&quot;</span>
+    });
+</code></pre>
+<h3 id="compression">Compression</h3>
+<p>If an item was written with <code>set()</code> with compression enabled, you must specify
+that fact when retrieving the object or it will not be decompressed by Memcache
+Plus:</p>
+<pre><code class="lang-javascript">client.get(<span class="pl-s">&apos;firstName&apos;</span>, { compressed: <span class="pl-c1">true</span> })
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">firstName</span>) </span>{
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully got the key firstName as compressed data: &apos;</span>, firstName);
+        <span class="pl-c">// Would print: &quot;Successfully got the key firstName as compressed data: Victor&quot;</span>
+    });
+</code></pre>
+<p>By enabling this option, every value will be compressed with Node&apos;s
+<a href="https://nodejs.org/api/zlib.html">zlib</a> library after being retrieved.</p>
+<p>Notes:</p>
+<ol>
+<li>If you store a value compressed with <code>set()</code> you have to <code>get()</code> it and
+specify that it was compressed. There is no automatic inspection of values to
+determine whether they were set with compression and decompress automatically
+(as this would incur significant performance penalty)</li>
+<li>Enabling compression will reduce the size of the objects stored but it will
+also add a non-negligent performance hit to each <code>set()</code> and <code>get()</code> so use it
+judiciously!</li>
+</ol>
+
+        </div>
+        <div class="footer-nav">
+          <div class="left"><a href="set.html"><span class="title">Set</span></a></div>
+          <div class="right"><a href="misc.html"><span class="label">Next: </span><span class="title">Miscellaneous</span></a></div>
+        </div>
+      </div>
+      <div class="menu toc-menu">
+        <li class="menu-item -level-0 -parent">
+          <ul class="submenu">
+            <li class="menu-item -level-1 -parent"><a href="index.html" class="link title  link-index">Memcache Plus</a>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="intro.html" class="link title  link-intro">Getting Started</a>
+                </li>
+                <li class="menu-item -level-2"><a href="set.html" class="link title  link-set">Set</a>
+                </li>
+                <li class="menu-item -level-2"><a href="get.html" class="link title -active link-get">Get</a>
+                  <ul class="headings heading-list">
+                    <li class="heading-item -depth-3"><a href="#basic-case" class="hlink link-basic-case">Basic case</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#compression" class="hlink link-compression">Compression</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item -level-2"><a href="misc.html" class="link title  link-misc">Miscellaneous</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </div>
+  </body>
+</html>

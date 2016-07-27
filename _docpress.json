@@ -12,18 +12,67 @@
             "depth": 2,
             "id": "what-makes-it-\"plus\""
           }
-        ]
-      },
-      {
-        "title": "Getting Started",
-        "source": "docs/intro/README.md",
-        "url": "intro/index.html",
-        "slug": "intro",
-        "headings": [
+        ],
+        "sections": [
           {
-            "title": "Options",
-            "depth": 2,
-            "id": "options"
+            "title": "Getting Started",
+            "source": "docs/intro.md",
+            "url": "intro.html",
+            "slug": "intro"
+          },
+          {
+            "title": "Set",
+            "source": "docs/set.md",
+            "url": "set.html",
+            "slug": "set",
+            "headings": [
+              {
+                "title": "Basic case",
+                "depth": 3,
+                "id": "basic-case"
+              },
+              {
+                "title": "Compression",
+                "depth": 3,
+                "id": "compression"
+              },
+              {
+                "title": "Errors",
+                "depth": 3,
+                "id": "errors"
+              }
+            ]
+          },
+          {
+            "title": "Get",
+            "source": "docs/get.md",
+            "url": "get.html",
+            "slug": "get",
+            "headings": [
+              {
+                "title": "Basic case",
+                "depth": 3,
+                "id": "basic-case"
+              },
+              {
+                "title": "Compression",
+                "depth": 3,
+                "id": "compression"
+              }
+            ]
+          },
+          {
+            "title": "Miscellaneous",
+            "source": "docs/misc.md",
+            "url": "misc.html",
+            "slug": "misc",
+            "headings": [
+              {
+                "title": "Why are only key values allowed?",
+                "depth": 3,
+                "id": "why-are-only-key-values-allowed"
+              }
+            ]
           }
         ]
       }
@@ -42,21 +91,68 @@
         }
       ]
     },
-    "intro/index.html": {
-      "source": "docs/intro/README.md",
+    "intro.html": {
+      "source": "docs/intro.md",
       "title": "Getting Started",
-      "slug": "intro",
+      "slug": "intro"
+    },
+    "set.html": {
+      "source": "docs/set.md",
+      "title": "Set",
+      "slug": "set",
       "headings": [
         {
-          "title": "Options",
-          "depth": 2,
-          "id": "options"
+          "title": "Basic case",
+          "depth": 3,
+          "id": "basic-case"
+        },
+        {
+          "title": "Compression",
+          "depth": 3,
+          "id": "compression"
+        },
+        {
+          "title": "Errors",
+          "depth": 3,
+          "id": "errors"
+        }
+      ]
+    },
+    "get.html": {
+      "source": "docs/get.md",
+      "title": "Get",
+      "slug": "get",
+      "headings": [
+        {
+          "title": "Basic case",
+          "depth": 3,
+          "id": "basic-case"
+        },
+        {
+          "title": "Compression",
+          "depth": 3,
+          "id": "compression"
+        }
+      ]
+    },
+    "misc.html": {
+      "source": "docs/misc.md",
+      "title": "Miscellaneous",
+      "slug": "misc",
+      "headings": [
+        {
+          "title": "Why are only key values allowed?",
+          "depth": 3,
+          "id": "why-are-only-key-values-allowed"
         }
       ]
     }
   },
   "sources": {
     "README.md": "index.html",
-    "docs/intro/README.md": "intro/index.html"
+    "docs/intro.md": "intro.html",
+    "docs/set.md": "set.html",
+    "docs/get.md": "get.html",
+    "docs/misc.md": "misc.html"
   }
 }

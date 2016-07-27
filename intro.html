@@ -2,8 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="../assets/style.css?t=a44c9e9d">
-    <script src="../assets/script.js?t=2bcc4b59"></script>
+    <link rel="stylesheet" href="assets/style.css?t=a44c9e9d">
+    <script src="assets/script.js?t=2bcc4b59"></script>
     <title>Getting Started</title>
     <meta name="viewport" content="width=device-width">
   </head>
@@ -24,6 +24,9 @@
 
 <span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus();
 </code></pre>
+<p>Instantiating the client will automatically establish a connection between your
+running application and your Memcache server. Make sure you do not have a
+firewall rule blocking port 11211 on your Memcache server.</p>
 <p>Then, right away you can start using its methods:</p>
 <pre><code class="lang-javascript">client
     .get(<span class="pl-s">&apos;my-key&apos;</span>)
@@ -31,9 +34,9 @@
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;my-key has a value of &apos;</span>, value);
     });
 </code></pre>
-<h2 id="options">Options</h2>
-<p>When instantiating Memcache Plus, you can provide the client with an object
-containing any of the following options (default values in parentheses):</p>
+<h1 id="options">Options</h1>
+<p>When instantiating Memcache Plus, you can optionally provide the client with an
+object containing any of the following options (default values in parentheses):</p>
 <table>
 <thead>
 <tr>
@@ -46,7 +49,7 @@ containing any of the following options (default values in parentheses):</p>
 <tr>
 <td><code>autodiscover</code></td>
 <td><code>false</code></td>
-<td>whether or not to use <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/AutoDiscovery.html">Elasticache Auto Discovery</a></td>
+<td>Whether or not to use <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/AutoDiscovery.html">Elasticache Auto Discovery</a></td>
 </tr>
 <tr>
 <td><code>backoffLimit</code></td>
@@ -56,37 +59,37 @@ containing any of the following options (default values in parentheses):</p>
 <tr>
 <td><code>disabled</code></td>
 <td><code>false</code></td>
-<td>whether or not Memcache is disabled. If it is disabled, all of the commands will simply return <code>null</code> as if the key does not exist</td>
+<td>Whether or not Memcache is disabled. If it is disabled, all of the commands will simply return <code>null</code> as if the key does not exist</td>
 </tr>
 <tr>
 <td><code>hosts</code></td>
 <td><code>null</code></td>
-<td>the list of hosts to connect to. Can be a string for a single host or an array for multiple hosts</td>
+<td>The list of hosts to connect to. Can be a string for a single host or an array for multiple hosts. If none provided, defaults to <code>localhost</code></td>
 </tr>
 <tr>
 <td><code>maxValueSize</code></td>
 <td>1048576</td>
-<td>the max value that can be stored, in bytes</td>
+<td>The max value that can be stored, in bytes. This is configurable in Memcache but this library will help prevent you from storing objects over the configured siize in Memcache</td>
 </tr>
 <tr>
 <td><code>onNetError</code></td>
 <td><code>function onNetError(err) { console.error(err); }</code></td>
-<td>function to call in the event of a network error</td>
+<td>Function to call in the event of a network error.</td>
 </tr>
 <tr>
 <td><code>queue</code></td>
 <td><code>true</code></td>
-<td>whether or not to queue commands issued before a connection is established</td>
+<td>Whether or not to queue commands issued before a connection is established or if the connection is dropped momentarily.</td>
 </tr>
 <tr>
 <td><code>netTimeout</code></td>
 <td>500</td>
-<td>number of milliseconds to wait before assuming there is a network timeout</td>
+<td>Number of milliseconds to wait before assuming there is a network timeout.</td>
 </tr>
 <tr>
 <td><code>reconnect</code></td>
 <td><code>true</code></td>
-<td>whether or not to automatically reconnect if the connection is lost. Memcache Plus includes an exponential backoff to prevent it from spamming a server that is offline</td>
+<td>Whether or not to automatically reconnect if the connection is lost. Memcache Plus includes an exponential backoff to prevent it from spamming a server that is offline</td>
 </tr>
 </tbody>
 </table>
@@ -103,17 +106,22 @@ containing any of the following options (default values in parentheses):</p>
 
         </div>
         <div class="footer-nav">
-          <div class="left"><a href="../index.html"><span class="title">Memcache Plus</span></a></div>
+          <div class="left"><a href="index.html"><span class="title">Memcache Plus</span></a></div>
+          <div class="right"><a href="set.html"><span class="label">Next: </span><span class="title">Set</span></a></div>
         </div>
       </div>
       <div class="menu toc-menu">
         <li class="menu-item -level-0 -parent">
           <ul class="submenu">
-            <li class="menu-item -level-1"><a href="../index.html" class="link title  link-index">Memcache Plus</a>
-            </li>
-            <li class="menu-item -level-1"><a href="../intro/index.html" class="link title -active link-intro">Getting Started</a>
-              <ul class="headings heading-list">
-                <li class="heading-item -depth-2"><a href="#options" class="hlink link-options">Options</a>
+            <li class="menu-item -level-1 -parent"><a href="index.html" class="link title  link-index">Memcache Plus</a>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="intro.html" class="link title -active link-intro">Getting Started</a>
+                </li>
+                <li class="menu-item -level-2"><a href="set.html" class="link title  link-set">Set</a>
+                </li>
+                <li class="menu-item -level-2"><a href="get.html" class="link title  link-get">Get</a>
+                </li>
+                <li class="menu-item -level-2"><a href="misc.html" class="link title  link-misc">Miscellaneous</a>
                 </li>
               </ul>
             </li>
