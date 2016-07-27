@@ -31,6 +31,11 @@
                 "id": "usage"
               },
               {
+                "title": "Command Queueing",
+                "depth": 2,
+                "id": "command-queueing"
+              },
+              {
                 "title": "Options",
                 "depth": 2,
                 "id": "options"
@@ -109,6 +114,12 @@
             ]
           },
           {
+            "title": "Get Multi",
+            "source": "docs/getmulti.md",
+            "url": "getmulti.html",
+            "slug": "getmulti"
+          },
+          {
             "title": "Delete",
             "source": "docs/delete.md",
             "url": "delete.html",
@@ -146,9 +157,9 @@
             "slug": "misc",
             "headings": [
               {
-                "title": "Why are only key values allowed?",
+                "title": "Why are only string keys and values allowed?",
                 "depth": 3,
-                "id": "why-are-only-key-values-allowed"
+                "id": "why-are-only-string-keys-and-values-allowed"
               }
             ]
           }
@@ -183,6 +194,11 @@
           "title": "Usage",
           "depth": 2,
           "id": "usage"
+        },
+        {
+          "title": "Command Queueing",
+          "depth": 2,
+          "id": "command-queueing"
         },
         {
           "title": "Options",
@@ -260,6 +276,11 @@
         }
       ]
     },
+    "getmulti.html": {
+      "source": "docs/getmulti.md",
+      "title": "Get Multi",
+      "slug": "getmulti"
+    },
     "delete.html": {
       "source": "docs/delete.md",
       "title": "Delete",
@@ -295,9 +316,9 @@
       "slug": "misc",
       "headings": [
         {
-          "title": "Why are only key values allowed?",
+          "title": "Why are only string keys and values allowed?",
           "depth": 3,
-          "id": "why-are-only-key-values-allowed"
+          "id": "why-are-only-string-keys-and-values-allowed"
         }
       ]
     }
@@ -307,6 +328,7 @@
     "docs/intro.md": "intro.html",
     "docs/set.md": "set.html",
     "docs/get.md": "get.html",
+    "docs/getmulti.md": "getmulti.html",
     "docs/delete.md": "delete.html",
     "docs/elasticache.md": "elasticache.html",
     "docs/misc.md": "misc.html",

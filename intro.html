@@ -35,6 +35,20 @@ firewall rule blocking port 11211 on your Memcache server.</p>
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;my-key has a value of &apos;</span>, value);
     });
 </code></pre>
+<h2 id="command-queueing">Command Queueing</h2>
+<p>Memcache Plus will automatically queue and then execute (in order) any commands
+you make before a connection can be established. This means that you can
+instantiate the client and immediately start issuing commands and they will
+automatically execute as soon as a connection is established to your Memcache
+server(s).</p>
+<p>This makes it a lot easier to just get going with Memcache Plus than with many
+other Memcache clients for Node since they either require you to write code to
+ensure a connection is established before executing commands or they issue
+failures when commands fail due to lack of connection.</p>
+<p>Memcache Plus maintains an internal command queue which it will use until a
+connection is established. This same command queue is utilized if there is a
+momentary drop in the connection, so your code doesn&apos;t have to worry about a
+momentary blip like this.</p>
 <h2 id="options">Options</h2>
 <p>When instantiating Memcache Plus, you can optionally provide the client with an
 object containing any of the following options (default values in parentheses):</p>
@@ -138,6 +152,8 @@ establish connections to all of them.</p>
                     </li>
                     <li class="heading-item -depth-2"><a href="#usage" class="hlink link-usage">Usage</a>
                     </li>
+                    <li class="heading-item -depth-2"><a href="#command-queueing" class="hlink link-command-queueing">Command Queueing</a>
+                    </li>
                     <li class="heading-item -depth-2"><a href="#options" class="hlink link-options">Options</a>
                     </li>
                     <li class="heading-item -depth-2"><a href="#connecting-to-multiple-hosts" class="hlink link-connecting-to-multiple-hosts">Connecting to multiple hosts</a>
@@ -147,6 +163,8 @@ establish connections to all of them.</p>
                 <li class="menu-item -level-2"><a href="set.html" class="link title  link-set">Set</a>
                 </li>
                 <li class="menu-item -level-2"><a href="get.html" class="link title  link-get">Get</a>
+                </li>
+                <li class="menu-item -level-2"><a href="getmulti.html" class="link title  link-getmulti">Get Multi</a>
                 </li>
                 <li class="menu-item -level-2"><a href="delete.html" class="link title  link-delete">Delete</a>
                 </li>
