@@ -33,6 +33,18 @@ client
     });
 ```
 
+### Callbacks
+
+Memcache Plus will always return a [Promise](https://www.promisejs.org), but it
+can also take a traditional callback for any of its methods so it can work just
+like most of the other Memcache modules out there. For example:
+
+```javascript
+client.get('firstName', function(firstName) {
+    console.log('Successfully gott the value for key firstName: ', firstName);
+});
+```
+
 ### No value
 
 When there is no value set for a key, Memcache Plus will simply return `null` as
