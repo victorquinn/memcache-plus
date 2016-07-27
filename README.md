@@ -2,6 +2,8 @@
 
 Memcache Plus - Better memcache for node
 
+Full Documentation at: [http://memcache-plus.com](http://memcache-plus.com)
+
 [![Build Status](https://travis-ci.org/socialradar/memcache-plus.svg?branch=master)](https://travis-ci.org/socialradar/memcache-plus)
 
 [![NPM](https://nodei.co/npm/memcache-plus.png)](https://nodei.co/npm/memcache-plus?downloads=true)
