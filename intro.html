@@ -15,10 +15,11 @@
           <div class="right">
           </div>
         </div>
-        <div class="markdown-body"><h1 id="installation">Installation</h1>
+        <div class="markdown-body"><h1 id="getting-started">Getting Started</h1>
+<h2 id="installation">Installation</h2>
 <p>Memcache Plus is available on npm:</p>
 <p><a href="https://nodei.co/npm/memcache-plus?downloads=true"><img src="https://nodei.co/npm/memcache-plus.png?downloads=true" alt="NPM"></a></p>
-<h1 id="usage">Usage</h1>
+<h2 id="usage">Usage</h2>
 <p>After installing, it&apos;s easy to start using Memcache Plus:</p>
 <pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
 
@@ -34,7 +35,7 @@ firewall rule blocking port 11211 on your Memcache server.</p>
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;my-key has a value of &apos;</span>, value);
     });
 </code></pre>
-<h1 id="options">Options</h1>
+<h2 id="options">Options</h2>
 <p>When instantiating Memcache Plus, you can optionally provide the client with an
 object containing any of the following options (default values in parentheses):</p>
 <table>
@@ -103,6 +104,22 @@ object containing any of the following options (default values in parentheses):<
     netTimeout: <span class="hljs-number">200</span>
 });
 </code></pre>
+<h2 id="connecting-to-multiple-hosts">Connecting to multiple hosts</h2>
+<p>Memcache Plus can automatically connect to multiple hosts.</p>
+<p>In doing so, it will use a hash ring to handle even distribution of keys among
+multiple servers. It is easy, simply specify multiple hostswhen connecting and
+Memcache Plus will automatically handle the rest!</p>
+<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
+
+<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus({
+    <span class="pl-c">// Specify 3 hosts</span>
+    hosts: [<span class="pl-s">&apos;10.0.0.1&apos;</span>, <span class="pl-s">&apos;10.0.0.2&apos;</span>, <span class="pl-s">&apos;10.0.0.3&apos;</span>]
+});
+</code></pre>
+<p>If you&apos;ve using Amazon&apos;s Elasticache for your Memcache hosting, you can also
+enable <a href="elasticache.html">Auto Discovery</a> and Memcache Plus will automatically
+connect to your discovery url, find all of the hosts in your cluster, and
+establish connections to all of them.</p>
 
         </div>
         <div class="footer-nav">
@@ -116,10 +133,24 @@ object containing any of the following options (default values in parentheses):<
             <li class="menu-item -level-1 -parent"><a href="index.html" class="link title  link-index">Memcache Plus</a>
               <ul class="submenu">
                 <li class="menu-item -level-2"><a href="intro.html" class="link title -active link-intro">Getting Started</a>
+                  <ul class="headings heading-list">
+                    <li class="heading-item -depth-2"><a href="#installation" class="hlink link-installation">Installation</a>
+                    </li>
+                    <li class="heading-item -depth-2"><a href="#usage" class="hlink link-usage">Usage</a>
+                    </li>
+                    <li class="heading-item -depth-2"><a href="#options" class="hlink link-options">Options</a>
+                    </li>
+                    <li class="heading-item -depth-2"><a href="#connecting-to-multiple-hosts" class="hlink link-connecting-to-multiple-hosts">Connecting to multiple hosts</a>
+                    </li>
+                  </ul>
                 </li>
                 <li class="menu-item -level-2"><a href="set.html" class="link title  link-set">Set</a>
                 </li>
                 <li class="menu-item -level-2"><a href="get.html" class="link title  link-get">Get</a>
+                </li>
+                <li class="menu-item -level-2"><a href="delete.html" class="link title  link-delete">Delete</a>
+                </li>
+                <li class="menu-item -level-2"><a href="elasticache.html" class="link title  link-elasticache">Elasticache</a>
                 </li>
                 <li class="menu-item -level-2"><a href="misc.html" class="link title  link-misc">Miscellaneous</a>
                 </li>

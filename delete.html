@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="assets/style.css?t=a44c9e9d">
+    <script src="assets/script.js?t=2bcc4b59"></script>
+    <title>Delete</title>
+    <meta name="viewport" content="width=device-width">
+  </head>
+  <body class="-menu-visible">
+    <div class="doc-layout">
+      <div class="toggle menu-toggle js-menu-toggle"></div>
+      <div class="body page-delete">
+        <div class="header-nav">
+          <div class="right">
+          </div>
+        </div>
+        <div class="markdown-body"><h1 id="delete">Delete</h1>
+<h3 id="basic-case">Basic case</h3>
+<p>If you&apos;ve got a key you want to delete, simply call the <code>delete()</code> method and
+supply a key:</p>
+<pre><code class="lang-javascript">client
+    .delete(<span class="pl-s">&apos;firstName&apos;</span>)
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully deleted the value associated with key firstName&apos;</span>);
+    });
+</code></pre>
+<h3 id="delete-multi">Delete Multi</h3>
+<p>However, if you need to delete multiple keys at once, calling <code>delete()</code> over
+and over again can be rather inefficient. For this reason, Memcache Plus
+supports <code>deleteMulti()</code> for which you provide an array of keys and that single
+command will delete all of them at once from Memcache:</p>
+<pre><code class="lang-javascript">client
+    .deleteMulti([<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;middleName&apos;</span>, <span class="pl-s">&apos;lastName&apos;</span>])
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully deleted all three values with the supplied keys&apos;</span>);
+    });
+</code></pre>
+
+        </div>
+        <div class="footer-nav">
+          <div class="left"><a href="get.html"><span class="title">Get</span></a></div>
+          <div class="right"><a href="elasticache.html"><span class="label">Next: </span><span class="title">Elasticache</span></a></div>
+        </div>
+      </div>
+      <div class="menu toc-menu">
+        <li class="menu-item -level-0 -parent">
+          <ul class="submenu">
+            <li class="menu-item -level-1 -parent"><a href="index.html" class="link title  link-index">Memcache Plus</a>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="intro.html" class="link title  link-intro">Getting Started</a>
+                </li>
+                <li class="menu-item -level-2"><a href="set.html" class="link title  link-set">Set</a>
+                </li>
+                <li class="menu-item -level-2"><a href="get.html" class="link title  link-get">Get</a>
+                </li>
+                <li class="menu-item -level-2"><a href="delete.html" class="link title -active link-delete">Delete</a>
+                  <ul class="headings heading-list">
+                    <li class="heading-item -depth-3"><a href="#basic-case" class="hlink link-basic-case">Basic case</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#delete-multi" class="hlink link-delete-multi">Delete Multi</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item -level-2"><a href="elasticache.html" class="link title  link-elasticache">Elasticache</a>
+                </li>
+                <li class="menu-item -level-2"><a href="misc.html" class="link title  link-misc">Miscellaneous</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </div>
+  </body>
+</html>

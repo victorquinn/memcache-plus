@@ -25,7 +25,13 @@ you can start issuing commands! The most basic is to set a value:</p>
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully set the key firstName&apos;</span>);
     });
 </code></pre>
-<p>Set takes 2 arguments, the key and the value and it returns a Promise.</p>
+<h3 id="arguments">Arguments</h3>
+<p><code>set()</code> requires 2 arguments and could have up to 4.</p>
+<p>The first is always the key and must be a string.<br>
+The second is always the value and must be a string.<br>
+The third is optional and could be either: (1) a ttl for this key (2) an options object or (3) a callback<br>
+The fourth is only present if there is a third argument for ttl or options and a callback is provided.</p>
+<h3 id="key-and-value-must-be-strings">Key and Value must be strings</h3>
 <p>Both the key and the value must be <a href="misc.html">strings</a>. So if you would like to set an
 Object as a value, you must stringify it first:</p>
 <pre><code class="lang-javascript"><span class="pl-k">var</span> myVal = {
@@ -38,6 +44,23 @@ client
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully set the stringified object&apos;</span>);
     });
+</code></pre>
+<p>There is more discussion of the rationale behind this <a href="misc.html">here</a>.</p>
+<h3 id="ttl">TTL</h3>
+<p>A key/value pair can be specified with an optional ttl which will specify how
+long (in seconds) that object persists before it is automatically purged from the cache.</p>
+<p>For example, to set a value that will stay around in the cache for only 10 seconds:</p>
+<pre><code class="lang-javascript">client.set(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>, <span class="hljs-number">10</span>);
+</code></pre>
+<p>If you perform a <code>get()</code> within 10 seconds for <code>firstName</code>, you&apos;ll get back
+<code>&quot;Victor&quot;</code> but after 10 seconds, you will get <code>null</code>.</p>
+<h3 id="callbacks">Callbacks</h3>
+<p>Memcache Plus will always return a <a href="https://www.promisejs.org">Promise</a>, but it
+can also take a traditional callback for any of its methods so it can work just
+like most of the other Memcache modules out there. For example:</p>
+<pre><code class="lang-javascript">client.set(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully set the key firstName&apos;</span>);
+});
 </code></pre>
 <h3 id="compression">Compression</h3>
 <p>Optionally you can request that compression be enabled for a given item:</p>
@@ -92,6 +115,14 @@ is too large, trying to <code>set()</code> with a key that is too long, and many
                   <ul class="headings heading-list">
                     <li class="heading-item -depth-3"><a href="#basic-case" class="hlink link-basic-case">Basic case</a>
                     </li>
+                    <li class="heading-item -depth-3"><a href="#arguments" class="hlink link-arguments">Arguments</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#key-and-value-must-be-strings" class="hlink link-key-and-value-must-be-strings">Key and Value must be strings</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#ttl" class="hlink link-ttl">TTL</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#callbacks" class="hlink link-callbacks">Callbacks</a>
+                    </li>
                     <li class="heading-item -depth-3"><a href="#compression" class="hlink link-compression">Compression</a>
                     </li>
                     <li class="heading-item -depth-3"><a href="#errors" class="hlink link-errors">Errors</a>
@@ -99,6 +130,10 @@ is too large, trying to <code>set()</code> with a key that is too long, and many
                   </ul>
                 </li>
                 <li class="menu-item -level-2"><a href="get.html" class="link title  link-get">Get</a>
+                </li>
+                <li class="menu-item -level-2"><a href="delete.html" class="link title  link-delete">Delete</a>
+                </li>
+                <li class="menu-item -level-2"><a href="elasticache.html" class="link title  link-elasticache">Elasticache</a>
                 </li>
                 <li class="menu-item -level-2"><a href="misc.html" class="link title  link-misc">Miscellaneous</a>
                 </li>

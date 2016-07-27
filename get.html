@@ -40,6 +40,17 @@ deserialize it to get your object back.</p>
         <span class="pl-c">// Would print: &quot;Successfully got the object: { firstName: &apos;Victor&apos;, lastName: &apos;Quinn&apos; }&quot;</span>
     });
 </code></pre>
+<h3 id="no-value">No value</h3>
+<p>When there is no value set for a key, Memcache Plus will simply return <code>null</code> as
+the value.</p>
+<p>For example:</p>
+<pre><code class="lang-javascript">client
+    .get(<span class="pl-s">&apos;keyThatDoesNotExist&apos;</span>)
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">value</span>) </span>{
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;The value is: &apos;</span>, value);
+        <span class="pl-c">// Would print: &quot;The value is: null&quot;</span>
+    });
+</code></pre>
 <h3 id="compression">Compression</h3>
 <p>If an item was written with <code>set()</code> with compression enabled, you must specify
 that fact when retrieving the object or it will not be decompressed by Memcache
@@ -66,7 +77,7 @@ judiciously!</li>
         </div>
         <div class="footer-nav">
           <div class="left"><a href="set.html"><span class="title">Set</span></a></div>
-          <div class="right"><a href="misc.html"><span class="label">Next: </span><span class="title">Miscellaneous</span></a></div>
+          <div class="right"><a href="delete.html"><span class="label">Next: </span><span class="title">Delete</span></a></div>
         </div>
       </div>
       <div class="menu toc-menu">
@@ -82,9 +93,15 @@ judiciously!</li>
                   <ul class="headings heading-list">
                     <li class="heading-item -depth-3"><a href="#basic-case" class="hlink link-basic-case">Basic case</a>
                     </li>
+                    <li class="heading-item -depth-3"><a href="#no-value" class="hlink link-no-value">No value</a>
+                    </li>
                     <li class="heading-item -depth-3"><a href="#compression" class="hlink link-compression">Compression</a>
                     </li>
                   </ul>
+                </li>
+                <li class="menu-item -level-2"><a href="delete.html" class="link title  link-delete">Delete</a>
+                </li>
+                <li class="menu-item -level-2"><a href="elasticache.html" class="link title  link-elasticache">Elasticache</a>
                 </li>
                 <li class="menu-item -level-2"><a href="misc.html" class="link title  link-misc">Miscellaneous</a>
                 </li>

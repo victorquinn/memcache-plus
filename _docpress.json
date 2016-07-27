@@ -18,7 +18,29 @@
             "title": "Getting Started",
             "source": "docs/intro.md",
             "url": "intro.html",
-            "slug": "intro"
+            "slug": "intro",
+            "headings": [
+              {
+                "title": "Installation",
+                "depth": 2,
+                "id": "installation"
+              },
+              {
+                "title": "Usage",
+                "depth": 2,
+                "id": "usage"
+              },
+              {
+                "title": "Options",
+                "depth": 2,
+                "id": "options"
+              },
+              {
+                "title": "Connecting to multiple hosts",
+                "depth": 2,
+                "id": "connecting-to-multiple-hosts"
+              }
+            ]
           },
           {
             "title": "Set",
@@ -30,6 +52,26 @@
                 "title": "Basic case",
                 "depth": 3,
                 "id": "basic-case"
+              },
+              {
+                "title": "Arguments",
+                "depth": 3,
+                "id": "arguments"
+              },
+              {
+                "title": "Key and Value must be strings",
+                "depth": 3,
+                "id": "key-and-value-must-be-strings"
+              },
+              {
+                "title": "TTL",
+                "depth": 3,
+                "id": "ttl"
+              },
+              {
+                "title": "Callbacks",
+                "depth": 3,
+                "id": "callbacks"
               },
               {
                 "title": "Compression",
@@ -55,9 +97,45 @@
                 "id": "basic-case"
               },
               {
+                "title": "No value",
+                "depth": 3,
+                "id": "no-value"
+              },
+              {
                 "title": "Compression",
                 "depth": 3,
                 "id": "compression"
+              }
+            ]
+          },
+          {
+            "title": "Delete",
+            "source": "docs/delete.md",
+            "url": "delete.html",
+            "slug": "delete",
+            "headings": [
+              {
+                "title": "Basic case",
+                "depth": 3,
+                "id": "basic-case"
+              },
+              {
+                "title": "Delete Multi",
+                "depth": 3,
+                "id": "delete-multi"
+              }
+            ]
+          },
+          {
+            "title": "Elasticache",
+            "source": "docs/elasticache.md",
+            "url": "elasticache.html",
+            "slug": "elasticache",
+            "headings": [
+              {
+                "title": "Auto Discovery",
+                "depth": 3,
+                "id": "auto-discovery"
               }
             ]
           },
@@ -94,7 +172,29 @@
     "intro.html": {
       "source": "docs/intro.md",
       "title": "Getting Started",
-      "slug": "intro"
+      "slug": "intro",
+      "headings": [
+        {
+          "title": "Installation",
+          "depth": 2,
+          "id": "installation"
+        },
+        {
+          "title": "Usage",
+          "depth": 2,
+          "id": "usage"
+        },
+        {
+          "title": "Options",
+          "depth": 2,
+          "id": "options"
+        },
+        {
+          "title": "Connecting to multiple hosts",
+          "depth": 2,
+          "id": "connecting-to-multiple-hosts"
+        }
+      ]
     },
     "set.html": {
       "source": "docs/set.md",
@@ -105,6 +205,26 @@
           "title": "Basic case",
           "depth": 3,
           "id": "basic-case"
+        },
+        {
+          "title": "Arguments",
+          "depth": 3,
+          "id": "arguments"
+        },
+        {
+          "title": "Key and Value must be strings",
+          "depth": 3,
+          "id": "key-and-value-must-be-strings"
+        },
+        {
+          "title": "TTL",
+          "depth": 3,
+          "id": "ttl"
+        },
+        {
+          "title": "Callbacks",
+          "depth": 3,
+          "id": "callbacks"
         },
         {
           "title": "Compression",
@@ -129,9 +249,43 @@
           "id": "basic-case"
         },
         {
+          "title": "No value",
+          "depth": 3,
+          "id": "no-value"
+        },
+        {
           "title": "Compression",
           "depth": 3,
           "id": "compression"
+        }
+      ]
+    },
+    "delete.html": {
+      "source": "docs/delete.md",
+      "title": "Delete",
+      "slug": "delete",
+      "headings": [
+        {
+          "title": "Basic case",
+          "depth": 3,
+          "id": "basic-case"
+        },
+        {
+          "title": "Delete Multi",
+          "depth": 3,
+          "id": "delete-multi"
+        }
+      ]
+    },
+    "elasticache.html": {
+      "source": "docs/elasticache.md",
+      "title": "Elasticache",
+      "slug": "elasticache",
+      "headings": [
+        {
+          "title": "Auto Discovery",
+          "depth": 3,
+          "id": "auto-discovery"
         }
       ]
     },
@@ -153,6 +307,9 @@
     "docs/intro.md": "intro.html",
     "docs/set.md": "set.html",
     "docs/get.md": "get.html",
-    "docs/misc.md": "misc.html"
+    "docs/delete.md": "delete.html",
+    "docs/elasticache.md": "elasticache.html",
+    "docs/misc.md": "misc.html",
+    "docs/CNAME": "CNAME"
   }
 }
