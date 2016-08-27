@@ -143,6 +143,24 @@
             ]
           },
           {
+            "title": "Disconnect",
+            "source": "docs/disconnect.md",
+            "url": "disconnect.html",
+            "slug": "disconnect",
+            "headings": [
+              {
+                "title": "Basic case",
+                "depth": 3,
+                "id": "basic-case"
+              },
+              {
+                "title": "Disconnect from a specific host or hosts",
+                "depth": 3,
+                "id": "disconnect-from-a-specific-host-or-hosts"
+              }
+            ]
+          },
+          {
             "title": "Elasticache",
             "source": "docs/elasticache.md",
             "url": "elasticache.html",
@@ -308,6 +326,23 @@
         }
       ]
     },
+    "disconnect.html": {
+      "source": "docs/disconnect.md",
+      "title": "Disconnect",
+      "slug": "disconnect",
+      "headings": [
+        {
+          "title": "Basic case",
+          "depth": 3,
+          "id": "basic-case"
+        },
+        {
+          "title": "Disconnect from a specific host or hosts",
+          "depth": 3,
+          "id": "disconnect-from-a-specific-host-or-hosts"
+        }
+      ]
+    },
     "elasticache.html": {
       "source": "docs/elasticache.md",
       "title": "Elasticache",
@@ -340,6 +375,7 @@
     "docs/get.md": "get.html",
     "docs/getmulti.md": "getmulti.html",
     "docs/delete.md": "delete.html",
+    "docs/disconnect.md": "disconnect.html",
     "docs/elasticache.md": "elasticache.html",
     "docs/misc.md": "misc.html",
     "docs/CNAME": "CNAME"
