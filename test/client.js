@@ -54,6 +54,41 @@ describe('Client', function() {
             });
         });
 
+        it('can disconnect from a specific client with string', function(done) {
+            var cache = new Client({ hosts: ['localhost:11211', '127.0.0.1:11211'] });
+            cache.should.have.property('disconnect');
+            cache.disconnect.should.be.a('function');
+            cache.disconnect('127.0.0.1:11211')
+                 .then(function() {
+                     cache.connections.should.be.an('object');
+                     _.keys(cache.connections).should.have.length(1);
+                     cache.hosts.should.have.length(1);
+                     _.keys(cache.connections)[0].should.equal('localhost:11211');
+                     cache.hosts[0].should.equal('localhost:11211');
+                 })
+                 .then(done);
+        });
+
+        it('can disconnect from a specific client with array', function(done) {
+            var cache = new Client({ hosts: ['localhost:11211', '127.0.0.1:11211'] });
+            cache.should.have.property('disconnect');
+            cache.disconnect.should.be.a('function');
+            cache.disconnect(['127.0.0.1:11211'])
+                 .then(function() {
+                     cache.connections.should.be.an('object');
+                     _.keys(cache.connections).should.have.length(1);
+                     _.keys(cache.connections)[0].should.equal('localhost:11211');
+                 })
+                 .then(done);
+        });
+
+        it('throws an error if attempting to disconnect from a bogus host', function() {
+            var cache = new Client({ hosts: ['localhost:11211', '127.0.0.1:11211'] });
+            cache.should.have.property('disconnect');
+            cache.disconnect.should.be.a('function');
+            expect(function() { cache.disconnect(['badserver:11211']); }).to.throw('Cannot disconnect from server unless connected');
+        });
+
         it('has a dictionary of connections', function() {
             var cache = new Client();
             cache.should.have.property('hosts');

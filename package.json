@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/socialradar/memcache-plus"
+    "url": "git://github.com/victorquinn/memcache-plus"
   },
   "keywords": [
     "memcache",
@@ -21,9 +21,9 @@
   "author": "Victor Quinn <mail@victorquinn.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/socialradar/memcache-plus/issues"
+    "url": "https://github.com/victorquinn/memcache-plus/issues"
   },
-  "homepage": "https://github.com/socialradar/memcache-plus",
+  "homepage": "https://github.com/victorquinn/memcache-plus",
   "devDependencies": {
     "chance": "^1.0.4",
     "docpress": "0.6.12",

@@ -4,5 +4,6 @@
   * [Get](get.md)
   * [Get Multi](getmulti.md)
   * [Delete](delete.md)
+  * [Disconnect](disconnect.md)
   * [Elasticache](elasticache.md)
   * [Miscellaneous](misc.md)
