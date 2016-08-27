@@ -30,9 +30,9 @@ client
 
 // Multiple as an array
 client
-    .disconnect(['myserver.com:11211', 'myotherserver.com:11211'])
+    .disconnect(['myserver1.com:11211', 'myserver2.com:11211'])
     .then(function() {
-        console.log('Successfully disconnected from myserver.com:11211 AND myotherserver.com:11211');
+        console.log('Disconnected from myserver1.com:11211 AND myserver2.com:11211');
     });
 ```
 
