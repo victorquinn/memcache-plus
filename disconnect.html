@@ -39,9 +39,9 @@ client
 
 <span class="pl-c">// Multiple as an array</span>
 client
-    .disconnect([<span class="pl-s">&apos;myserver.com:11211&apos;</span>, <span class="pl-s">&apos;myotherserver.com:11211&apos;</span>])
+    .disconnect([<span class="pl-s">&apos;myserver1.com:11211&apos;</span>, <span class="pl-s">&apos;myserver2.com:11211&apos;</span>])
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
-        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully disconnected from myserver.com:11211 AND myotherserver.com:11211&apos;</span>);
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Disconnected from myserver1.com:11211 AND myserver2.com:11211&apos;</span>);
     });
 </code></pre>
 <p>Note, if you specify a full disconnect <code>disconnect()</code> or specify all currently
