@@ -40,6 +40,20 @@ describe('Client', function() {
             });
         });
 
+        it('has a disconnect method', function(done) {
+            var cache = new Client();
+            cache.should.have.property('disconnect');
+            cache.disconnect.should.be.a('function');
+            _.sample(cache.connections).client.on('connect', function() {
+                cache.disconnect()
+                     .then(function() {
+                         cache.connections.should.be.an('object');
+                         _.keys(cache.connections).should.have.length(0);
+                     })
+                     .then(done);
+            });
+        });
+
         it('has a dictionary of connections', function() {
             var cache = new Client();
             cache.should.have.property('hosts');
