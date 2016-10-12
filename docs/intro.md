@@ -56,6 +56,7 @@ object containing any of the following options (default values in parentheses):
 |---|---|--- |
 |`autodiscover` | `false` | Whether or not to use [Elasticache Auto Discovery](http://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/AutoDiscovery.html) |
 |`backoffLimit`|10000| Memcache Plus uses an exponential backoff. This is the maximum limit in milliseconds it will wait before declaring a connection dead|
+|`bufferBeforeError`|1000|Memcache Plus will buffer and not reject or return errors until it hits this limit. Set to 0 to basically disable the buffer and throw an error on any single failed request.|
 |`disabled` | `false` | Whether or not Memcache is disabled. If it is disabled, all of the commands will simply return `null` as if the key does not exist |
 |`hosts` | `null` | The list of hosts to connect to. Can be a string for a single host or an array for multiple hosts. If none provided, defaults to `localhost` |
 |`maxValueSize`|1048576| The max value that can be stored, in bytes. This is configurable in Memcache but this library will help prevent you from storing objects over the configured siize in Memcache |
