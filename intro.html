@@ -72,6 +72,11 @@ object containing any of the following options (default values in parentheses):<
 <td>Memcache Plus uses an exponential backoff. This is the maximum limit in milliseconds it will wait before declaring a connection dead</td>
 </tr>
 <tr>
+<td><code>bufferBeforeError</code></td>
+<td>1000</td>
+<td>Memcache Plus will buffer and not reject or return errors until it hits this limit. Set to 0 to basically disable the buffer and throw an error on any single failed request.</td>
+</tr>
+<tr>
 <td><code>disabled</code></td>
 <td><code>false</code></td>
 <td>Whether or not Memcache is disabled. If it is disabled, all of the commands will simply return <code>null</code> as if the key does not exist</td>
