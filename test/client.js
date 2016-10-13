@@ -162,12 +162,12 @@ describe('Client', function() {
             var key = getKey(), val = chance.word();
 
             return cache.set(key, val)
-                .then(function() {
-                    return cache.get(key);
-                })
-                .then(function(v) {
-                    val.should.equal(v);
-                });
+                        .then(function() {
+                            return cache.get(key);
+                        })
+                        .then(function(v) {
+                            val.should.equal(v);
+                        });
         });
 
         it('works with very large values', function() {
@@ -695,6 +695,118 @@ describe('Client', function() {
                 .then(function(v) {
                     expect(v).to.be.null;
                 });
+        });
+    });
+
+    describe('incr', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('incr');
+        });
+
+        describe('should throw an error if called', function() {
+            it('without a key', function() {
+                expect(function() { cache.incr(); }).to.throw('Cannot incr without key!');
+            });
+
+            it('with a key that is too long', function() {
+                expect(function() { cache.incr(chance.string({length: 251})); }).to.throw('less than 250 characters');
+            });
+
+            it('with a non-string key', function() {
+                expect(function() { cache.incr({blah: 'test'}); }).to.throw('not string key');
+                expect(function() { cache.incr([1, 2]); }).to.throw('not string key');
+                expect(function() { cache.incr(_.noop); }).to.throw('not string key');
+            });
+
+            it('with a val that is not a number', function() {
+                expect(function() { cache.incr(chance.string(), chance.word()); }).to.throw('AssertionError: Cannot incr in memcache with a non number value');
+            });
+        });
+
+        describe('should work', function() {
+            it('without an increment value', function() {
+                var key = getKey(), val = chance.natural();
+
+                return cache.set(key, val)
+                            .then(function() {
+                                return cache.incr(key);
+                            })
+                            .then(function(v) {
+                                v.should.equal(val + 1);
+                            });
+            });
+
+            it('with an increment value', function() {
+                var key = getKey(), val = chance.natural({ max: 20000000}), incr = chance.natural({ max: 1000 });
+                return cache.set(key, val)
+                            .then(function() {
+                                return cache.incr(key, incr);
+                            })
+                            .then(function(v) {
+                                v.should.equal(val + incr);
+                            });
+            });
+        });
+    });
+
+    describe('decr', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('decr');
+        });
+
+        describe('should throw an error if called', function() {
+            it('without a key', function() {
+                expect(function() { cache.decr(); }).to.throw('Cannot decr without key!');
+            });
+
+            it('with a key that is too long', function() {
+                expect(function() { cache.decr(chance.string({length: 251})); }).to.throw('less than 250 characters');
+            });
+
+            it('with a non-string key', function() {
+                expect(function() { cache.decr({blah: 'test'}); }).to.throw('not string key');
+                expect(function() { cache.decr([1, 2]); }).to.throw('not string key');
+                expect(function() { cache.decr(_.noop); }).to.throw('not string key');
+            });
+
+            it('with a val that is not a number', function() {
+                expect(function() { cache.decr(chance.string(), chance.word()); }).to.throw('AssertionError: Cannot decr in memcache with a non number value');
+            });
+        });
+
+        describe('should work', function() {
+            it('without a decrement value', function() {
+                var key = getKey(), val = chance.natural();
+
+                return cache.set(key, val)
+                            .then(function() {
+                                return cache.decr(key);
+                            })
+                            .then(function(v) {
+                                v.should.equal(val - 1);
+                            });
+            });
+
+            it('with a decrement value', function() {
+                var key = getKey(), val = chance.natural({ max: 20000000}), decr = chance.natural({ max: 1000 });
+                return cache.set(key, val)
+                            .then(function() {
+                                return cache.decr(key, decr);
+                            })
+                            .then(function(v) {
+                                v.should.equal(val - decr);
+                            });
+            });
         });
     });
 
