@@ -200,28 +200,28 @@ describe('Client', function() {
                     });
             });
 
-            it('set works with compression', function() {
-                var key = getKey(), val = chance.word({ length: 1000 });
-
-                return cache.set(key, val, { compressed: true })
-                    .then(function() {
-                        return cache.get(key);
-                    })
-                    .then(function(v) {
-                        expect(val.length).to.be.above(v.length);
-                    });
-            });
-
             it('get works with compression', function() {
                 var key = getKey(), val = chance.word({ length: 1000 });
 
                 return cache.set(key, val, { compressed: true })
-                    .then(function() {
-                        return cache.get(key, { compressed: true });
-                    })
-                    .then(function(v) {
-                        val.should.equal(v);
-                    });
+                            .then(function() {
+                                return cache.get(key, { compressed: true });
+                            })
+                            .then(function(v) {
+                                val.should.equal(v);
+                            });
+            });
+
+            it('get works with compression without explicit get compressed flag', function() {
+                var key = getKey(), val = chance.word({ length: 1000 });
+
+                return cache.set(key, val, { compressed: true })
+                            .then(function() {
+                                return cache.get(key);
+                            })
+                            .then(function(v) {
+                                val.should.equal(v);
+                            });
             });
 
             it('getMulti works with compression', function() {
@@ -255,19 +255,96 @@ describe('Client', function() {
                 var key = getKey(), val = chance.word({ length: 1000 });
 
                 return cache.set(key, val)
-                    .then(function() {
-                        return cache.get(key, { compressed: true });
-                    })
-                    .then(function(v) {
-                        expect(v).to.be.null;
-                    });
+                            .then(function() {
+                                return cache.get(key, { compressed: true });
+                            })
+                            .then(function(v) {
+                                expect(v).to.be.null;
+                            });
             });
         });
 
-        it('throws error when setting a value number', function() {
+        it('does not throw an error when setting a value number', function() {
             var key = chance.guid(), val = chance.natural();
 
-            expect(function() { cache.set(key, val); }).to.throw('not string value');
+            expect(function() { cache.set(key, val); }).to.not.throw();
+        });
+
+        it('get for val set as number returns number', function() {
+            var key = getKey(), val = chance.integer();
+
+            return cache.set(key, val)
+                        .then(function() {
+                            return cache.get(key);
+                        })
+                        .then(function(v) {
+                            expect(v).to.be.a.number;
+                            v.should.equal(val);
+                        });
+        });
+
+        it('get for val set as floating number returns number', function() {
+            var key = getKey(), val = chance.floating();
+
+            return cache.set(key, val)
+                        .then(function() {
+                            return cache.get(key);
+                        })
+                        .then(function(v) {
+                            expect(v).to.be.a.number;
+                            v.should.equal(val);
+                        });
+        });
+
+        it('get for val set as object returns object', function() {
+            var key = getKey(), val = { num: chance.integer() };
+
+            return cache.set(key, val)
+                        .then(function() {
+                            return cache.get(key);
+                        })
+                        .then(function(v) {
+                            expect(v).to.be.an.object;
+                            (v.num).should.equal(val.num);
+                        });
+        });
+
+        it('get for val set as Buffer returns Buffer', function() {
+            var key = getKey(), val = new Buffer('blah blah test');
+
+            return cache.set(key, val)
+                        .then(function() {
+                            return cache.get(key);
+                        })
+                        .then(function(v) {
+                            expect(v).to.be.an.instanceof(Buffer);
+                            (v.toString()).should.equal(val.toString());
+                        });
+        });
+
+        it('get for val set as null returns null', function() {
+            var key = getKey(), val = null;
+
+            return cache.set(key, val)
+                        .then(function() {
+                            return cache.get(key);
+                        })
+                        .then(function(v) {
+                            expect(v).to.be.null;
+                        });
+        });
+
+        it('get for val set as array returns array', function() {
+            var key = getKey(), val = [ chance.integer(), chance.integer() ];
+
+            return cache.set(key, val)
+                        .then(function() {
+                            return cache.get(key);
+                        })
+                        .then(function(v) {
+                            expect(v).to.be.an.array;
+                            expect(v).to.deep.equal(val);
+                        });
         });
 
         it('throws error with enormous values (over memcache limit)', function() {
