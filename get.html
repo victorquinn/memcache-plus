@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="assets/style.css?t=a44c9e9d">
-    <script src="assets/script.js?t=2bcc4b59"></script>
+    <script src="assets/script.js?t=820b7ffa"></script>
     <title>Get</title>
     <meta name="viewport" content="width=device-width">
   </head>
@@ -27,15 +27,13 @@
 </code></pre>
 <p>Get takes 1 argument, the key, and it returns a Promise. It has an optional
 second argument which is an object to specify options for this retrieval.</p>
-<p>The key must be a <a href="misc.html">string</a>. The value you get back from the resolution
-of this promise will also be a string, it is up to you to convert it into any
-specific type you need.</p>
-<p>For example, if you had previously <code>set()</code> with an object, you&apos;ll need to
-deserialize it to get your object back.</p>
+<p>The key must be a string. The value you get back from the resolution
+of this promise will have the same type it had when you <code>set</code> it.</p>
+<p>For example, if you had previously <code>set()</code> with an object, you&apos;ll get back an
+object.</p>
 <pre><code class="lang-javascript">client
     .get(<span class="pl-s">&apos;user&apos;</span>)
-    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">u</span>) </span>{
-        <span class="pl-k">var</span> user = <span class="pl-c1">JSON</span>.parse(u);
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">user</span>) </span>{
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully got the object: &apos;</span>, user);
         <span class="pl-c">// Would print: &quot;Successfully got the object: { firstName: &apos;Victor&apos;, lastName: &apos;Quinn&apos; }&quot;</span>
     });
@@ -45,7 +43,7 @@ deserialize it to get your object back.</p>
 can also take a traditional callback for any of its methods so it can work just
 like most of the other Memcache modules out there. For example:</p>
 <pre><code class="lang-javascript">client.get(<span class="pl-s">&apos;firstName&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">firstName</span>) </span>{
-    <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully gott the value for key firstName: &apos;</span>, firstName);
+    <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully got the value for key firstName: &apos;</span>, firstName);
 });
 </code></pre>
 <h3 id="no-value">No value</h3>
@@ -60,7 +58,7 @@ the value.</p>
     });
 </code></pre>
 <h3 id="compression">Compression</h3>
-<p>If an item was written with <code>set()</code> with compression enabled, you must specify
+<p>If an item was written with <code>set()</code> with compression enabled, you can specify
 that fact when retrieving the object or it will not be decompressed by Memcache
 Plus:</p>
 <pre><code class="lang-javascript">client.get(<span class="pl-s">&apos;firstName&apos;</span>, { compressed: <span class="pl-c1">true</span> })
@@ -69,17 +67,15 @@ Plus:</p>
         <span class="pl-c">// Would print: &quot;Successfully got the key firstName as compressed data: Victor&quot;</span>
     });
 </code></pre>
+<p>However, compressed objects set by newer versions of Memcache Plus will
+automatically be decompressed without having to provide this flag.</p>
 <p>By enabling this option, every value will be compressed with Node&apos;s
 <a href="https://nodejs.org/api/zlib.html">zlib</a> library after being retrieved.</p>
 <p>Notes:</p>
 <ol>
-<li>If you store a value compressed with <code>set()</code> you have to <code>get()</code> it and
-specify that it was compressed. There is no automatic inspection of values to
-determine whether they were set with compression and decompress automatically
-(as this would incur significant performance penalty)</li>
 <li>Enabling compression will reduce the size of the objects stored but it will
-also add a non-negligent performance hit to each <code>set()</code> and <code>get()</code> so use it
-judiciously!</li>
+also add a non-negligent performance hit to each <code>set()</code> and <code>get()</code> since
+compression is rather CPU intensive so use it judiciously!</li>
 </ol>
 
         </div>
@@ -94,6 +90,8 @@ judiciously!</li>
             <li class="menu-item -level-1 -parent"><a href="index.html" class="link title  link-index">Memcache Plus</a>
               <ul class="submenu">
                 <li class="menu-item -level-2"><a href="intro.html" class="link title  link-intro">Getting Started</a>
+                </li>
+                <li class="menu-item -level-2"><a href="initialization.html" class="link title  link-initialization">Initialization</a>
                 </li>
                 <li class="menu-item -level-2"><a href="set.html" class="link title  link-set">Set</a>
                 </li>
@@ -113,11 +111,11 @@ judiciously!</li>
                 </li>
                 <li class="menu-item -level-2"><a href="delete.html" class="link title  link-delete">Delete</a>
                 </li>
+                <li class="menu-item -level-2"><a href="incrdecr.html" class="link title  link-incrdecr">Incr/Decr</a>
+                </li>
                 <li class="menu-item -level-2"><a href="disconnect.html" class="link title  link-disconnect">Disconnect</a>
                 </li>
                 <li class="menu-item -level-2"><a href="elasticache.html" class="link title  link-elasticache">Elasticache</a>
-                </li>
-                <li class="menu-item -level-2"><a href="misc.html" class="link title  link-misc">Miscellaneous</a>
                 </li>
               </ul>
             </li>

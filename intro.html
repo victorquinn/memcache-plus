@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="assets/style.css?t=a44c9e9d">
-    <script src="assets/script.js?t=2bcc4b59"></script>
+    <script src="assets/script.js?t=820b7ffa"></script>
     <title>Getting Started</title>
     <meta name="viewport" content="width=device-width">
   </head>
@@ -26,8 +26,7 @@
 <span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus();
 </code></pre>
 <p>Instantiating the client will automatically establish a connection between your
-running application and your Memcache server. Make sure you do not have a
-firewall rule blocking port 11211 on your Memcache server.</p>
+running application and your Memcache server.</p>
 <p>Then, right away you can start using its methods:</p>
 <pre><code class="lang-javascript">client
     .get(<span class="pl-s">&apos;my-key&apos;</span>)
@@ -35,115 +34,11 @@ firewall rule blocking port 11211 on your Memcache server.</p>
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;my-key has a value of &apos;</span>, value);
     });
 </code></pre>
-<h2 id="command-queueing">Command Queueing</h2>
-<p>Memcache Plus will automatically queue and then execute (in order) any commands
-you make before a connection can be established. This means that you can
-instantiate the client and immediately start issuing commands and they will
-automatically execute as soon as a connection is established to your Memcache
-server(s).</p>
-<p>This makes it a lot easier to just get going with Memcache Plus than with many
-other Memcache clients for Node since they either require you to write code to
-ensure a connection is established before executing commands or they issue
-failures when commands fail due to lack of connection.</p>
-<p>Memcache Plus maintains an internal command queue which it will use until a
-connection is established. This same command queue is utilized if there is a
-momentary drop in the connection, so your code doesn&apos;t have to worry about a
-momentary blip like this.</p>
-<h2 id="options">Options</h2>
-<p>When instantiating Memcache Plus, you can optionally provide the client with an
-object containing any of the following options (default values in parentheses):</p>
-<table>
-<thead>
-<tr>
-<th>Key</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>autodiscover</code></td>
-<td><code>false</code></td>
-<td>Whether or not to use <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/AutoDiscovery.html">Elasticache Auto Discovery</a></td>
-</tr>
-<tr>
-<td><code>backoffLimit</code></td>
-<td>10000</td>
-<td>Memcache Plus uses an exponential backoff. This is the maximum limit in milliseconds it will wait before declaring a connection dead</td>
-</tr>
-<tr>
-<td><code>bufferBeforeError</code></td>
-<td>1000</td>
-<td>Memcache Plus will buffer and not reject or return errors until it hits this limit. Set to 0 to basically disable the buffer and throw an error on any single failed request.</td>
-</tr>
-<tr>
-<td><code>disabled</code></td>
-<td><code>false</code></td>
-<td>Whether or not Memcache is disabled. If it is disabled, all of the commands will simply return <code>null</code> as if the key does not exist</td>
-</tr>
-<tr>
-<td><code>hosts</code></td>
-<td><code>null</code></td>
-<td>The list of hosts to connect to. Can be a string for a single host or an array for multiple hosts. If none provided, defaults to <code>localhost</code></td>
-</tr>
-<tr>
-<td><code>maxValueSize</code></td>
-<td>1048576</td>
-<td>The max value that can be stored, in bytes. This is configurable in Memcache but this library will help prevent you from storing objects over the configured siize in Memcache</td>
-</tr>
-<tr>
-<td><code>onNetError</code></td>
-<td><code>function onNetError(err) { console.error(err); }</code></td>
-<td>Function to call in the event of a network error.</td>
-</tr>
-<tr>
-<td><code>queue</code></td>
-<td><code>true</code></td>
-<td>Whether or not to queue commands issued before a connection is established or if the connection is dropped momentarily.</td>
-</tr>
-<tr>
-<td><code>netTimeout</code></td>
-<td>500</td>
-<td>Number of milliseconds to wait before assuming there is a network timeout.</td>
-</tr>
-<tr>
-<td><code>reconnect</code></td>
-<td><code>true</code></td>
-<td>Whether or not to automatically reconnect if the connection is lost. Memcache Plus includes an exponential backoff to prevent it from spamming a server that is offline</td>
-</tr>
-</tbody>
-</table>
-<p>Example:</p>
-<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
-
-<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus({
-    <span class="pl-c">// Specify 2 hosts</span>
-    hosts: [<span class="pl-s">&apos;10.0.0.1&apos;</span>, <span class="pl-s">&apos;10.0.0.2&apos;</span>],
-    <span class="pl-c">// Decrease the netTimeout from the 500ms default to 200ms</span>
-    netTimeout: <span class="hljs-number">200</span>
-});
-</code></pre>
-<h2 id="connecting-to-multiple-hosts">Connecting to multiple hosts</h2>
-<p>Memcache Plus can automatically connect to multiple hosts.</p>
-<p>In doing so, it will use a hash ring to handle even distribution of keys among
-multiple servers. It is easy, simply specify multiple hostswhen connecting and
-Memcache Plus will automatically handle the rest!</p>
-<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
-
-<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus({
-    <span class="pl-c">// Specify 3 hosts</span>
-    hosts: [<span class="pl-s">&apos;10.0.0.1&apos;</span>, <span class="pl-s">&apos;10.0.0.2&apos;</span>, <span class="pl-s">&apos;10.0.0.3&apos;</span>]
-});
-</code></pre>
-<p>If you&apos;ve using Amazon&apos;s Elasticache for your Memcache hosting, you can also
-enable <a href="elasticache.html">Auto Discovery</a> and Memcache Plus will automatically
-connect to your discovery url, find all of the hosts in your cluster, and
-establish connections to all of them.</p>
 
         </div>
         <div class="footer-nav">
           <div class="left"><a href="index.html"><span class="title">Memcache Plus</span></a></div>
-          <div class="right"><a href="set.html"><span class="label">Next: </span><span class="title">Set</span></a></div>
+          <div class="right"><a href="initialization.html"><span class="label">Next: </span><span class="title">Initialization</span></a></div>
         </div>
       </div>
       <div class="menu toc-menu">
@@ -157,13 +52,9 @@ establish connections to all of them.</p>
                     </li>
                     <li class="heading-item -depth-2"><a href="#usage" class="hlink link-usage">Usage</a>
                     </li>
-                    <li class="heading-item -depth-2"><a href="#command-queueing" class="hlink link-command-queueing">Command Queueing</a>
-                    </li>
-                    <li class="heading-item -depth-2"><a href="#options" class="hlink link-options">Options</a>
-                    </li>
-                    <li class="heading-item -depth-2"><a href="#connecting-to-multiple-hosts" class="hlink link-connecting-to-multiple-hosts">Connecting to multiple hosts</a>
-                    </li>
                   </ul>
+                </li>
+                <li class="menu-item -level-2"><a href="initialization.html" class="link title  link-initialization">Initialization</a>
                 </li>
                 <li class="menu-item -level-2"><a href="set.html" class="link title  link-set">Set</a>
                 </li>
@@ -173,11 +64,11 @@ establish connections to all of them.</p>
                 </li>
                 <li class="menu-item -level-2"><a href="delete.html" class="link title  link-delete">Delete</a>
                 </li>
+                <li class="menu-item -level-2"><a href="incrdecr.html" class="link title  link-incrdecr">Incr/Decr</a>
+                </li>
                 <li class="menu-item -level-2"><a href="disconnect.html" class="link title  link-disconnect">Disconnect</a>
                 </li>
                 <li class="menu-item -level-2"><a href="elasticache.html" class="link title  link-elasticache">Elasticache</a>
-                </li>
-                <li class="menu-item -level-2"><a href="misc.html" class="link title  link-misc">Miscellaneous</a>
                 </li>
               </ul>
             </li>

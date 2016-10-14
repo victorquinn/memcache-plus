@@ -29,6 +29,29 @@
                 "title": "Usage",
                 "depth": 2,
                 "id": "usage"
+              }
+            ]
+          },
+          {
+            "title": "Initialization",
+            "source": "docs/initialization.md",
+            "url": "initialization.html",
+            "slug": "initialization",
+            "headings": [
+              {
+                "title": "Kicking it off",
+                "depth": 2,
+                "id": "kicking-it-off"
+              },
+              {
+                "title": "Specifying a Host",
+                "depth": 2,
+                "id": "specifying-a-host"
+              },
+              {
+                "title": "Connecting to multiple hosts",
+                "depth": 2,
+                "id": "connecting-to-multiple-hosts"
               },
               {
                 "title": "Command Queueing",
@@ -39,11 +62,6 @@
                 "title": "Options",
                 "depth": 2,
                 "id": "options"
-              },
-              {
-                "title": "Connecting to multiple hosts",
-                "depth": 2,
-                "id": "connecting-to-multiple-hosts"
               }
             ]
           },
@@ -64,9 +82,14 @@
                 "id": "arguments"
               },
               {
-                "title": "Key and Value must be strings",
+                "title": "Key must be a string",
                 "depth": 3,
-                "id": "key-and-value-must-be-strings"
+                "id": "key-must-be-a-string"
+              },
+              {
+                "title": "Value can be of any type",
+                "depth": 3,
+                "id": "value-can-be-of-any-type"
               },
               {
                 "title": "TTL",
@@ -143,6 +166,29 @@
             ]
           },
           {
+            "title": "Incr/Decr",
+            "source": "docs/incrdecr.md",
+            "url": "incrdecr.html",
+            "slug": "incrdecr",
+            "headings": [
+              {
+                "title": "Incr",
+                "depth": 2,
+                "id": "incr"
+              },
+              {
+                "title": "Decr",
+                "depth": 2,
+                "id": "decr"
+              },
+              {
+                "title": "Notes",
+                "depth": 2,
+                "id": "notes"
+              }
+            ]
+          },
+          {
             "title": "Disconnect",
             "source": "docs/disconnect.md",
             "url": "disconnect.html",
@@ -170,19 +216,6 @@
                 "title": "Auto Discovery",
                 "depth": 3,
                 "id": "auto-discovery"
-              }
-            ]
-          },
-          {
-            "title": "Miscellaneous",
-            "source": "docs/misc.md",
-            "url": "misc.html",
-            "slug": "misc",
-            "headings": [
-              {
-                "title": "Why are only string keys and values allowed?",
-                "depth": 3,
-                "id": "why-are-only-string-keys-and-values-allowed"
               }
             ]
           }
@@ -217,6 +250,28 @@
           "title": "Usage",
           "depth": 2,
           "id": "usage"
+        }
+      ]
+    },
+    "initialization.html": {
+      "source": "docs/initialization.md",
+      "title": "Initialization",
+      "slug": "initialization",
+      "headings": [
+        {
+          "title": "Kicking it off",
+          "depth": 2,
+          "id": "kicking-it-off"
+        },
+        {
+          "title": "Specifying a Host",
+          "depth": 2,
+          "id": "specifying-a-host"
+        },
+        {
+          "title": "Connecting to multiple hosts",
+          "depth": 2,
+          "id": "connecting-to-multiple-hosts"
         },
         {
           "title": "Command Queueing",
@@ -227,11 +282,6 @@
           "title": "Options",
           "depth": 2,
           "id": "options"
-        },
-        {
-          "title": "Connecting to multiple hosts",
-          "depth": 2,
-          "id": "connecting-to-multiple-hosts"
         }
       ]
     },
@@ -251,9 +301,14 @@
           "id": "arguments"
         },
         {
-          "title": "Key and Value must be strings",
+          "title": "Key must be a string",
           "depth": 3,
-          "id": "key-and-value-must-be-strings"
+          "id": "key-must-be-a-string"
+        },
+        {
+          "title": "Value can be of any type",
+          "depth": 3,
+          "id": "value-can-be-of-any-type"
         },
         {
           "title": "TTL",
@@ -326,6 +381,28 @@
         }
       ]
     },
+    "incrdecr.html": {
+      "source": "docs/incrdecr.md",
+      "title": "Incr/Decr",
+      "slug": "incrdecr",
+      "headings": [
+        {
+          "title": "Incr",
+          "depth": 2,
+          "id": "incr"
+        },
+        {
+          "title": "Decr",
+          "depth": 2,
+          "id": "decr"
+        },
+        {
+          "title": "Notes",
+          "depth": 2,
+          "id": "notes"
+        }
+      ]
+    },
     "disconnect.html": {
       "source": "docs/disconnect.md",
       "title": "Disconnect",
@@ -354,30 +431,19 @@
           "id": "auto-discovery"
         }
       ]
-    },
-    "misc.html": {
-      "source": "docs/misc.md",
-      "title": "Miscellaneous",
-      "slug": "misc",
-      "headings": [
-        {
-          "title": "Why are only string keys and values allowed?",
-          "depth": 3,
-          "id": "why-are-only-string-keys-and-values-allowed"
-        }
-      ]
     }
   },
   "sources": {
     "README.md": "index.html",
     "docs/intro.md": "intro.html",
+    "docs/initialization.md": "initialization.html",
     "docs/set.md": "set.html",
     "docs/get.md": "get.html",
     "docs/getmulti.md": "getmulti.html",
     "docs/delete.md": "delete.html",
+    "docs/incrdecr.md": "incrdecr.html",
     "docs/disconnect.md": "disconnect.html",
     "docs/elasticache.md": "elasticache.html",
-    "docs/misc.md": "misc.html",
     "docs/CNAME": "CNAME"
   }
 }
