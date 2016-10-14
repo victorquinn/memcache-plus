@@ -22,10 +22,31 @@ The second is always the value and must be a string.
 The third is optional and could be either: (1) a ttl for this key (2) an options object or (3) a callback  
 The fourth is only present if there is a third argument for ttl or options and a callback is provided.  
 
-### Key and Value must be strings
+### Key must be a string
 
-Both the key and the value must be [strings](misc.md). So if you would like to set an
-Object as a value, you must stringify it first:
+Non-string keys are not allowed and Memcache Plus will throw an error if you
+try to provide a non-string key.
+
+```javascript
+client
+    .set({ foo: 'bar' }, myVal)
+    .then(function() {
+        // This will never happen because an error will be thrown
+    })
+    .catch(function(err) {
+        // This will get hit!
+        console.error('Oops we have an error', err);
+    });
+```
+
+### Value can be of any type
+
+The value can be of any type (numeric, string, object, array, null, etc.)
+
+Memcache Plus will handle converting the value (if necessary) before sending to
+the Memcached server and converting it back upon retrieval.
+
+For instance, with Memcache Plus you can go ahead and set an object
 
 ```javascript
 var myVal = {
@@ -34,13 +55,26 @@ var myVal = {
 };
 
 client
-    .set('user', JSON.stringify(myVal))
+    .set('user', myVal)
     .then(function() {
-        console.log('Successfully set the stringified object');
+        console.log('Successfully set the object');
     });
 ```
 
-There is more discussion of the rationale behind this [here](misc.md).
+Then when you get it out it'll be an object:
+
+```javascript
+client
+    .get('user')
+    .then(function(user) {
+        // The user is a JS object:
+        // { firstName: 'Victor', lastName: 'Quinn' }
+        console.log('Successfully got the object', user);
+    });
+```
+
+Same goes for numbers, arrays, etc. Memcache Plus will always return the exact
+type you put into it.
 
 ### TTL
 

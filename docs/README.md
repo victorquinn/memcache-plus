@@ -1,9 +1,11 @@
 * [Memcache Plus](../README.md)
   * [Getting Started](intro.md)
+  * [Initialization](initialization.md)
   * [Set](set.md)
   * [Get](get.md)
   * [Get Multi](getmulti.md)
   * [Delete](delete.md)
+  * [Incr/Decr](incrdecr.md)
   * [Disconnect](disconnect.md)
   * [Elasticache](elasticache.md)
-  * [Miscellaneous](misc.md)
+
