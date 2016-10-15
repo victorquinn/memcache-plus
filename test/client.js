@@ -426,7 +426,7 @@ describe('Client', function() {
             var key = getKey(), key1 = getKey(), key2 = getKey(), key3 = getKey(),
                 val1 = chance.word(), val2 = chance.word(), val3 = chance.word();
 
-            
+
             return cache.set(key, val1)
                 .then(function() {
                     return Promise.all([
@@ -806,6 +806,64 @@ describe('Client', function() {
                             .then(function(v) {
                                 v.should.equal(val - decr);
                             });
+            });
+        });
+    });
+
+    describe('flush', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('flush');
+        });
+
+        describe('should work', function() {
+            it('removes all data', function () {
+                var key = getKey(), val = chance.natural();
+
+                cache.set(key, val)
+                  .then(function() {
+                      return cache.get(key);
+                  })
+                  .then(function(v) {
+                      expect(v).to.equal(val);
+                      return cache.flush();
+                  })
+                  .then(function () {
+                      return cache.get(key);
+                  })
+                  .then(function (v) {
+                      expect(v).to.equal(null);
+                  });
+            });
+
+            it('removes all data after a specified seconds', function () {
+                var key = getKey(), val = chance.natural();
+
+                cache.set(key, val)
+                  .then(function() {
+                      return cache.get(key);
+                  })
+                  .then(function(v) {
+                      expect(v).to.equal(val);
+                      return cache.flush(1);
+                  })
+                  .then(function () {
+                      return cache.get(key);
+                  })
+                  .then(function (v) {
+                      expect(v).to.equal(v);
+
+                      // the testing framework usually takes longer than a second to run/execute
+                      // so not using any timeouts here (tried, didn't work very well)
+                      return cache.get(key);
+                  })
+                  .then(function (v) {
+                      expect(v).to.equal(null);
+                  });
             });
         });
     });
