@@ -189,6 +189,29 @@
             ]
           },
           {
+            "title": "Flush",
+            "source": "docs/flush.md",
+            "url": "flush.html",
+            "slug": "flush",
+            "headings": [
+              {
+                "title": "Basic case",
+                "depth": 3,
+                "id": "basic-case"
+              },
+              {
+                "title": "Delayed flush",
+                "depth": 3,
+                "id": "delayed-flush"
+              },
+              {
+                "title": "Callbacks",
+                "depth": 3,
+                "id": "callbacks"
+              }
+            ]
+          },
+          {
             "title": "Disconnect",
             "source": "docs/disconnect.md",
             "url": "disconnect.html",
@@ -403,6 +426,28 @@
         }
       ]
     },
+    "flush.html": {
+      "source": "docs/flush.md",
+      "title": "Flush",
+      "slug": "flush",
+      "headings": [
+        {
+          "title": "Basic case",
+          "depth": 3,
+          "id": "basic-case"
+        },
+        {
+          "title": "Delayed flush",
+          "depth": 3,
+          "id": "delayed-flush"
+        },
+        {
+          "title": "Callbacks",
+          "depth": 3,
+          "id": "callbacks"
+        }
+      ]
+    },
     "disconnect.html": {
       "source": "docs/disconnect.md",
       "title": "Disconnect",
@@ -442,6 +487,7 @@
     "docs/getmulti.md": "getmulti.html",
     "docs/delete.md": "delete.html",
     "docs/incrdecr.md": "incrdecr.html",
+    "docs/flush.md": "flush.html",
     "docs/disconnect.md": "disconnect.html",
     "docs/elasticache.md": "elasticache.html",
     "docs/CNAME": "CNAME"
