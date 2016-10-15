@@ -810,6 +810,38 @@ describe('Client', function() {
         });
     });
 
+    describe('flush', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('flush');
+        });
+
+        describe('should work', function() {
+            it('removes all data', function () {
+                var key = getKey(), val = chance.natural();
+
+                cache.set(key, val)
+                  .then(function() {
+                      return cache.get(key);
+                  })
+                  .then(function(v) {
+                      expect(v).to.equal(val);
+                      return cache.flush();
+                  })
+                  .then(function () {
+                      return cache.get(key);
+                  })
+                  .then(function (v) {
+                      expect(v).to.equal(null);
+                  });
+            });
+        });
+    });
+
     after(function() {
         var cache = new Client();
 

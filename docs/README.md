@@ -6,6 +6,6 @@
   * [Get Multi](getmulti.md)
   * [Delete](delete.md)
   * [Incr/Decr](incrdecr.md)
+  * [Flush](flush.md)
   * [Disconnect](disconnect.md)
   * [Elasticache](elasticache.md)
-
