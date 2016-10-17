@@ -44,6 +44,7 @@
     "collections": "^5.0.4",
     "debug": "^2.2.0",
     "hashring": "^3.2.0",
+    "immutable": "^3.8.1",
     "lodash": "^4.14.0",
     "ramda": "^0.21.0"
   }

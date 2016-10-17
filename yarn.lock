@@ -2299,6 +2299,10 @@ ignore@^2.2.19:
   version "2.2.19"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-2.2.19.tgz#4c845a61f7e50b4a410f6156aaa38b6ad95e0c8f"
 
+immutable:
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.1.tgz#200807f11ab0f72710ea485542de088075f68cd2"
+
 indent-string@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/indent-string/-/indent-string-2.1.0.tgz#8e2d48348742121b4a8218b7a137e9a52049dc80"
