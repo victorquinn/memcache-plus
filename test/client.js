@@ -868,6 +868,59 @@ describe('Client', function() {
         });
     });
 
+    describe('add', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('add');
+        });
+
+        describe('should throw an error if called', function() {
+            it('without a key', function() {
+                expect(function() { cache.add(); }).to.throw('Cannot add without key!');
+            });
+
+            it('with a key that is too long', function() {
+                expect(function() { cache.add(chance.string({length: 251})); }).to.throw('less than 250 characters');
+            });
+
+            it('with a non-string key', function() {
+                expect(function() { cache.add({blah: 'test'}); }).to.throw('not string key');
+                expect(function() { cache.add([1, 2]); }).to.throw('not string key');
+                expect(function() { cache.add(_.noop); }).to.throw('not string key');
+            });
+       });
+
+        describe('should work', function() {
+            it('with a brand new key', function() {
+                var key = getKey(), val = chance.natural();
+
+                return cache.add(key, val)
+                            .then(function() {
+                                return cache.get(key);
+                            })
+                            .then(function(v) {
+                                v.should.equal(val);
+                            });
+            });
+
+            it('should behave properly when add over existing key', function() {
+                var key = getKey(), val = chance.natural();
+
+                return cache.add(key, val)
+                            .then(function() {
+                                return cache.add(key, val);
+                            })
+                            .catch(function(err) {
+                                expect(err.toString()).to.contain('it already exists');
+                            });
+            });
+        });
+    });
+
     after(function() {
         var cache = new Client();
 
