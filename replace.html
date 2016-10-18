@@ -4,47 +4,61 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="assets/style.css?t=a44c9e9d">
     <script src="assets/script.js?t=2bcc4b59"></script>
-    <title>Flush</title>
+    <title>Replace</title>
     <meta name="viewport" content="width=device-width">
   </head>
   <body class="-menu-visible">
     <div class="doc-layout">
       <div class="toggle menu-toggle js-menu-toggle"></div>
-      <div class="body page-flush">
+      <div class="body page-replace">
         <div class="header-nav">
           <div class="right">
           </div>
         </div>
-        <div class="markdown-body"><h1 id="flush">Flush</h1>
+        <div class="markdown-body"><h1 id="replace">Replace</h1>
 <h3 id="basic-case">Basic case</h3>
-<p>Flush removes all stored values.</p>
+<p>Replace sets a new value for a key if and only if that key already exists</p>
 <pre><code class="lang-javascript">client
-    .flush()
+    .replace(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>)
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
-        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully cleared all data&apos;</span>);
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully replaced the value for the key firstName&apos;</span>);
     });
 </code></pre>
-<h3 id="delayed-flush">Delayed flush</h3>
-<p>You can add a delay in seconds before the flush is executed.</p>
-<pre><code class="lang-javascript">client
-    .flush(<span class="hljs-number">1</span>)
+<h3 id="error-if-key-does-not-already-exist">Error if key does not already exist</h3>
+<p>If a key does not already exist and you try to use the <code>replace</code> command,
+Memcached will return an error which Memcache Plus will throw.</p>
+<pre><code class="lang-javascript"><span class="pl-c">// If &apos;firstName&apos; does not already exist</span>
+client
+    .replace(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>)
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
-        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully cleared all data&apos;</span>);
+        <span class="pl-c">// This will not get hit because `replace` will throw on error</span>
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully replaced the key firstName&apos;</span>);
+    })
+    .catch(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">err</span>) </span>{
+        <span class="pl-c">// Will print: &apos;Cannot &quot;replace&quot; for key &quot;firstName&quot; because it does not exist&apos;</span>
+        <span class="pl-c1">console</span>.error(err);
     });
 </code></pre>
 <h3 id="callbacks">Callbacks</h3>
 <p>Memcache Plus will always return a <a href="https://www.promisejs.org">Promise</a>, but it
 can also take a traditional callback for any of its methods so it can work just
 like most of the other Memcache modules out there. For example:</p>
-<pre><code class="lang-javascript">client.flush(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully cleared all data&apos;</span>);
+<pre><code class="lang-javascript">client.replace(&apos;firstName&apos;, &apos;Victor, function(err) {
+    console.log(&apos;Successfully replaced the key firstName&apos;);
+});
+</code></pre>
+<p>And if you try to replace a key that does not already exist:</p>
+<pre><code class="lang-javascript"><span class="pl-c">// If &apos;firstName&apos; does not already exist</span>
+client.replace(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="pl-c">// Will print: &apos;Cannot &quot;replace&quot; for key &quot;firstName&quot; because it does not exist&apos;</span>
+    <span class="pl-c1">console</span>.error(err);
 });
 </code></pre>
 
         </div>
         <div class="footer-nav">
-          <div class="left"><a href="replace.html"><span class="title">Replace</span></a></div>
-          <div class="right"><a href="disconnect.html"><span class="label">Next: </span><span class="title">Disconnect</span></a></div>
+          <div class="left"><a href="add.html"><span class="title">Add</span></a></div>
+          <div class="right"><a href="flush.html"><span class="label">Next: </span><span class="title">Flush</span></a></div>
         </div>
       </div>
       <div class="menu toc-menu">
@@ -68,17 +82,17 @@ like most of the other Memcache modules out there. For example:</p>
                 </li>
                 <li class="menu-item -level-2"><a href="add.html" class="link title  link-add">Add</a>
                 </li>
-                <li class="menu-item -level-2"><a href="replace.html" class="link title  link-replace">Replace</a>
-                </li>
-                <li class="menu-item -level-2"><a href="flush.html" class="link title -active link-flush">Flush</a>
+                <li class="menu-item -level-2"><a href="replace.html" class="link title -active link-replace">Replace</a>
                   <ul class="headings heading-list">
                     <li class="heading-item -depth-3"><a href="#basic-case" class="hlink link-basic-case">Basic case</a>
                     </li>
-                    <li class="heading-item -depth-3"><a href="#delayed-flush" class="hlink link-delayed-flush">Delayed flush</a>
+                    <li class="heading-item -depth-3"><a href="#error-if-key-does-not-already-exist" class="hlink link-error-if-key-does-not-already-exist">Error if key does not already exist</a>
                     </li>
                     <li class="heading-item -depth-3"><a href="#callbacks" class="hlink link-callbacks">Callbacks</a>
                     </li>
                   </ul>
+                </li>
+                <li class="menu-item -level-2"><a href="flush.html" class="link title  link-flush">Flush</a>
                 </li>
                 <li class="menu-item -level-2"><a href="disconnect.html" class="link title  link-disconnect">Disconnect</a>
                 </li>

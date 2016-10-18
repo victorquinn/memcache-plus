@@ -212,6 +212,29 @@
             ]
           },
           {
+            "title": "Replace",
+            "source": "docs/replace.md",
+            "url": "replace.html",
+            "slug": "replace",
+            "headings": [
+              {
+                "title": "Basic case",
+                "depth": 3,
+                "id": "basic-case"
+              },
+              {
+                "title": "Error if key does not already exist",
+                "depth": 3,
+                "id": "error-if-key-does-not-already-exist"
+              },
+              {
+                "title": "Callbacks",
+                "depth": 3,
+                "id": "callbacks"
+              }
+            ]
+          },
+          {
             "title": "Flush",
             "source": "docs/flush.md",
             "url": "flush.html",
@@ -471,6 +494,28 @@
         }
       ]
     },
+    "replace.html": {
+      "source": "docs/replace.md",
+      "title": "Replace",
+      "slug": "replace",
+      "headings": [
+        {
+          "title": "Basic case",
+          "depth": 3,
+          "id": "basic-case"
+        },
+        {
+          "title": "Error if key does not already exist",
+          "depth": 3,
+          "id": "error-if-key-does-not-already-exist"
+        },
+        {
+          "title": "Callbacks",
+          "depth": 3,
+          "id": "callbacks"
+        }
+      ]
+    },
     "flush.html": {
       "source": "docs/flush.md",
       "title": "Flush",
@@ -533,6 +578,7 @@
     "docs/delete.md": "delete.html",
     "docs/incrdecr.md": "incrdecr.html",
     "docs/add.md": "add.html",
+    "docs/replace.md": "replace.html",
     "docs/flush.md": "flush.html",
     "docs/disconnect.md": "disconnect.html",
     "docs/elasticache.md": "elasticache.html",
