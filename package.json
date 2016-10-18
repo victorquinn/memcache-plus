@@ -41,7 +41,6 @@
     "bluebird": "^3.4.1",
     "carrier": "^0.3.0",
     "chai": "^3.5.0",
-    "collections": "^5.0.4",
     "debug": "^2.2.0",
     "hashring": "^3.2.0",
     "immutable": "^3.8.1",

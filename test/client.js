@@ -640,6 +640,18 @@ describe('Client', function() {
         });
     });
 
+    // @todo these are placeholders for now until I can figure out a good way
+    // to adequeately test these.
+    describe('Client buffer', function() {
+        it('works');
+        it('can be flushed');
+    });
+
+    describe('Connection buffer', function() {
+        it('works');
+        it('can be flushed');
+    });
+
     describe('Helpers', function() {
         describe('splitHost()', function() {
             it('exists', function() {
