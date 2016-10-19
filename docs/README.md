@@ -6,6 +6,7 @@
   * [Get Multi](getmulti.md)
   * [Delete](delete.md)
   * [Incr/Decr](incrdecr.md)
+  * [Append/Prepend](appendprepend.md)
   * [Add](add.md)
   * [Replace](replace.md)
   * [Flush](flush.md)

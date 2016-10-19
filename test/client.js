@@ -46,11 +46,11 @@ describe('Client', function() {
             cache.disconnect.should.be.a('function');
             _.sample(cache.connections).client.on('connect', function() {
                 cache.disconnect()
-                     .then(function() {
-                         cache.connections.should.be.an('object');
-                         _.keys(cache.connections).should.have.length(0);
-                     })
-                     .then(done);
+                    .then(function() {
+                        cache.connections.should.be.an('object');
+                        _.keys(cache.connections).should.have.length(0);
+                    })
+                    .then(done);
             });
         });
 
@@ -59,14 +59,14 @@ describe('Client', function() {
             cache.should.have.property('disconnect');
             cache.disconnect.should.be.a('function');
             cache.disconnect('127.0.0.1:11211')
-                 .then(function() {
-                     cache.connections.should.be.an('object');
-                     _.keys(cache.connections).should.have.length(1);
-                     cache.hosts.should.have.length(1);
-                     _.keys(cache.connections)[0].should.equal('localhost:11211');
-                     cache.hosts[0].should.equal('localhost:11211');
-                 })
-                 .then(done);
+                .then(function() {
+                    cache.connections.should.be.an('object');
+                    _.keys(cache.connections).should.have.length(1);
+                    cache.hosts.should.have.length(1);
+                    _.keys(cache.connections)[0].should.equal('localhost:11211');
+                    cache.hosts[0].should.equal('localhost:11211');
+                })
+                .then(done);
         });
 
         it('can disconnect from a specific client with array', function(done) {
@@ -74,12 +74,12 @@ describe('Client', function() {
             cache.should.have.property('disconnect');
             cache.disconnect.should.be.a('function');
             cache.disconnect(['127.0.0.1:11211'])
-                 .then(function() {
-                     cache.connections.should.be.an('object');
-                     _.keys(cache.connections).should.have.length(1);
-                     _.keys(cache.connections)[0].should.equal('localhost:11211');
-                 })
-                 .then(done);
+                .then(function() {
+                    cache.connections.should.be.an('object');
+                    _.keys(cache.connections).should.have.length(1);
+                    _.keys(cache.connections)[0].should.equal('localhost:11211');
+                })
+                .then(done);
         });
 
         it('throws an error if attempting to disconnect from a bogus host', function() {
@@ -116,7 +116,7 @@ describe('Client', function() {
         /**
          * Only comment this out when we have an Elasticache autodiscovery cluster to test against.
          *   Ideally one day this can be mocked, but for now just selectively enabling it
-        it('supports autodiscovery', function(done) {
+         it('supports autodiscovery', function(done) {
             var cache = new Client({ hosts: ['victor.di6cba.cfg.use1.cache.amazonaws.com'], autodiscover: true });
             var val = chance.word();
 
@@ -129,7 +129,7 @@ describe('Client', function() {
                     done();
                 });
         });
-        */
+         */
     });
 
     describe('set and get', function() {
@@ -162,12 +162,12 @@ describe('Client', function() {
             var key = getKey(), val = chance.word();
 
             return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            val.should.equal(v);
-                        });
+                .then(function() {
+                    return cache.get(key);
+                })
+                .then(function(v) {
+                    val.should.equal(v);
+                });
         });
 
         it('works with very large values', function() {
@@ -204,24 +204,24 @@ describe('Client', function() {
                 var key = getKey(), val = chance.word({ length: 1000 });
 
                 return cache.set(key, val, { compressed: true })
-                            .then(function() {
-                                return cache.get(key, { compressed: true });
-                            })
-                            .then(function(v) {
-                                val.should.equal(v);
-                            });
+                    .then(function() {
+                        return cache.get(key, { compressed: true });
+                    })
+                    .then(function(v) {
+                        val.should.equal(v);
+                    });
             });
 
             it('get works with compression without explicit get compressed flag', function() {
                 var key = getKey(), val = chance.word({ length: 1000 });
 
                 return cache.set(key, val, { compressed: true })
-                            .then(function() {
-                                return cache.get(key);
-                            })
-                            .then(function(v) {
-                                val.should.equal(v);
-                            });
+                    .then(function() {
+                        return cache.get(key);
+                    })
+                    .then(function(v) {
+                        val.should.equal(v);
+                    });
             });
 
             it('getMulti works with compression', function() {
@@ -255,12 +255,12 @@ describe('Client', function() {
                 var key = getKey(), val = chance.word({ length: 1000 });
 
                 return cache.set(key, val)
-                            .then(function() {
-                                return cache.get(key, { compressed: true });
-                            })
-                            .then(function(v) {
-                                expect(v).to.be.null;
-                            });
+                    .then(function() {
+                        return cache.get(key, { compressed: true });
+                    })
+                    .then(function(v) {
+                        expect(v).to.be.null;
+                    });
             });
         });
 
@@ -274,77 +274,77 @@ describe('Client', function() {
             var key = getKey(), val = chance.integer();
 
             return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            expect(v).to.be.a.number;
-                            v.should.equal(val);
-                        });
+                .then(function() {
+                    return cache.get(key);
+                })
+                .then(function(v) {
+                    expect(v).to.be.a.number;
+                    v.should.equal(val);
+                });
         });
 
         it('get for val set as floating number returns number', function() {
             var key = getKey(), val = chance.floating();
 
             return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            expect(v).to.be.a.number;
-                            v.should.equal(val);
-                        });
+                .then(function() {
+                    return cache.get(key);
+                })
+                .then(function(v) {
+                    expect(v).to.be.a.number;
+                    v.should.equal(val);
+                });
         });
 
         it('get for val set as object returns object', function() {
             var key = getKey(), val = { num: chance.integer() };
 
             return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            expect(v).to.be.an.object;
-                            (v.num).should.equal(val.num);
-                        });
+                .then(function() {
+                    return cache.get(key);
+                })
+                .then(function(v) {
+                    expect(v).to.be.an.object;
+                    (v.num).should.equal(val.num);
+                });
         });
 
         it('get for val set as Buffer returns Buffer', function() {
             var key = getKey(), val = new Buffer('blah blah test');
 
             return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            expect(v).to.be.an.instanceof(Buffer);
-                            (v.toString()).should.equal(val.toString());
-                        });
+                .then(function() {
+                    return cache.get(key);
+                })
+                .then(function(v) {
+                    expect(v).to.be.an.instanceof(Buffer);
+                    (v.toString()).should.equal(val.toString());
+                });
         });
 
         it('get for val set as null returns null', function() {
             var key = getKey(), val = null;
 
             return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            expect(v).to.be.null;
-                        });
+                .then(function() {
+                    return cache.get(key);
+                })
+                .then(function(v) {
+                    expect(v).to.be.null;
+                });
         });
 
         it('get for val set as array returns array', function() {
             var key = getKey(), val = [ chance.integer(), chance.integer() ];
 
             return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            expect(v).to.be.an.array;
-                            expect(v).to.deep.equal(val);
-                        });
+                .then(function() {
+                    return cache.get(key);
+                })
+                .then(function(v) {
+                    expect(v).to.be.an.array;
+                    expect(v).to.deep.equal(val);
+                });
         });
 
         it('throws error with enormous values (over memcache limit)', function() {
@@ -396,28 +396,28 @@ describe('Client', function() {
                 val1 = chance.word(), val2 = chance.word(), val3 = chance.word();
 
             var item1 = cache.set(key1, val1)
-                    .then(function() {
-                        return cache.get(key1);
-                    })
-                    .then(function(v) {
-                        val1.should.equal(v);
-                    });
+                .then(function() {
+                    return cache.get(key1);
+                })
+                .then(function(v) {
+                    val1.should.equal(v);
+                });
 
             var item2 = cache.set(key2, val2)
-                    .then(function() {
-                        return cache.get(key2);
-                    })
-                    .then(function(v) {
-                        val2.should.equal(v);
-                    });
+                .then(function() {
+                    return cache.get(key2);
+                })
+                .then(function(v) {
+                    val2.should.equal(v);
+                });
 
             var item3 = cache.set(key3, val3)
-                    .then(function() {
-                        return cache.get(key3);
-                    })
-                    .then(function(v) {
-                        val3.should.equal(v);
-                    });
+                .then(function() {
+                    return cache.get(key3);
+                })
+                .then(function(v) {
+                    val3.should.equal(v);
+                });
 
             return Promise.all([item1, item2, item3]);
         });
@@ -745,23 +745,23 @@ describe('Client', function() {
                 var key = getKey(), val = chance.natural();
 
                 return cache.set(key, val)
-                            .then(function() {
-                                return cache.incr(key);
-                            })
-                            .then(function(v) {
-                                v.should.equal(val + 1);
-                            });
+                    .then(function() {
+                        return cache.incr(key);
+                    })
+                    .then(function(v) {
+                        v.should.equal(val + 1);
+                    });
             });
 
             it('with an increment value', function() {
                 var key = getKey(), val = chance.natural({ max: 20000000}), incr = chance.natural({ max: 1000 });
                 return cache.set(key, val)
-                            .then(function() {
-                                return cache.incr(key, incr);
-                            })
-                            .then(function(v) {
-                                v.should.equal(val + incr);
-                            });
+                    .then(function() {
+                        return cache.incr(key, incr);
+                    })
+                    .then(function(v) {
+                        v.should.equal(val + incr);
+                    });
             });
         });
     });
@@ -801,23 +801,23 @@ describe('Client', function() {
                 var key = getKey(), val = chance.natural();
 
                 return cache.set(key, val)
-                            .then(function() {
-                                return cache.decr(key);
-                            })
-                            .then(function(v) {
-                                v.should.equal(val - 1);
-                            });
+                    .then(function() {
+                        return cache.decr(key);
+                    })
+                    .then(function(v) {
+                        v.should.equal(val - 1);
+                    });
             });
 
             it('with a decrement value', function() {
                 var key = getKey(), val = chance.natural({ max: 20000000}), decr = chance.natural({ max: 1000 });
                 return cache.set(key, val)
-                            .then(function() {
-                                return cache.decr(key, decr);
-                            })
-                            .then(function(v) {
-                                v.should.equal(val - decr);
-                            });
+                    .then(function() {
+                        return cache.decr(key, decr);
+                    })
+                    .then(function(v) {
+                        v.should.equal(val - decr);
+                    });
             });
         });
     });
@@ -837,45 +837,45 @@ describe('Client', function() {
                 var key = getKey(), val = chance.natural();
 
                 return cache.set(key, val)
-                     .then(function() {
-                         return cache.get(key);
-                     })
-                     .then(function(v) {
-                         expect(v).to.equal(val);
-                         return cache.flush();
-                     })
-                     .then(function () {
-                         return cache.get(key);
-                     })
-                     .then(function (v) {
-                         expect(v).to.equal(null);
-                     });
+                    .then(function() {
+                        return cache.get(key);
+                    })
+                    .then(function(v) {
+                        expect(v).to.equal(val);
+                        return cache.flush();
+                    })
+                    .then(function () {
+                        return cache.get(key);
+                    })
+                    .then(function (v) {
+                        expect(v).to.equal(null);
+                    });
             });
 
             it('removes all data after a specified seconds', function () {
                 var key = getKey(), val = chance.natural();
 
                 return cache.set(key, val)
-                     .then(function() {
-                         return cache.get(key);
-                     })
-                     .then(function(v) {
-                         expect(v).to.equal(val);
-                         return cache.flush(1);
-                     })
-                     .then(function () {
-                         return cache.get(key);
-                     })
-                     .then(function (v) {
-                         expect(v).to.equal(v);
-                     })
-                     .delay(1001)
-                     .then(function() {
-                         return cache.get(key);
-                     })
-                     .then(function (v) {
-                         expect(v).to.equal(null);
-                     });
+                    .then(function() {
+                        return cache.get(key);
+                    })
+                    .then(function(v) {
+                        expect(v).to.equal(val);
+                        return cache.flush(1);
+                    })
+                    .then(function () {
+                        return cache.get(key);
+                    })
+                    .then(function (v) {
+                        expect(v).to.equal(v);
+                    })
+                    .delay(1001)
+                    .then(function() {
+                        return cache.get(key);
+                    })
+                    .then(function (v) {
+                        expect(v).to.equal(null);
+                    });
             });
         });
     });
@@ -911,24 +911,24 @@ describe('Client', function() {
                 var key = getKey(), val = chance.natural();
 
                 return cache.add(key, val)
-                            .then(function() {
-                                return cache.get(key);
-                            })
-                            .then(function(v) {
-                                v.should.equal(val);
-                            });
+                    .then(function() {
+                        return cache.get(key);
+                    })
+                    .then(function(v) {
+                        v.should.equal(val);
+                    });
             });
 
             it('should behave properly when add over existing key', function() {
                 var key = getKey(), val = chance.natural();
 
                 return cache.add(key, val)
-                            .then(function() {
-                                return cache.add(key, val);
-                            })
-                            .catch(function(err) {
-                                expect(err.toString()).to.contain('it already exists');
-                            });
+                    .then(function() {
+                        return cache.add(key, val);
+                    })
+                    .catch(function(err) {
+                        expect(err.toString()).to.contain('it already exists');
+                    });
             });
         });
     });
@@ -964,24 +964,130 @@ describe('Client', function() {
                 var key = getKey(), val = chance.natural(), val2 = chance.natural();
 
                 return cache.set(key, val)
-                            .then(function() {
-                                return cache.replace(key, val2);
-                            })
-                            .then(function() {
-                                return cache.get(key);
-                            })
-                            .then(function(v) {
-                                v.should.equal(val2);
-                            });
+                    .then(function() {
+                        return cache.replace(key, val2);
+                    })
+                    .then(function() {
+                        return cache.get(key);
+                    })
+                    .then(function(v) {
+                        v.should.equal(val2);
+                    });
             });
 
             it('should behave properly when replace over non-existent key', function() {
                 var key = getKey(), val = chance.natural();
 
                 return cache.replace(key, val)
-                            .catch(function(err) {
-                                expect(err.toString()).to.contain('does not exist');
-                            });
+                    .catch(function(err) {
+                        expect(err.toString()).to.contain('does not exist');
+                    });
+            });
+        });
+    });
+
+    describe('append', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('append');
+        });
+
+        describe('should throw an error if called', function() {
+            it('without a key', function() {
+                expect(function() { cache.append(); }).to.throw('Cannot append without key!');
+            });
+
+            it('with a key that is too long', function() {
+                expect(function() { cache.append(chance.string({length: 251})); }).to.throw('less than 250 characters');
+            });
+
+            it('with a non-string key', function() {
+                expect(function() { cache.append({blah: 'test'}); }).to.throw('not string key');
+                expect(function() { cache.append([1, 2]); }).to.throw('not string key');
+                expect(function() { cache.append(_.noop); }).to.throw('not string key');
+            });
+        });
+
+        describe('should work', function() {
+            it('as normal', function() {
+                var key = getKey(), val = chance.string(), val2 = chance.string();
+
+                return cache.set(key, val)
+                    .then(function() {
+                        return cache.append(key, val2);
+                    })
+                    .then(function() {
+                        return cache.get(key);
+                    })
+                    .then(function(v) {
+                        v.should.equal(val + val2);
+                    });
+            });
+
+            it('should behave properly when append over non-existent key', function() {
+                var key = getKey(), val = chance.natural();
+
+                return cache.append(key, val)
+                    .catch(function(err) {
+                        expect(err.toString()).to.contain('does not exist');
+                    });
+            });
+        });
+    });
+
+    describe('prepend', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('prepend');
+        });
+
+        describe('should throw an error if called', function() {
+            it('without a key', function() {
+                expect(function() { cache.prepend(); }).to.throw('Cannot prepend without key!');
+            });
+
+            it('with a key that is too long', function() {
+                expect(function() { cache.prepend(chance.string({length: 251})); }).to.throw('less than 250 characters');
+            });
+
+            it('with a non-string key', function() {
+                expect(function() { cache.prepend({blah: 'test'}); }).to.throw('not string key');
+                expect(function() { cache.prepend([1, 2]); }).to.throw('not string key');
+                expect(function() { cache.prepend(_.noop); }).to.throw('not string key');
+            });
+        });
+
+        describe('should work', function() {
+            it('as normal', function() {
+                var key = getKey(), val = chance.string(), val2 = chance.string();
+
+                return cache.set(key, val)
+                    .then(function() {
+                        return cache.prepend(key, val2);
+                    })
+                    .then(function() {
+                        return cache.get(key);
+                    })
+                    .then(function(v) {
+                        v.should.equal(val2 + val);
+                    });
+            });
+
+            it('should behave properly when prepend over non-existent key', function() {
+                var key = getKey(), val = chance.natural();
+
+                return cache.prepend(key, val)
+                    .catch(function(err) {
+                        expect(err.toString()).to.contain('does not exist');
+                    });
             });
         });
     });
@@ -999,9 +1105,9 @@ describe('Client', function() {
         describe('should work', function() {
             it('gets slab stats', function () {
                 cache.set('test', 'test')
-                  .then(function() {
-                      return cache.items();
-                  }).then(function (items) {
+                    .then(function() {
+                        return cache.items();
+                    }).then(function (items) {
                     expect(items.length).to.be.above(0);
                     expect(items[0].slab_id).to.exist;
                     expect(items[0].server).to.exist;
