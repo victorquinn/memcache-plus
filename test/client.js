@@ -640,6 +640,18 @@ describe('Client', function() {
         });
     });
 
+    // @todo these are placeholders for now until I can figure out a good way
+    // to adequeately test these.
+    describe('Client buffer', function() {
+        it('works');
+        it('can be flushed');
+    });
+
+    describe('Connection buffer', function() {
+        it('works');
+        it('can be flushed');
+    });
+
     describe('Helpers', function() {
         describe('splitHost()', function() {
             it('exists', function() {
@@ -824,46 +836,258 @@ describe('Client', function() {
             it('removes all data', function () {
                 var key = getKey(), val = chance.natural();
 
-                cache.set(key, val)
-                  .then(function() {
-                      return cache.get(key);
-                  })
-                  .then(function(v) {
-                      expect(v).to.equal(val);
-                      return cache.flush();
-                  })
-                  .then(function () {
-                      return cache.get(key);
-                  })
-                  .then(function (v) {
-                      expect(v).to.equal(null);
-                  });
+                return cache.set(key, val)
+                     .then(function() {
+                         return cache.get(key);
+                     })
+                     .then(function(v) {
+                         expect(v).to.equal(val);
+                         return cache.flush();
+                     })
+                     .then(function () {
+                         return cache.get(key);
+                     })
+                     .then(function (v) {
+                         expect(v).to.equal(null);
+                     });
             });
 
             it('removes all data after a specified seconds', function () {
                 var key = getKey(), val = chance.natural();
 
-                cache.set(key, val)
-                  .then(function() {
-                      return cache.get(key);
-                  })
-                  .then(function(v) {
-                      expect(v).to.equal(val);
-                      return cache.flush(1);
-                  })
-                  .then(function () {
-                      return cache.get(key);
-                  })
-                  .then(function (v) {
-                      expect(v).to.equal(v);
+                return cache.set(key, val)
+                     .then(function() {
+                         return cache.get(key);
+                     })
+                     .then(function(v) {
+                         expect(v).to.equal(val);
+                         return cache.flush(1);
+                     })
+                     .then(function () {
+                         return cache.get(key);
+                     })
+                     .then(function (v) {
+                         expect(v).to.equal(v);
+                     })
+                     .delay(1001)
+                     .then(function() {
+                         return cache.get(key);
+                     })
+                     .then(function (v) {
+                         expect(v).to.equal(null);
+                     });
+            });
+        });
+    });
 
-                      // the testing framework usually takes longer than a second to run/execute
-                      // so not using any timeouts here (tried, didn't work very well)
-                      return cache.get(key);
-                  })
-                  .then(function (v) {
-                      expect(v).to.equal(null);
-                  });
+    describe('add', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('add');
+        });
+
+        describe('should throw an error if called', function() {
+            it('without a key', function() {
+                expect(function() { cache.add(); }).to.throw('Cannot add without key!');
+            });
+
+            it('with a key that is too long', function() {
+                expect(function() { cache.add(chance.string({length: 251})); }).to.throw('less than 250 characters');
+            });
+
+            it('with a non-string key', function() {
+                expect(function() { cache.add({blah: 'test'}); }).to.throw('not string key');
+                expect(function() { cache.add([1, 2]); }).to.throw('not string key');
+                expect(function() { cache.add(_.noop); }).to.throw('not string key');
+            });
+        });
+
+        describe('should work', function() {
+            it('with a brand new key', function() {
+                var key = getKey(), val = chance.natural();
+
+                return cache.add(key, val)
+                            .then(function() {
+                                return cache.get(key);
+                            })
+                            .then(function(v) {
+                                v.should.equal(val);
+                            });
+            });
+
+            it('should behave properly when add over existing key', function() {
+                var key = getKey(), val = chance.natural();
+
+                return cache.add(key, val)
+                            .then(function() {
+                                return cache.add(key, val);
+                            })
+                            .catch(function(err) {
+                                expect(err.toString()).to.contain('it already exists');
+                            });
+            });
+        });
+    });
+
+    describe('replace', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('replace');
+        });
+
+        describe('should throw an error if called', function() {
+            it('without a key', function() {
+                expect(function() { cache.replace(); }).to.throw('Cannot replace without key!');
+            });
+
+            it('with a key that is too long', function() {
+                expect(function() { cache.replace(chance.string({length: 251})); }).to.throw('less than 250 characters');
+            });
+
+            it('with a non-string key', function() {
+                expect(function() { cache.replace({blah: 'test'}); }).to.throw('not string key');
+                expect(function() { cache.replace([1, 2]); }).to.throw('not string key');
+                expect(function() { cache.replace(_.noop); }).to.throw('not string key');
+            });
+        });
+
+        describe('should work', function() {
+            it('as normal', function() {
+                var key = getKey(), val = chance.natural(), val2 = chance.natural();
+
+                return cache.set(key, val)
+                            .then(function() {
+                                return cache.replace(key, val2);
+                            })
+                            .then(function() {
+                                return cache.get(key);
+                            })
+                            .then(function(v) {
+                                v.should.equal(val2);
+                            });
+            });
+
+            it('should behave properly when replace over non-existent key', function() {
+                var key = getKey(), val = chance.natural();
+
+                return cache.replace(key, val)
+                            .catch(function(err) {
+                                expect(err.toString()).to.contain('does not exist');
+                            });
+            });
+        });
+    });
+
+    describe('append', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('append');
+        });
+
+        describe('should throw an error if called', function() {
+            it('without a key', function() {
+                expect(function() { cache.append(); }).to.throw('Cannot append without key!');
+            });
+
+            it('with a key that is too long', function() {
+                expect(function() { cache.append(chance.string({length: 251})); }).to.throw('less than 250 characters');
+            });
+
+            it('with a non-string key', function() {
+                expect(function() { cache.append({blah: 'test'}); }).to.throw('not string key');
+                expect(function() { cache.append([1, 2]); }).to.throw('not string key');
+                expect(function() { cache.append(_.noop); }).to.throw('not string key');
+            });
+        });
+
+        describe('should work', function() {
+            it('as normal', function() {
+                var key = getKey(), val = chance.string(), val2 = chance.string();
+
+                return cache.set(key, val)
+                            .then(function() {
+                                return cache.append(key, val2);
+                            })
+                            .then(function() {
+                                return cache.get(key);
+                            })
+                            .then(function(v) {
+                                v.should.equal(val + val2);
+                            });
+            });
+
+            it('should behave properly when append over non-existent key', function() {
+                var key = getKey(), val = chance.natural();
+
+                return cache.append(key, val)
+                            .catch(function(err) {
+                                expect(err.toString()).to.contain('does not exist');
+                            });
+            });
+        });
+    });
+
+    describe('prepend', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('prepend');
+        });
+
+        describe('should throw an error if called', function() {
+            it('without a key', function() {
+                expect(function() { cache.prepend(); }).to.throw('Cannot prepend without key!');
+            });
+
+            it('with a key that is too long', function() {
+                expect(function() { cache.prepend(chance.string({length: 251})); }).to.throw('less than 250 characters');
+            });
+
+            it('with a non-string key', function() {
+                expect(function() { cache.prepend({blah: 'test'}); }).to.throw('not string key');
+                expect(function() { cache.prepend([1, 2]); }).to.throw('not string key');
+                expect(function() { cache.prepend(_.noop); }).to.throw('not string key');
+            });
+        });
+
+        describe('should work', function() {
+            it('as normal', function() {
+                var key = getKey(), val = chance.string(), val2 = chance.string();
+
+                return cache.set(key, val)
+                            .then(function() {
+                                return cache.prepend(key, val2);
+                            })
+                            .then(function() {
+                                return cache.get(key);
+                            })
+                            .then(function(v) {
+                                v.should.equal(val2 + val);
+                            });
+            });
+
+            it('should behave properly when prepend over non-existent key', function() {
+                var key = getKey(), val = chance.natural();
+
+                return cache.prepend(key, val)
+                            .catch(function(err) {
+                                expect(err.toString()).to.contain('does not exist');
+                            });
             });
         });
     });

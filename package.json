@@ -1,6 +1,6 @@
 {
   "name": "memcache-plus",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "Better memcache for node",
   "main": "index.js",
   "scripts": {
@@ -41,9 +41,9 @@
     "bluebird": "^3.4.1",
     "carrier": "^0.3.0",
     "chai": "^3.5.0",
-    "collections": "^5.0.4",
     "debug": "^2.2.0",
     "hashring": "^3.2.0",
+    "immutable": "^3.8.1",
     "lodash": "^4.14.0",
     "ramda": "^0.21.0"
   }
