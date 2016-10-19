@@ -10,5 +10,7 @@
   * [Add](add.md)
   * [Replace](replace.md)
   * [Flush](flush.md)
+  * [Items](items.md)
   * [Disconnect](disconnect.md)
   * [Elasticache](elasticache.md)
+
