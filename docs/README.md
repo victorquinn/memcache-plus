@@ -6,7 +6,10 @@
   * [Get Multi](getmulti.md)
   * [Delete](delete.md)
   * [Incr/Decr](incrdecr.md)
+  * [Add](add.md)
+  * [Replace](replace.md)
   * [Flush](flush.md)
   * [Items](items.md)
   * [Disconnect](disconnect.md)
   * [Elasticache](elasticache.md)
+
