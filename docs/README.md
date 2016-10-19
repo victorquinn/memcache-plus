@@ -7,5 +7,6 @@
   * [Delete](delete.md)
   * [Incr/Decr](incrdecr.md)
   * [Flush](flush.md)
+  * [Items](items.md)
   * [Disconnect](disconnect.md)
   * [Elasticache](elasticache.md)

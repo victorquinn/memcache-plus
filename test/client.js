@@ -868,6 +868,40 @@ describe('Client', function() {
         });
     });
 
+    describe('items', function () {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('items');
+        });
+
+        describe('should work', function() {
+            it('gets slab stats', function () {
+                cache.set('test', 'test')
+                  .then(function() {
+                      return cache.items();
+                  }).then(function (items) {
+                    expect(items.length).to.be.above(0);
+                    expect(items[0].slab_id).to.exist;
+                    expect(items[0].server).to.exist;
+                    expect(items[0].data.number).to.exist;
+                    expect(items[0].data.age).to.exist;
+                });
+            });
+
+            it('returns empty stats', function () {
+                cache.flush().then(function () {
+                    return cache.items();
+                }).then(function (items) {
+                    expect(items.length).to.equal(0);
+                });
+            });
+        });
+    });
+
     after(function() {
         var cache = new Client();
 
