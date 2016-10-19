@@ -986,6 +986,59 @@ describe('Client', function() {
         });
     });
 
+    describe('append', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('append');
+        });
+
+        describe('should throw an error if called', function() {
+            it('without a key', function() {
+                expect(function() { cache.append(); }).to.throw('Cannot append without key!');
+            });
+
+            it('with a key that is too long', function() {
+                expect(function() { cache.append(chance.string({length: 251})); }).to.throw('less than 250 characters');
+            });
+
+            it('with a non-string key', function() {
+                expect(function() { cache.append({blah: 'test'}); }).to.throw('not string key');
+                expect(function() { cache.append([1, 2]); }).to.throw('not string key');
+                expect(function() { cache.append(_.noop); }).to.throw('not string key');
+            });
+        });
+
+        describe('should work', function() {
+            it('as normal', function() {
+                var key = getKey(), val = chance.string(), val2 = chance.string();
+
+                return cache.set(key, val)
+                            .then(function() {
+                                return cache.append(key, val2);
+                            })
+                            .then(function() {
+                                return cache.get(key);
+                            })
+                            .then(function(v) {
+                                v.should.equal(val + val2);
+                            });
+            });
+
+            it('should behave properly when append over non-existent key', function() {
+                var key = getKey(), val = chance.natural();
+
+                return cache.append(key, val)
+                            .catch(function(err) {
+                                expect(err.toString()).to.contain('does not exist');
+                            });
+            });
+        });
+    });
+
     after(function() {
         var cache = new Client();
 
