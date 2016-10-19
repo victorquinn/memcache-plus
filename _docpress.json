@@ -189,6 +189,44 @@
             ]
           },
           {
+            "title": "Append/Prepend",
+            "source": "docs/appendprepend.md",
+            "url": "appendprepend.html",
+            "slug": "appendprepend",
+            "headings": [
+              {
+                "title": "Basic case",
+                "depth": 3,
+                "id": "basic-case"
+              },
+              {
+                "title": "Error if key doesn't yet exist",
+                "depth": 3,
+                "id": "error-if-key-doesn't-yet-exist"
+              },
+              {
+                "title": "Callbacks",
+                "depth": 3,
+                "id": "callbacks"
+              },
+              {
+                "title": "Basic case",
+                "depth": 3,
+                "id": "basic-case"
+              },
+              {
+                "title": "Error if key doesn't yet exist",
+                "depth": 3,
+                "id": "error-if-key-doesn't-yet-exist"
+              },
+              {
+                "title": "Callbacks",
+                "depth": 3,
+                "id": "callbacks"
+              }
+            ]
+          },
+          {
             "title": "Add",
             "source": "docs/add.md",
             "url": "add.html",
@@ -472,6 +510,43 @@
         }
       ]
     },
+    "appendprepend.html": {
+      "source": "docs/appendprepend.md",
+      "title": "Append/Prepend",
+      "slug": "appendprepend",
+      "headings": [
+        {
+          "title": "Basic case",
+          "depth": 3,
+          "id": "basic-case"
+        },
+        {
+          "title": "Error if key doesn't yet exist",
+          "depth": 3,
+          "id": "error-if-key-doesn't-yet-exist"
+        },
+        {
+          "title": "Callbacks",
+          "depth": 3,
+          "id": "callbacks"
+        },
+        {
+          "title": "Basic case",
+          "depth": 3,
+          "id": "basic-case"
+        },
+        {
+          "title": "Error if key doesn't yet exist",
+          "depth": 3,
+          "id": "error-if-key-doesn't-yet-exist"
+        },
+        {
+          "title": "Callbacks",
+          "depth": 3,
+          "id": "callbacks"
+        }
+      ]
+    },
     "add.html": {
       "source": "docs/add.md",
       "title": "Add",
@@ -577,6 +652,7 @@
     "docs/getmulti.md": "getmulti.html",
     "docs/delete.md": "delete.html",
     "docs/incrdecr.md": "incrdecr.html",
+    "docs/appendprepend.md": "appendprepend.html",
     "docs/add.md": "add.html",
     "docs/replace.md": "replace.html",
     "docs/flush.md": "flush.html",

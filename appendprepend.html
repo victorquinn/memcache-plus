@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="assets/style.css?t=a44c9e9d">
+    <script src="assets/script.js?t=2bcc4b59"></script>
+    <title>Append/Prepend</title>
+    <meta name="viewport" content="width=device-width">
+  </head>
+  <body class="-menu-visible">
+    <div class="doc-layout">
+      <div class="toggle menu-toggle js-menu-toggle"></div>
+      <div class="body page-appendprepend">
+        <div class="header-nav">
+          <div class="right">
+          </div>
+        </div>
+        <div class="markdown-body"><h1 id="append">Append</h1>
+<p>Will append data to the supplied key if and only if it already exists.</p>
+<p>In other words, add the value you supply to the end of the value currently
+residing in the supplied key.</p>
+<h3 id="basic-case">Basic case</h3>
+<pre><code class="lang-javascript"><span class="pl-c">// Assuming you have a key called `milkshake` and it currently has the value</span>
+<span class="pl-c">//   `vanilla`</span>
+
+client
+    .append(<span class="pl-s">&apos;milkshake&apos;</span>, <span class="pl-s">&apos; malt&apos;</span>)
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="pl-c">// now milkshake has a value of `vanilla malt`</span>
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully appended to the key milkshake&apos;</span>);
+    });
+</code></pre>
+<h3 id="error-if-key-doesn&apos;t-yet-exist">Error if key doesn&apos;t yet exist</h3>
+<p>If a key does not already exist and you try to use the <code>append</code> command,
+Memcached will return an error which Memcache Plus will throw.</p>
+<pre><code class="lang-javascript"><span class="pl-c">// If &apos;milkshake&apos; does not already exist</span>
+client
+    .replace(<span class="pl-s">&apos;milkshake&apos;</span>, <span class="pl-s">&apos; malt&apos;</span>)
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="pl-c">// This will not get hit because `append` will throw on error</span>
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully replaced the key milkshake&apos;</span>);
+    })
+    .catch(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">err</span>) </span>{
+        <span class="pl-c">// Will print: &apos;Cannot &quot;replace&quot; for key &quot;milkshake&quot; because it does not exist&apos;</span>
+        <span class="pl-c1">console</span>.error(err);
+    });
+</code></pre>
+<h3 id="callbacks">Callbacks</h3>
+<p>Memcache Plus will always return a <a href="https://www.promisejs.org">Promise</a>, but it
+can also take a traditional callback for any of its methods so it can work just
+like most of the other Memcache modules out there. For example:</p>
+<pre><code class="lang-javascript">client.append(<span class="pl-s">&apos;milkshake&apos;</span>, <span class="pl-s">&apos; malt&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully appended to the key milkshake&apos;</span>);
+});
+</code></pre>
+<p>And if you try to append a key that does not already exist:</p>
+<pre><code class="lang-javascript"><span class="pl-c">// If &apos;milkshake&apos; does not already exist</span>
+client.append(<span class="pl-s">&apos;milkshake&apos;</span>, <span class="pl-s">&apos; malt&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="pl-c">// Will print: &apos;Cannot &quot;append&quot; to key &quot;milkshake&quot; because it does not exist&apos;</span>
+    <span class="pl-c1">console</span>.error(err);
+});
+</code></pre>
+<h1 id="prepend">Prepend</h1>
+<p>Will prepend data to the supplied key if and only if it already exists</p>
+<h3 id="basic-case">Basic case</h3>
+<pre><code class="lang-javascript"><span class="pl-c">// Assuming you have a key called `gauge` and it currently has the value</span>
+<span class="pl-c">//   `meter`</span>
+
+client
+    .prepend(<span class="pl-s">&apos;meter&apos;</span>, <span class="pl-s">&apos;thermo&apos;</span>)
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="pl-c">// now milkshake has a value of `thermometer`</span>
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully prepended to the key meter&apos;</span>);
+    });
+</code></pre>
+<h3 id="error-if-key-doesn&apos;t-yet-exist">Error if key doesn&apos;t yet exist</h3>
+<p>If a key does not already exist and you try to use the <code>prepend</code> command,
+Memcached will return an error which Memcache Plus will throw.</p>
+<pre><code class="lang-javascript"><span class="pl-c">// If &apos;gauge&apos; does not already exist</span>
+client
+    .replace(<span class="pl-s">&apos;gauge&apos;</span>, <span class="pl-s">&apos;thermo&apos;</span>)
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="pl-c">// This will not get hit because `prepend` will throw on error</span>
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully replaced the key gauge&apos;</span>);
+    })
+    .catch(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">err</span>) </span>{
+        <span class="pl-c">// Will print: &apos;Cannot &quot;replace&quot; for key &quot;gauge&quot; because it does not exist&apos;</span>
+        <span class="pl-c1">console</span>.error(err);
+    });
+</code></pre>
+<h3 id="callbacks">Callbacks</h3>
+<p>Memcache Plus will always return a <a href="https://www.promisejs.org">Promise</a>, but it
+can also take a traditional callback for any of its methods so it can work just
+like most of the other Memcache modules out there. For example:</p>
+<pre><code class="lang-javascript">client.prepend(<span class="pl-s">&apos;gauge&apos;</span>, <span class="pl-s">&apos;thermo&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully prepended to the key gauge&apos;</span>);
+});
+</code></pre>
+<p>And if you try to prepend a key that does not already exist:</p>
+<pre><code class="lang-javascript"><span class="pl-c">// If &apos;gauge&apos; does not already exist</span>
+client.prepend(<span class="pl-s">&apos;gauge&apos;</span>, <span class="pl-s">&apos;thermo&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">err</span>) </span>{
+    <span class="pl-c">// Will print: &apos;Cannot &quot;prepend&quot; to key &quot;gauge&quot; because it does not exist&apos;</span>
+    <span class="pl-c1">console</span>.error(err);
+});
+</code></pre>
+
+        </div>
+        <div class="footer-nav">
+          <div class="left"><a href="incrdecr.html"><span class="title">Incr/Decr</span></a></div>
+          <div class="right"><a href="add.html"><span class="label">Next: </span><span class="title">Add</span></a></div>
+        </div>
+      </div>
+      <div class="menu toc-menu">
+        <li class="menu-item -level-0 -parent">
+          <ul class="submenu">
+            <li class="menu-item -level-1 -parent"><a href="index.html" class="link title  link-index">Memcache Plus</a>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a href="intro.html" class="link title  link-intro">Getting Started</a>
+                </li>
+                <li class="menu-item -level-2"><a href="initialization.html" class="link title  link-initialization">Initialization</a>
+                </li>
+                <li class="menu-item -level-2"><a href="set.html" class="link title  link-set">Set</a>
+                </li>
+                <li class="menu-item -level-2"><a href="get.html" class="link title  link-get">Get</a>
+                </li>
+                <li class="menu-item -level-2"><a href="getmulti.html" class="link title  link-getmulti">Get Multi</a>
+                </li>
+                <li class="menu-item -level-2"><a href="delete.html" class="link title  link-delete">Delete</a>
+                </li>
+                <li class="menu-item -level-2"><a href="incrdecr.html" class="link title  link-incrdecr">Incr/Decr</a>
+                </li>
+                <li class="menu-item -level-2"><a href="appendprepend.html" class="link title -active link-appendprepend">Append/Prepend</a>
+                  <ul class="headings heading-list">
+                    <li class="heading-item -depth-3"><a href="#basic-case" class="hlink link-basic-case">Basic case</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#error-if-key-doesn't-yet-exist" class="hlink link-error-if-key-doesn't-yet-exist">Error if key doesn't yet exist</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#callbacks" class="hlink link-callbacks">Callbacks</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#basic-case" class="hlink link-basic-case">Basic case</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#error-if-key-doesn't-yet-exist" class="hlink link-error-if-key-doesn't-yet-exist">Error if key doesn't yet exist</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#callbacks" class="hlink link-callbacks">Callbacks</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item -level-2"><a href="add.html" class="link title  link-add">Add</a>
+                </li>
+                <li class="menu-item -level-2"><a href="replace.html" class="link title  link-replace">Replace</a>
+                </li>
+                <li class="menu-item -level-2"><a href="flush.html" class="link title  link-flush">Flush</a>
+                </li>
+                <li class="menu-item -level-2"><a href="disconnect.html" class="link title  link-disconnect">Disconnect</a>
+                </li>
+                <li class="menu-item -level-2"><a href="elasticache.html" class="link title  link-elasticache">Elasticache</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </div>
+  </body>
+</html>
