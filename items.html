@@ -4,44 +4,58 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="assets/style.css?t=a44c9e9d">
     <script src="assets/script.js?t=820b7ffa"></script>
-    <title>Elasticache</title>
+    <title>Items</title>
     <meta name="viewport" content="width=device-width">
   </head>
   <body class="-menu-visible">
     <div class="doc-layout">
       <div class="toggle menu-toggle js-menu-toggle"></div>
-      <div class="body page-elasticache">
+      <div class="body page-items">
         <div class="header-nav">
           <div class="right">
           </div>
         </div>
-        <div class="markdown-body"><h1 id="elasticache">Elasticache</h1>
-<p>Amazon provides Memcache (and Redis) as a hosted webservice they call
-<a href="https://aws.amazon.com/elasticache/">Elasticache</a>.</p>
-<p>Memcache Plus has some special enhancements which make connecting to Elasticache
-a bit more easy.</p>
-<h3 id="auto-discovery">Auto Discovery</h3>
-<p>Amazon provides something called <a href="https://aws.amazon.com/elasticache/faqs/#memcached-auto-discovery">Auto Discovery</a>
-which is an enhancement to Memcache and basically allows you to specify a single
-url for a cluster (rather than specifying each host url separately) and that single
-url can be queried for information on the other nodes in your cluster.</p>
-<p>Memcache Plus can handle the auto discovery for you!</p>
-<p>Simply specify a single host when you create your client and enable the
-<code>autodiscover</code> option:</p>
-<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
-
-<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus({
-    hosts: [<span class="pl-s">&apos;victor-di6cba.cfg.use1.cache.amazonaws.com&apos;</span>],
-    autodiscover: <span class="pl-c1">true</span>
+        <div class="markdown-body"><h1 id="items">Items</h1>
+<h3 id="basic-case">Basic case</h3>
+<p>Gets items statistics.</p>
+<pre><code class="lang-javascript">client
+    .items()
+    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">items</span>) </span>{
+        <span class="pl-c">/* Returns an (empty) array that looks like this:
+         [{
+            slab_id: 1,
+            data: {
+                number: 2,
+                age: 4918,
+                evicted: 0,
+                evicted_nonzero: 0,
+                evicted_time: 0,
+                outofmemory: 0,
+                tailrepairs: 0,
+                reclaimed: 0,
+                expired_unfetched: 0,
+                evicted_unfetched: 0,
+                crawler_reclaimed: 0,
+                lrutail_reflocked: 0
+            },
+            server: &apos;localhost:11211&apos;
+         }]         
+        */</span>
+    });
+</code></pre>
+<h3 id="callbacks">Callbacks</h3>
+<p>Memcache Plus will always return a <a href="https://www.promisejs.org">Promise</a>, but it
+can also take a traditional callback for any of its methods so it can work just
+like most of the other Memcache modules out there. For example:</p>
+<pre><code class="lang-javascript">client.items(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">items</span>) </span>{
+    ...
 });
 </code></pre>
-<p>And that&apos;s it! Memcache Plus will use that discovery url to reach out to Amazon,
-retrieve information on all other nodes in the cluster, then automatically
-connect to all of them.</p>
 
         </div>
         <div class="footer-nav">
-          <div class="left"><a href="disconnect.html"><span class="title">Disconnect</span></a></div>
+          <div class="left"><a href="flush.html"><span class="title">Flush</span></a></div>
+          <div class="right"><a href="disconnect.html"><span class="label">Next: </span><span class="title">Disconnect</span></a></div>
         </div>
       </div>
       <div class="menu toc-menu">
@@ -71,15 +85,17 @@ connect to all of them.</p>
                 </li>
                 <li class="menu-item -level-2"><a href="flush.html" class="link title  link-flush">Flush</a>
                 </li>
-                <li class="menu-item -level-2"><a href="items.html" class="link title  link-items">Items</a>
+                <li class="menu-item -level-2"><a href="items.html" class="link title -active link-items">Items</a>
+                  <ul class="headings heading-list">
+                    <li class="heading-item -depth-3"><a href="#basic-case" class="hlink link-basic-case">Basic case</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a href="#callbacks" class="hlink link-callbacks">Callbacks</a>
+                    </li>
+                  </ul>
                 </li>
                 <li class="menu-item -level-2"><a href="disconnect.html" class="link title  link-disconnect">Disconnect</a>
                 </li>
-                <li class="menu-item -level-2"><a href="elasticache.html" class="link title -active link-elasticache">Elasticache</a>
-                  <ul class="headings heading-list">
-                    <li class="heading-item -depth-3"><a href="#auto-discovery" class="hlink link-auto-discovery">Auto Discovery</a>
-                    </li>
-                  </ul>
+                <li class="menu-item -level-2"><a href="elasticache.html" class="link title  link-elasticache">Elasticache</a>
                 </li>
               </ul>
             </li>

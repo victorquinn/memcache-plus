@@ -296,6 +296,24 @@
             ]
           },
           {
+            "title": "Items",
+            "source": "docs/items.md",
+            "url": "items.html",
+            "slug": "items",
+            "headings": [
+              {
+                "title": "Basic case",
+                "depth": 3,
+                "id": "basic-case"
+              },
+              {
+                "title": "Callbacks",
+                "depth": 3,
+                "id": "callbacks"
+              }
+            ]
+          },
+          {
             "title": "Disconnect",
             "source": "docs/disconnect.md",
             "url": "disconnect.html",
@@ -613,6 +631,23 @@
         }
       ]
     },
+    "items.html": {
+      "source": "docs/items.md",
+      "title": "Items",
+      "slug": "items",
+      "headings": [
+        {
+          "title": "Basic case",
+          "depth": 3,
+          "id": "basic-case"
+        },
+        {
+          "title": "Callbacks",
+          "depth": 3,
+          "id": "callbacks"
+        }
+      ]
+    },
     "disconnect.html": {
       "source": "docs/disconnect.md",
       "title": "Disconnect",
@@ -656,6 +691,7 @@
     "docs/add.md": "add.html",
     "docs/replace.md": "replace.html",
     "docs/flush.md": "flush.html",
+    "docs/items.md": "items.html",
     "docs/disconnect.md": "disconnect.html",
     "docs/elasticache.md": "elasticache.html",
     "docs/CNAME": "CNAME"
