@@ -1103,24 +1103,56 @@ describe('Client', function() {
         });
 
         describe('should work', function() {
-            it('gets slab stats', function () {
-                cache.set('test', 'test')
-                    .then(function() {
-                        return cache.items();
-                    }).then(function (items) {
+            it('gets slab stats', function (done) {
+                cache.set('test', 'test').then(function() {
+                    return cache.items();
+                }).then(function (items) {
                     expect(items.length).to.be.above(0);
                     expect(items[0].slab_id).to.exist;
                     expect(items[0].server).to.exist;
                     expect(items[0].data.number).to.exist;
                     expect(items[0].data.age).to.exist;
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('cachedump', function () {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('items');
+        });
+
+        describe('should work', function() {
+            it('gets cache metadata', function (done) {
+                var key = getKey();
+
+                // guarantee that we will at least have one result
+                cache.set(key, 'test').then(function() {
+                    return cache.items();
+                }).then(function (items) {
+                    return cache.cachedump(items[0].slab_id);
+                }).then(function (data) {
+                    expect(data[0].key).to.be.defined;
+                    done();
                 });
             });
 
-            it('returns empty stats', function () {
-                cache.flush().then(function () {
+            it('gets cache metadata with limit', function (done) {
+                var key = getKey();
+
+                cache.set(key, 'test').then(function() {
                     return cache.items();
                 }).then(function (items) {
-                    expect(items.length).to.equal(0);
+                    return cache.cachedump(items[0].slab_id, 1);
+                }).then(function (data) {
+                    expect(data.length).to.equal(1);
+                    done();
                 });
             });
         });
@@ -1132,5 +1164,4 @@ describe('Client', function() {
         // Clean up all of the keys we created
         return cache.deleteMulti(keys);
     });
-
 });
