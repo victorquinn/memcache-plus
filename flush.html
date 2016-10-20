@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="assets/style.css?t=a44c9e9d">
-    <script src="assets/script.js?t=2bcc4b59"></script>
+    <script src="assets/script.js?t=820b7ffa"></script>
     <title>Flush</title>
     <meta name="viewport" content="width=device-width">
   </head>
@@ -17,7 +17,7 @@
         </div>
         <div class="markdown-body"><h1 id="flush">Flush</h1>
 <h3 id="basic-case">Basic case</h3>
-<p>Flush removes all stored values.</p>
+<p>Flush causes all items to expire. It does not free up or flush memory.</p>
 <pre><code class="lang-javascript">client
     .flush()
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
