@@ -2,7 +2,7 @@
 
 ### Basic case
 
-Flush removes all stored values.
+Flush causes all items to expire. It does not free up or flush memory.
 
 ```javascript
 client
