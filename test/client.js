@@ -602,7 +602,6 @@ describe('Client', function() {
 
         it('does not blow up if deleting key that does not exist', function() {
             var key = chance.guid();
-
             return cache.delete(key);
         });
     });
@@ -1152,6 +1151,25 @@ describe('Client', function() {
                 }).then(function (data) {
                     expect(data.length).to.equal(1);
                     done();
+                });
+            });
+        });
+    });
+
+    describe('version', function () {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('version');
+        });
+
+        describe('should work', function() {
+            it('gets version', function () {
+                return cache.version().then(function(v) {
+                    expect(v).to.be.a.string;
                 });
             });
         });
