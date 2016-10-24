@@ -343,6 +343,19 @@
                 "id": "auto-discovery"
               }
             ]
+          },
+          {
+            "title": "Miscellaneous",
+            "source": "docs/misc.md",
+            "url": "misc.html",
+            "slug": "misc",
+            "headings": [
+              {
+                "title": "Version",
+                "depth": 2,
+                "id": "version"
+              }
+            ]
           }
         ]
       }
@@ -676,6 +689,18 @@
           "id": "auto-discovery"
         }
       ]
+    },
+    "misc.html": {
+      "source": "docs/misc.md",
+      "title": "Miscellaneous",
+      "slug": "misc",
+      "headings": [
+        {
+          "title": "Version",
+          "depth": 2,
+          "id": "version"
+        }
+      ]
     }
   },
   "sources": {
@@ -694,6 +719,7 @@
     "docs/items.md": "items.html",
     "docs/disconnect.md": "disconnect.html",
     "docs/elasticache.md": "elasticache.html",
+    "docs/misc.md": "misc.html",
     "docs/CNAME": "CNAME"
   }
 }

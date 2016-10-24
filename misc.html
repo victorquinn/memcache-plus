@@ -4,41 +4,45 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="assets/style.css?t=a44c9e9d">
     <script src="assets/script.js?t=2bcc4b59"></script>
-    <title>Get Multi</title>
+    <title>Miscellaneous</title>
     <meta name="viewport" content="width=device-width">
   </head>
   <body class="-menu-visible">
     <div class="doc-layout">
       <div class="toggle menu-toggle js-menu-toggle"></div>
-      <div class="body page-getmulti">
+      <div class="body page-misc">
         <div class="header-nav">
           <div class="right">
           </div>
         </div>
-        <div class="markdown-body"><h1 id="get-multiple">Get Multiple</h1>
-<p>Let&apos;s say you want to get 5 keys at once. The following is rather onerous:</p>
-<pre><code class="lang-javascript"><span class="pl-c1">Promise</span>
-    .all([
-        client.get(<span class="pl-s">&apos;hydrogen&apos;</span>), client.get(<span class="pl-s">&apos;helium&apos;</span>),
-        client.get(<span class="pl-s">&apos;oxygen&apos;</span>), client.get(<span class="pl-s">&apos;carbon&apos;</span>), client.get(<span class="pl-s">&apos;nitrogen&apos;</span>)
-    ])
-    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">values</span>) </span>{
-        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully retrieved these 5 keys&apos;</span>);
-    });
+        <div class="markdown-body"><h1 id="miscellaneous">Miscellaneous</h1>
+<h2 id="version">Version</h2>
+<p>You can retrieve the version of Memcached currently running on the server by
+running <code>version()</code>.</p>
+<pre><code class="lang-javascript"><span class="pl-c">// As a Promise</span>
+cache.version().then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">v</span>) </span>{
+    <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;This server is running version %s of Memcached&apos;</span>, v);
+});
+
+<span class="pl-c">// With ESNext async/await</span>
+<span class="pl-k">let</span> version = <span class="pl-k">await</span> cache.version();
+
+<span class="pl-c">// With standard callback</span>
+cache.version(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">err, v</span>) </span>{
+    <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;This server is running version %s of Memcached&apos;</span>, v);
+});
+
 </code></pre>
-<p>Thankfully Memcache Plus provides a convenience method called <code>getMulti()</code> that
-will combine these into a single call:</p>
-<pre><code class="lang-javascript">client
-    .getMulti([<span class="pl-s">&apos;hydrogen&apos;</span>, <span class="pl-s">&apos;helium&apos;</span>, <span class="pl-s">&apos;oxygen&apos;</span>, <span class="pl-s">&apos;carbon&apos;</span>, <span class="pl-s">&apos;nitrogen&apos;</span>])
-    .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">values</span>) </span>{
-        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully retrieved these 5 keys&apos;</span>);
-    });
-</code></pre>
+<p>Note, for simplicity, this will just query a single server and retrieve the
+version, so if you are connected to multiple servers it will still only return
+a single result (aka one version running on one of the servers).</p>
+<p>We may introduce <code>versions()</code> at some point which would query all servers and
+return the version running on each server but that seemed a bit complicated for
+the most likely use case of getting the version for a single server.</p>
 
         </div>
         <div class="footer-nav">
-          <div class="left"><a href="get.html"><span class="title">Get</span></a></div>
-          <div class="right"><a href="delete.html"><span class="label">Next: </span><span class="title">Delete</span></a></div>
+          <div class="left"><a href="elasticache.html"><span class="title">Elasticache</span></a></div>
         </div>
       </div>
       <div class="menu toc-menu">
@@ -54,7 +58,7 @@ will combine these into a single call:</p>
                 </li>
                 <li class="menu-item -level-2"><a href="get.html" class="link title  link-get">Get</a>
                 </li>
-                <li class="menu-item -level-2"><a href="getmulti.html" class="link title -active link-getmulti">Get Multi</a>
+                <li class="menu-item -level-2"><a href="getmulti.html" class="link title  link-getmulti">Get Multi</a>
                 </li>
                 <li class="menu-item -level-2"><a href="delete.html" class="link title  link-delete">Delete</a>
                 </li>
@@ -74,7 +78,11 @@ will combine these into a single call:</p>
                 </li>
                 <li class="menu-item -level-2"><a href="elasticache.html" class="link title  link-elasticache">Elasticache</a>
                 </li>
-                <li class="menu-item -level-2"><a href="misc.html" class="link title  link-misc">Miscellaneous</a>
+                <li class="menu-item -level-2"><a href="misc.html" class="link title -active link-misc">Miscellaneous</a>
+                  <ul class="headings heading-list">
+                    <li class="heading-item -depth-2"><a href="#version" class="hlink link-version">Version</a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </li>
