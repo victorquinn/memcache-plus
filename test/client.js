@@ -169,6 +169,7 @@ describe('Client', function() {
                         });
         });
 
+    
         it('works with very large values', function() {
             var key = getKey(), val = chance.word({ length: 1000000 });
 
@@ -573,6 +574,31 @@ describe('Client', function() {
             });
         });
     });
+
+    describe('cas and gets', function() {
+        var cache;
+        before(function() {
+            cache = new Client();
+        });
+
+        it('exists', function() {
+            cache.should.have.property('gets');
+        });
+
+        it('should return a cas value', function() {
+            var key = getKey(), val = chance.word();
+
+            return cache.set(key, val)
+                        .then(function() {
+                            return cache.gets(key);
+                        })
+                        .spread(function(v, cas) {
+                            val.should.equal(v);
+                            expect(cas).to.exist;
+                        });
+        });
+    });
+
     // @todo should have cleanup jobs to delete keys we set in memcache
     describe('delete', function() {
         var cache;
