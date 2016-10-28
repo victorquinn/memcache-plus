@@ -597,6 +597,67 @@ describe('Client', function() {
                             expect(cas).to.exist;
                         });
         });
+
+        it('should store new value when given a matching cas', function() {
+            var key = getKey(), val = chance.word(), updatedVal = chance.word();
+
+            return cache.set(key, val)
+                        .then(function() {
+                            return cache.gets(key);
+                        })
+                        .spread(function(v, cas) {
+                            return cache.cas(key, updatedVal, cas);
+
+                        }).then(function(success) {
+                            expect(success).to.be.true;
+
+                            return cache.get(key);
+
+                        }).then(function(v) {
+                            expect(v).to.equal(updatedVal);
+
+                        });
+        });
+
+        it('should not store the new value when given an invalid cas value', function() {
+            var key = getKey(), val = chance.word(), updatedVal = chance.word();
+
+            return cache.set(key, val)
+                        .then(function() {
+                            return cache.gets(key);
+                        })
+                        .spread(function(v, cas) {
+                            var invalidCas;
+                            
+                            do {
+                              invalidCas = chance.string({pool: '0123456789', length: 15});
+                            } while (invalidCas === cas);
+
+                            return cache.cas(key, updatedVal, invalidCas);
+
+                        }).then(function(success) {
+                            expect(success).to.be.false;
+
+                        });
+        });
+
+        it('should not store a value when given an invalid key value', function() {
+            var key = getKey(), invalidKey = getKey(),
+                val = chance.word(), updatedVal = chance.word();
+
+            return cache.set(key, val)
+                        .then(function() {
+                            return cache.gets(key);
+                        })
+                        .spread(function(v, cas) {
+                            
+                            return cache.cas(invalidKey, updatedVal, cas);
+
+                        }).then(function(success) {
+                            expect(success).to.be.false;
+
+                        });
+        });
     });
 
     // @todo should have cleanup jobs to delete keys we set in memcache
