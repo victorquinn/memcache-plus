@@ -15,6 +15,7 @@ before_script:
   - npm install -g grunt-cli
 
 script:
+  - grunt test
   - ./node_modules/.bin/docpress build
 
 after_success:
