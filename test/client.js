@@ -169,6 +169,17 @@ describe('Client', function() {
                         });
         });
 
+        it('works with values with newlines', function() {
+            var key = getKey(), val = 'value\nwith newline';
+
+            return cache.set(key, val)
+                .then(function() {
+                    return cache.get(key);
+                })
+                .then(function(v) {
+                    val.should.equal(v);
+                });
+        });
     
         it('works with very large values', function() {
             var key = getKey(), val = chance.word({ length: 1000000 });
