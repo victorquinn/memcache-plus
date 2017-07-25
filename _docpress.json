@@ -365,6 +365,7 @@
     "index.html": {
       "source": "README.md",
       "title": "Memcache Plus",
+      "pageTitle": "Memcache Plus",
       "slug": "index",
       "headings": [
         {
@@ -376,7 +377,8 @@
     },
     "intro.html": {
       "source": "docs/intro.md",
-      "title": "Getting Started",
+      "title": "Getting Started - Memcache Plus",
+      "pageTitle": "Getting Started",
       "slug": "intro",
       "headings": [
         {
@@ -393,7 +395,8 @@
     },
     "initialization.html": {
       "source": "docs/initialization.md",
-      "title": "Initialization",
+      "title": "Initialization - Memcache Plus",
+      "pageTitle": "Initialization",
       "slug": "initialization",
       "headings": [
         {
@@ -425,7 +428,8 @@
     },
     "set.html": {
       "source": "docs/set.md",
-      "title": "Set",
+      "title": "Set - Memcache Plus",
+      "pageTitle": "Set",
       "slug": "set",
       "headings": [
         {
@@ -472,7 +476,8 @@
     },
     "get.html": {
       "source": "docs/get.md",
-      "title": "Get",
+      "title": "Get - Memcache Plus",
+      "pageTitle": "Get",
       "slug": "get",
       "headings": [
         {
@@ -499,12 +504,14 @@
     },
     "getmulti.html": {
       "source": "docs/getmulti.md",
-      "title": "Get Multi",
+      "title": "Get Multi - Memcache Plus",
+      "pageTitle": "Get Multi",
       "slug": "getmulti"
     },
     "delete.html": {
       "source": "docs/delete.md",
-      "title": "Delete",
+      "title": "Delete - Memcache Plus",
+      "pageTitle": "Delete",
       "slug": "delete",
       "headings": [
         {
@@ -521,7 +528,8 @@
     },
     "incrdecr.html": {
       "source": "docs/incrdecr.md",
-      "title": "Incr/Decr",
+      "title": "Incr/Decr - Memcache Plus",
+      "pageTitle": "Incr/Decr",
       "slug": "incrdecr",
       "headings": [
         {
@@ -543,7 +551,8 @@
     },
     "appendprepend.html": {
       "source": "docs/appendprepend.md",
-      "title": "Append/Prepend",
+      "title": "Append/Prepend - Memcache Plus",
+      "pageTitle": "Append/Prepend",
       "slug": "appendprepend",
       "headings": [
         {
@@ -580,7 +589,8 @@
     },
     "add.html": {
       "source": "docs/add.md",
-      "title": "Add",
+      "title": "Add - Memcache Plus",
+      "pageTitle": "Add",
       "slug": "add",
       "headings": [
         {
@@ -602,7 +612,8 @@
     },
     "replace.html": {
       "source": "docs/replace.md",
-      "title": "Replace",
+      "title": "Replace - Memcache Plus",
+      "pageTitle": "Replace",
       "slug": "replace",
       "headings": [
         {
@@ -624,7 +635,8 @@
     },
     "flush.html": {
       "source": "docs/flush.md",
-      "title": "Flush",
+      "title": "Flush - Memcache Plus",
+      "pageTitle": "Flush",
       "slug": "flush",
       "headings": [
         {
@@ -646,7 +658,8 @@
     },
     "items.html": {
       "source": "docs/items.md",
-      "title": "Items",
+      "title": "Items - Memcache Plus",
+      "pageTitle": "Items",
       "slug": "items",
       "headings": [
         {
@@ -663,7 +676,8 @@
     },
     "disconnect.html": {
       "source": "docs/disconnect.md",
-      "title": "Disconnect",
+      "title": "Disconnect - Memcache Plus",
+      "pageTitle": "Disconnect",
       "slug": "disconnect",
       "headings": [
         {
@@ -680,7 +694,8 @@
     },
     "elasticache.html": {
       "source": "docs/elasticache.md",
-      "title": "Elasticache",
+      "title": "Elasticache - Memcache Plus",
+      "pageTitle": "Elasticache",
       "slug": "elasticache",
       "headings": [
         {
@@ -692,7 +707,8 @@
     },
     "misc.html": {
       "source": "docs/misc.md",
-      "title": "Miscellaneous",
+      "title": "Miscellaneous - Memcache Plus",
+      "pageTitle": "Miscellaneous",
       "slug": "misc",
       "headings": [
         {

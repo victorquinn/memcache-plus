@@ -2,14 +2,72 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="assets/style.css?t=a44c9e9d">
-    <script src="assets/script.js?t=2bcc4b59"></script>
-    <title>Set</title>
+    <link rel="stylesheet" href="assets/style.css?t=615badd5">
+    <script src="assets/script.js?t=36f3d457"></script>
+    <title>Set - Memcache Plus</title>
     <meta name="viewport" content="width=device-width">
   </head>
   <body class="-menu-visible">
     <div class="doc-layout">
       <div class="toggle menu-toggle js-menu-toggle"></div>
+      <div class="menu toc-menu">
+        <li class="menu-item -level-0 -parent">
+          <ul class="submenu">
+            <li class="menu-item -level-1 -parent"><a class="link title  link-index" href="index.html">Memcache Plus</a>
+              <ul class="submenu">
+                <li class="menu-item -level-2"><a class="link title  link-intro" href="intro.html">Getting Started</a>
+                </li>
+                <li class="menu-item -level-2"><a class="link title  link-initialization" href="initialization.html">Initialization</a>
+                </li>
+                <li class="menu-item -level-2"><a class="link title -active link-set" href="set.html">Set</a>
+                  <ul class="headings heading-list">
+                    <li class="heading-item -depth-3"><a class="hlink link-basic-case" href="#basic-case">Basic case</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a class="hlink link-arguments" href="#arguments">Arguments</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a class="hlink link-key-must-be-a-string" href="#key-must-be-a-string">Key must be a string</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a class="hlink link-value-can-be-of-any-type" href="#value-can-be-of-any-type">Value can be of any type</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a class="hlink link-ttl" href="#ttl">TTL</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a class="hlink link-callbacks" href="#callbacks">Callbacks</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a class="hlink link-compression" href="#compression">Compression</a>
+                    </li>
+                    <li class="heading-item -depth-3"><a class="hlink link-errors" href="#errors">Errors</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item -level-2"><a class="link title  link-get" href="get.html">Get</a>
+                </li>
+                <li class="menu-item -level-2"><a class="link title  link-getmulti" href="getmulti.html">Get Multi</a>
+                </li>
+                <li class="menu-item -level-2"><a class="link title  link-delete" href="delete.html">Delete</a>
+                </li>
+                <li class="menu-item -level-2"><a class="link title  link-incrdecr" href="incrdecr.html">Incr/Decr</a>
+                </li>
+                <li class="menu-item -level-2"><a class="link title  link-appendprepend" href="appendprepend.html">Append/Prepend</a>
+                </li>
+                <li class="menu-item -level-2"><a class="link title  link-add" href="add.html">Add</a>
+                </li>
+                <li class="menu-item -level-2"><a class="link title  link-replace" href="replace.html">Replace</a>
+                </li>
+                <li class="menu-item -level-2"><a class="link title  link-flush" href="flush.html">Flush</a>
+                </li>
+                <li class="menu-item -level-2"><a class="link title  link-items" href="items.html">Items</a>
+                </li>
+                <li class="menu-item -level-2"><a class="link title  link-disconnect" href="disconnect.html">Disconnect</a>
+                </li>
+                <li class="menu-item -level-2"><a class="link title  link-elasticache" href="elasticache.html">Elasticache</a>
+                </li>
+                <li class="menu-item -level-2"><a class="link title  link-misc" href="misc.html">Miscellaneous</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </div>
       <div class="body page-set">
         <div class="header-nav">
           <div class="right">
@@ -35,7 +93,7 @@ The fourth is only present if there is a third argument for ttl or options and a
 <p>Non-string keys are not allowed and Memcache Plus will throw an error if you
 try to provide a non-string key.</p>
 <pre><code class="lang-javascript">client
-    .set({ foo: <span class="pl-s">&apos;bar&apos;</span> }, myVal)
+    .set({ <span class="hljs-attr">foo</span>: <span class="pl-s">&apos;bar&apos;</span> }, myVal)
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
         <span class="pl-c">// This will never happen because an error will be thrown</span>
     })
@@ -50,8 +108,8 @@ try to provide a non-string key.</p>
 the Memcached server and converting it back upon retrieval.</p>
 <p>For instance, with Memcache Plus you can go ahead and set an object</p>
 <pre><code class="lang-javascript"><span class="pl-k">var</span> myVal = {
-    firstName: <span class="pl-s">&apos;Victor&apos;</span>,
-    lastName: <span class="pl-s">&apos;Quinn&apos;</span>
+    <span class="hljs-attr">firstName</span>: <span class="pl-s">&apos;Victor&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="pl-s">&apos;Quinn&apos;</span>
 };
 
 client
@@ -89,7 +147,7 @@ like most of the other Memcache modules out there. For example:</p>
 </code></pre>
 <h3 id="compression">Compression</h3>
 <p>Optionally you can request that compression be enabled for a given item:</p>
-<pre><code class="lang-javascript">client.set(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>, { compressed: <span class="pl-c1">true</span> })
+<pre><code class="lang-javascript">client.set(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>, { <span class="hljs-attr">compressed</span>: <span class="pl-c1">true</span> })
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully set the key firstName as compressed data&apos;</span>);
     });
@@ -128,64 +186,6 @@ is too large, trying to <code>set()</code> with a key that is too long, and many
           <div class="left"><a href="initialization.html"><span class="title">Initialization</span></a></div>
           <div class="right"><a href="get.html"><span class="label">Next: </span><span class="title">Get</span></a></div>
         </div>
-      </div>
-      <div class="menu toc-menu">
-        <li class="menu-item -level-0 -parent">
-          <ul class="submenu">
-            <li class="menu-item -level-1 -parent"><a href="index.html" class="link title  link-index">Memcache Plus</a>
-              <ul class="submenu">
-                <li class="menu-item -level-2"><a href="intro.html" class="link title  link-intro">Getting Started</a>
-                </li>
-                <li class="menu-item -level-2"><a href="initialization.html" class="link title  link-initialization">Initialization</a>
-                </li>
-                <li class="menu-item -level-2"><a href="set.html" class="link title -active link-set">Set</a>
-                  <ul class="headings heading-list">
-                    <li class="heading-item -depth-3"><a href="#basic-case" class="hlink link-basic-case">Basic case</a>
-                    </li>
-                    <li class="heading-item -depth-3"><a href="#arguments" class="hlink link-arguments">Arguments</a>
-                    </li>
-                    <li class="heading-item -depth-3"><a href="#key-must-be-a-string" class="hlink link-key-must-be-a-string">Key must be a string</a>
-                    </li>
-                    <li class="heading-item -depth-3"><a href="#value-can-be-of-any-type" class="hlink link-value-can-be-of-any-type">Value can be of any type</a>
-                    </li>
-                    <li class="heading-item -depth-3"><a href="#ttl" class="hlink link-ttl">TTL</a>
-                    </li>
-                    <li class="heading-item -depth-3"><a href="#callbacks" class="hlink link-callbacks">Callbacks</a>
-                    </li>
-                    <li class="heading-item -depth-3"><a href="#compression" class="hlink link-compression">Compression</a>
-                    </li>
-                    <li class="heading-item -depth-3"><a href="#errors" class="hlink link-errors">Errors</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="menu-item -level-2"><a href="get.html" class="link title  link-get">Get</a>
-                </li>
-                <li class="menu-item -level-2"><a href="getmulti.html" class="link title  link-getmulti">Get Multi</a>
-                </li>
-                <li class="menu-item -level-2"><a href="delete.html" class="link title  link-delete">Delete</a>
-                </li>
-                <li class="menu-item -level-2"><a href="incrdecr.html" class="link title  link-incrdecr">Incr/Decr</a>
-                </li>
-                <li class="menu-item -level-2"><a href="appendprepend.html" class="link title  link-appendprepend">Append/Prepend</a>
-                </li>
-                <li class="menu-item -level-2"><a href="add.html" class="link title  link-add">Add</a>
-                </li>
-                <li class="menu-item -level-2"><a href="replace.html" class="link title  link-replace">Replace</a>
-                </li>
-                <li class="menu-item -level-2"><a href="flush.html" class="link title  link-flush">Flush</a>
-                </li>
-                <li class="menu-item -level-2"><a href="items.html" class="link title  link-items">Items</a>
-                </li>
-                <li class="menu-item -level-2"><a href="disconnect.html" class="link title  link-disconnect">Disconnect</a>
-                </li>
-                <li class="menu-item -level-2"><a href="elasticache.html" class="link title  link-elasticache">Elasticache</a>
-                </li>
-                <li class="menu-item -level-2"><a href="misc.html" class="link title  link-misc">Miscellaneous</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
       </div>
     </div>
   </body>
