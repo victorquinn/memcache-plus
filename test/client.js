@@ -143,7 +143,7 @@ describe('Client', function() {
 
         describe('should throw an error if called', function() {
             it('without a key', function() {
-                expect(function() { cache.set(); }).to.throw('Cannot set without key!');
+                expect(function() { cache.set(); }).to.throw('AssertionError: Cannot "set" without key!');
             });
 
             it('with a key that is too long', function() {
@@ -818,7 +818,7 @@ describe('Client', function() {
 
         describe('should throw an error if called', function() {
             it('without a key', function() {
-                expect(function() { cache.incr(); }).to.throw('Cannot incr without key!');
+                expect(function() { cache.incr(); }).to.throw('AssertionError: Cannot "incr" without key!');
             });
 
             it('with a key that is too long', function() {
@@ -874,7 +874,7 @@ describe('Client', function() {
 
         describe('should throw an error if called', function() {
             it('without a key', function() {
-                expect(function() { cache.decr(); }).to.throw('Cannot decr without key!');
+                expect(function() { cache.decr(); }).to.throw('AssertionError: Cannot "decr" without key!');
             });
 
             it('with a key that is too long', function() {
@@ -988,7 +988,7 @@ describe('Client', function() {
 
         describe('should throw an error if called', function() {
             it('without a key', function() {
-                expect(function() { cache.add(); }).to.throw('Cannot add without key!');
+                expect(function() { cache.add(); }).to.throw('AssertionError: Cannot "add" without key!');
             });
 
             it('with a key that is too long', function() {
@@ -1041,7 +1041,7 @@ describe('Client', function() {
 
         describe('should throw an error if called', function() {
             it('without a key', function() {
-                expect(function() { cache.replace(); }).to.throw('Cannot replace without key!');
+                expect(function() { cache.replace(); }).to.throw('AssertionError: Cannot "replace" without key!');
             });
 
             it('with a key that is too long', function() {
@@ -1094,7 +1094,7 @@ describe('Client', function() {
 
         describe('should throw an error if called', function() {
             it('without a key', function() {
-                expect(function() { cache.append(); }).to.throw('Cannot append without key!');
+                expect(function() { cache.append(); }).to.throw('AssertionError: Cannot "append" without key!');
             });
 
             it('with a key that is too long', function() {
@@ -1147,7 +1147,7 @@ describe('Client', function() {
 
         describe('should throw an error if called', function() {
             it('without a key', function() {
-                expect(function() { cache.prepend(); }).to.throw('Cannot prepend without key!');
+                expect(function() { cache.prepend(); }).to.throw('AssertionError: Cannot "prepend" without key!');
             });
 
             it('with a key that is too long', function() {
@@ -1272,4 +1272,11 @@ describe('Client', function() {
             });
         });
     });
+
+    after(function() {
+        var cache = new Client();
+
+        // Clean up all of the keys we created
+        return cache.deleteMulti(keys);
+    });    
 });
