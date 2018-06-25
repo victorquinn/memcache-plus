@@ -129,6 +129,29 @@ describe('Client', function() {
                 });
         });
         */
+
+        it('throws on autodiscovery failure', function() {
+            var cache = new Client({ hosts: ['badserver:11211'], autodiscover: true });
+            var val = chance.word();
+
+            return cache.set('test', val)
+                .then(function() { throw new Error('should not get here'); })
+                .catch(function(err) {
+                    err.should.be.ok;
+                    err.should.be.an.instanceof(Error);
+                    err.message.should.match(/Autodiscovery failed/);
+                })
+                .then(function() {
+                    // try again to ensure that subsequent ops also fail
+                    return cache.set('test', val);
+                })
+                .then(function() { throw new Error('should not get here'); })
+                .catch(function(err) {
+                    err.should.be.ok;
+                    err.should.be.an.instanceof(Error);
+                    err.message.should.match(/Autodiscovery failed/);
+                });
+        });
     });
 
     describe('set and get', function() {
