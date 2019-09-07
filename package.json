@@ -1,6 +1,6 @@
 {
   "name": "memcache-plus",
-  "version": "0.2.19",
+  "version": "0.2.20",
   "description": "Better memcache for node",
   "main": "index.js",
   "scripts": {
