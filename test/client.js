@@ -298,6 +298,20 @@ describe('Client', function() {
             });
         });
 
+        describe('with namespace', function () {
+            it('should work', function () {
+                var key = getKey(), ns = getKey(), val = chance.word();
+
+                return cache.set(key, val, { namespace: ns })
+                    .then(function () {
+                        return cache.get(key, { namespace: ns });
+                    })
+                    .then(function (v) {
+                        val.should.equal(v);
+                    });
+            });
+        });
+
         it('does not throw an error when setting a value number', function() {
             var key = chance.guid(), val = chance.natural();
 
@@ -1273,6 +1287,63 @@ describe('Client', function() {
                     expect(data.length).to.equal(1);
                     done();
                 });
+            });
+        });
+    });
+
+
+    describe('namespace', function () {
+        var cache;
+        var savedPrefix;
+        var namespace = getKey();
+        beforeEach(function () {
+            cache = new Client();
+        });
+
+
+        describe('getNamespacePrefix', function () {
+            it('exists', function () {
+                return cache.should.have.property('getNamespacePrefix');
+            });
+
+            it('when namespace is not already set', function () {
+                return cache.getNamespacePrefix(namespace).then(function(prefix) {
+                    expect(prefix).to.be.a('number');
+                    savedPrefix = prefix;
+                });
+            });
+
+            it('when namespace is already set', function () {
+                return cache.getNamespacePrefix(namespace).then(function(prefix) {
+                    expect(prefix).to.equal(savedPrefix);
+                });
+            });
+        });
+
+        describe('invalidateNamespace', function () {
+            it('exists', function () {
+                return cache.should.have.property('invalidateNamespace');
+            });
+
+            it('should invalidate previously stored keys', function () {
+                var key = getKey(), ns = getKey(), val = chance.word();
+
+                return cache.set(key, val, { namespace: ns })
+                    .then(function () {
+                        return cache.get(key, { namespace: ns });
+                    })
+                    .then(function (v) {
+                        val.should.equal(v);
+                    })
+                    .then(function() {
+                        return cache.invalidateNamespace(ns);
+                    })
+                    .then(function () {
+                        return cache.get(key, { namespace: ns });
+                    })
+                    .then(function (v) {
+                        expect(v).to.be.null;
+                    });
             });
         });
     });
