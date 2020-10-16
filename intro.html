@@ -67,9 +67,9 @@
 <p><a href="https://nodei.co/npm/memcache-plus?downloads=true"><img src="https://nodei.co/npm/memcache-plus.png?downloads=true" alt="NPM"></a></p>
 <h2 id="usage">Usage</h2>
 <p>After installing, it&apos;s easy to start using Memcache Plus:</p>
-<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
+<pre><code class="lang-javascript"><span class="pl-k">const</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>)
 
-<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus();
+<span class="pl-k">const</span> client = <span class="pl-k">new</span> MemcachePlus()
 </code></pre>
 <p>Instantiating the client will automatically establish a connection between your
 running application and your Memcache server.</p>
@@ -79,6 +79,10 @@ running application and your Memcache server.</p>
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">value</span>) </span>{
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;my-key has a value of &apos;</span>, value);
     });
+</code></pre>
+<p>or with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-k">const</span> value = <span class="pl-k">await</span> client.get(<span class="pl-s">&apos;my-key&apos;</span>)
+<span class="pl-c1">console</span>.log(<span class="pl-s">`my-key has a value of <span class="hljs-subst">${ value }</span>`</span>)
 </code></pre>
 
         </div>
