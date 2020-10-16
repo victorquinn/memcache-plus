@@ -4,7 +4,8 @@
   "description": "Better memcache for node",
   "main": "index.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "build": "docpress build"
   },
   "repository": {
     "type": "git",
