@@ -8,9 +8,9 @@ Below is a description of the options and some details about initialization.
 
 ## Kicking it off
 ```javascript
-var MemcachePlus = require('memcache-plus');
+const MemcachePlus = require('memcache-plus')
 
-var client = new MemcachePlus();
+const client = new MemcachePlus()
 ```
 
 Instantiating the client will automatically establish a connection between your
@@ -27,10 +27,10 @@ If you do not specify a host, Memcache Plus will default to connecting to
 You can optionally provide a host as a single string argument.
 
 ```javascript
-var MemcachePlus = require('memcache-plus');
+const MemcachePlus = require('memcache-plus')
 
 // Will initiate a connection to 'my-memcache-server.com' on port 11211
-var client = new MemcachePlus('my-memcache-server.com');
+const client = new MemcachePlus('my-memcache-server.com')
 ```
 
 If you do not specify a port with the host, Memcache Plus will attempt to
@@ -40,10 +40,10 @@ You can also specify a port if for some reason your Memcached is running on
 some other port:
 
 ```javascript
-var MemcachePlus = require('memcache-plus');
+const MemcachePlus = require('memcache-plus')
 
 // Will initiate a connection to 'my-memcache-server.com' on port 12345
-var client = new MemcachePlus('my-memcache-server.com:12345');
+const client = new MemcachePlus('my-memcache-server.com:12345')
 ```
 
 #### As an array
@@ -53,28 +53,28 @@ More details on connecting to multiple hosts below, but the following will make
 this happen:
 
 ```javascript
-var MemcachePlus = require('memcache-plus');
+const MemcachePlus = require('memcache-plus')
 
 // Will initiate connections to both 'my-memcache-server1.com' and
 // 'my-memcache-server2.com' on port 11211
-var client = new MemcachePlus([
+const client = new MemcachePlus([
     'my-memcache-server1.com',
     'my-memcache-server2.com'
-]);
+])
 ```
 
 You can also specify ports if your Memcached servers are running on a
 non-default port:
 
 ```javascript
-var MemcachePlus = require('memcache-plus');
+const MemcachePlus = require('memcache-plus')
 
 // Will initiate connections to both 'my-memcache-server1.com' and
 // 'my-memcache-server2.com' on port 12345
-var client = new MemcachePlus([
+const client = new MemcachePlus([
     'my-memcache-server1.com:12345',
     'my-memcache-server2.com:12345'
-]);
+])
 ```
 
 
@@ -83,13 +83,13 @@ Below we'll lay out the available options, but one of them is a key of `hosts`
 and you can provide an array of hosts to which you'd like to connect.
 
 ```javascript
-var MemcachePlus = require('memcache-plus');
+const MemcachePlus = require('memcache-plus')
 
 // Will initiate connections to both 'my-memcache-server1.com' and
 // 'my-memcache-server2.com' on port 11211
-var client = new MemcachePlus({
+const client = new MemcachePlus({
     hosts: [ 'my-memcache-server1.com', 'my-memcache-server2.com' ]
-});
+})
 ```
 
 This is useful in case you also want to specify other options.
@@ -103,12 +103,12 @@ multiple servers. It is easy, simply specify multiple hosts when connecting and
 Memcache Plus will automatically handle the rest!
 
 ```javascript
-var MemcachePlus = require('memcache-plus');
+const MemcachePlus = require('memcache-plus')
 
-var client = new MemcachePlus({
+const client = new MemcachePlus({
     // Specify 3 hosts
     hosts: ['10.0.0.1', '10.0.0.2', '10.0.0.3']
-});
+})
 ```
 If you've using Amazon's Elasticache for your Memcache hosting, you can also
 enable [Auto Discovery](elasticache.md) and Memcache Plus will automatically
@@ -147,7 +147,7 @@ object containing any of the following options (default values in parentheses):
 |`disabled` | `false` | Whether or not Memcache is disabled. If it is disabled, all of the commands will simply return `null` as if the key does not exist |
 |`hosts` | `null` | The list of hosts to connect to. Can be a string for a single host or an array for multiple hosts. If none provided, defaults to `localhost` |
 |`maxValueSize`|1048576| The max value that can be stored, in bytes. This is configurable on the Memcached server but this library will help prevent you from storing objects over the default size in Memcache. If you have increased this limit on your server, you'll need to increase it here as well before setting anything over the default limit. |
-|`onNetError`| `function onNetError(err) { console.error(err); }`| Function to call in the event of a network error. |
+|`onNetError`| `function onNetError(err) { console.error(err)
 |`queue`| `true` | Whether or not to queue commands issued before a connection is established or if the connection is dropped momentarily. |
 |`netTimeout`|500| Number of milliseconds to wait before assuming there is a network timeout. |
 |`reconnect` | `true` | Whether or not to automatically reconnect if the connection is lost. Memcache Plus includes an exponential backoff to prevent it from spamming a server that is offline |
@@ -155,12 +155,12 @@ object containing any of the following options (default values in parentheses):
 Example:
 
 ```javascript
-var MemcachePlus = require('memcache-plus');
+const MemcachePlus = require('memcache-plus')
 
-var client = new MemcachePlus({
+const client = new MemcachePlus({
     // Specify 2 hosts
     hosts: ['10.0.0.1', '10.0.0.2'],
     // Decrease the netTimeout from the 500ms default to 200ms
     netTimeout: 200
-});
+})
 ```

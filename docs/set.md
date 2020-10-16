@@ -13,6 +13,13 @@ client
     });
 ```
 
+or with async/await
+
+```javascript
+await client.set('firstName', 'Victor')
+console.log('Successfully set the key firstName')
+```
+
 ### Arguments
 
 `set()` requires 2 arguments and could have up to 4.
@@ -39,6 +46,18 @@ client
     });
 ```
 
+or with async/await
+
+```javascript
+try {
+    await client.set({ foo: 'bar' }, myVal)
+    // This will never happen because an error will be thrown
+} catch (err) {
+    // This will get hit!
+    console.error('Oops we have an error', err);
+}
+```
+
 ### Value can be of any type
 
 The value can be of any type (numeric, string, object, array, null, etc.)
@@ -61,6 +80,18 @@ client
     });
 ```
 
+or with async/await
+
+```javascript
+var myVal = {
+    firstName: 'Victor',
+    lastName: 'Quinn',
+}
+
+await client.set('user', myVal)
+console.log('Successfully set the object')
+```
+
 Then when you get it out it'll be an object:
 
 ```javascript
@@ -71,6 +102,14 @@ client
         // { firstName: 'Victor', lastName: 'Quinn' }
         console.log('Successfully got the object', user);
     });
+```
+with async/await
+
+```javascript
+let user = await client.get('user')
+// The user is a JS object:
+// { firstName: 'Victor', lastName: 'Quinn' }
+console.log('Successfully got the object', user)
 ```
 
 Same goes for numbers, arrays, etc. Memcache Plus will always return the exact
@@ -84,7 +123,7 @@ long (in seconds) that object persists before it is automatically purged from th
 For example, to set a value that will stay around in the cache for only 10 seconds:
 
 ```javascript
-client.set('firstName', 'Victor', 10);
+client.set('firstName', 'Victor', 10)
 ```
 
 If you perform a `get()` within 10 seconds for `firstName`, you'll get back
@@ -98,8 +137,8 @@ like most of the other Memcache modules out there. For example:
 
 ```javascript
 client.set('firstName', 'Victor', function(err) {
-    console.log('Successfully set the key firstName');
-});
+    console.log('Successfully set the key firstName')
+})
 ```
 
 ### Compression
@@ -112,6 +151,14 @@ client.set('firstName', 'Victor', { compressed: true })
         console.log('Successfully set the key firstName as compressed data');
     });
 ```
+
+or with async/await
+
+```javascript
+await client.set('firstName', 'Victor', { compressed: true })
+console.log('Successfully set the key firstName as compressed data')
+```
+
 By enabling this option, every key will be compressed with Node's
 [zlib](https://nodejs.org/api/zlib.html) library prior to being stored.
 
