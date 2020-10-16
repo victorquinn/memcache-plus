@@ -73,9 +73,9 @@ are connecting to along with a series of options which can alter the behavior of
 the library.</p>
 <p>Below is a description of the options and some details about initialization.</p>
 <h2 id="kicking-it-off">Kicking it off</h2>
-<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
+<pre><code class="lang-javascript"><span class="pl-k">const</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>)
 
-<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus();
+<span class="pl-k">const</span> client = <span class="pl-k">new</span> MemcachePlus()
 </code></pre>
 <p>Instantiating the client will automatically establish a connection between your
 running application and your Memcache server. Make sure you do not have a
@@ -85,54 +85,54 @@ firewall rule blocking port 11211 on your Memcache server.</p>
 <h2 id="specifying-a-host">Specifying a Host</h2>
 <h4 id="as-a-string">As a string</h4>
 <p>You can optionally provide a host as a single string argument.</p>
-<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
+<pre><code class="lang-javascript"><span class="pl-k">const</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>)
 
 <span class="pl-c">// Will initiate a connection to &apos;my-memcache-server.com&apos; on port 11211</span>
-<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus(<span class="pl-s">&apos;my-memcache-server.com&apos;</span>);
+<span class="pl-k">const</span> client = <span class="pl-k">new</span> MemcachePlus(<span class="pl-s">&apos;my-memcache-server.com&apos;</span>)
 </code></pre>
 <p>If you do not specify a port with the host, Memcache Plus will attempt to
 connect to port 11211, the default port.</p>
 <p>You can also specify a port if for some reason your Memcached is running on
 some other port:</p>
-<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
+<pre><code class="lang-javascript"><span class="pl-k">const</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>)
 
 <span class="pl-c">// Will initiate a connection to &apos;my-memcache-server.com&apos; on port 12345</span>
-<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus(<span class="pl-s">&apos;my-memcache-server.com:12345&apos;</span>);
+<span class="pl-k">const</span> client = <span class="pl-k">new</span> MemcachePlus(<span class="pl-s">&apos;my-memcache-server.com:12345&apos;</span>)
 </code></pre>
 <h4 id="as-an-array">As an array</h4>
 <p>You can optionally provide an array of hosts to connect to multiple.</p>
 <p>More details on connecting to multiple hosts below, but the following will make
 this happen:</p>
-<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
+<pre><code class="lang-javascript"><span class="pl-k">const</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>)
 
 <span class="pl-c">// Will initiate connections to both &apos;my-memcache-server1.com&apos; and</span>
 <span class="pl-c">// &apos;my-memcache-server2.com&apos; on port 11211</span>
-<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus([
+<span class="pl-k">const</span> client = <span class="pl-k">new</span> MemcachePlus([
     <span class="pl-s">&apos;my-memcache-server1.com&apos;</span>,
     <span class="pl-s">&apos;my-memcache-server2.com&apos;</span>
-]);
+])
 </code></pre>
 <p>You can also specify ports if your Memcached servers are running on a
 non-default port:</p>
-<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
+<pre><code class="lang-javascript"><span class="pl-k">const</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>)
 
 <span class="pl-c">// Will initiate connections to both &apos;my-memcache-server1.com&apos; and</span>
 <span class="pl-c">// &apos;my-memcache-server2.com&apos; on port 12345</span>
-<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus([
+<span class="pl-k">const</span> client = <span class="pl-k">new</span> MemcachePlus([
     <span class="pl-s">&apos;my-memcache-server1.com:12345&apos;</span>,
     <span class="pl-s">&apos;my-memcache-server2.com:12345&apos;</span>
-]);
+])
 </code></pre>
 <h4 id="as-options">As options</h4>
 <p>Below we&apos;ll lay out the available options, but one of them is a key of <code>hosts</code>
 and you can provide an array of hosts to which you&apos;d like to connect.</p>
-<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
+<pre><code class="lang-javascript"><span class="pl-k">const</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>)
 
 <span class="pl-c">// Will initiate connections to both &apos;my-memcache-server1.com&apos; and</span>
 <span class="pl-c">// &apos;my-memcache-server2.com&apos; on port 11211</span>
-<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus({
+<span class="pl-k">const</span> client = <span class="pl-k">new</span> MemcachePlus({
     <span class="hljs-attr">hosts</span>: [ <span class="pl-s">&apos;my-memcache-server1.com&apos;</span>, <span class="pl-s">&apos;my-memcache-server2.com&apos;</span> ]
-});
+})
 </code></pre>
 <p>This is useful in case you also want to specify other options.</p>
 <h2 id="connecting-to-multiple-hosts">Connecting to multiple hosts</h2>
@@ -140,12 +140,12 @@ and you can provide an array of hosts to which you&apos;d like to connect.</p>
 <p>In doing so, it will use a hash ring to handle even distribution of keys among
 multiple servers. It is easy, simply specify multiple hosts when connecting and
 Memcache Plus will automatically handle the rest!</p>
-<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
+<pre><code class="lang-javascript"><span class="pl-k">const</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>)
 
-<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus({
+<span class="pl-k">const</span> client = <span class="pl-k">new</span> MemcachePlus({
     <span class="pl-c">// Specify 3 hosts</span>
     hosts: [<span class="pl-s">&apos;10.0.0.1&apos;</span>, <span class="pl-s">&apos;10.0.0.2&apos;</span>, <span class="pl-s">&apos;10.0.0.3&apos;</span>]
-});
+})
 </code></pre>
 <p>If you&apos;ve using Amazon&apos;s Elasticache for your Memcache hosting, you can also
 enable <a href="elasticache.html">Auto Discovery</a> and Memcache Plus will automatically
@@ -209,8 +209,8 @@ object containing any of the following options (default values in parentheses):<
 </tr>
 <tr>
 <td><code>onNetError</code></td>
-<td><code>function onNetError(err) { console.error(err); }</code></td>
-<td>Function to call in the event of a network error.</td>
+<td>`function onNetError(err) { console.error(err)</td>
+<td></td>
 </tr>
 <tr>
 <td><code>queue</code></td>
@@ -230,14 +230,14 @@ object containing any of the following options (default values in parentheses):<
 </tbody>
 </table>
 <p>Example:</p>
-<pre><code class="lang-javascript"><span class="pl-k">var</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>);
+<pre><code class="lang-javascript"><span class="pl-k">const</span> MemcachePlus = <span class="pl-c1">require</span>(<span class="pl-s">&apos;memcache-plus&apos;</span>)
 
-<span class="pl-k">var</span> client = <span class="pl-k">new</span> MemcachePlus({
+<span class="pl-k">const</span> client = <span class="pl-k">new</span> MemcachePlus({
     <span class="pl-c">// Specify 2 hosts</span>
     hosts: [<span class="pl-s">&apos;10.0.0.1&apos;</span>, <span class="pl-s">&apos;10.0.0.2&apos;</span>],
     <span class="pl-c">// Decrease the netTimeout from the 500ms default to 200ms</span>
     netTimeout: <span class="hljs-number">200</span>
-});
+})
 </code></pre>
 
         </div>
