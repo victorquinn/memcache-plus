@@ -11,9 +11,9 @@ Memcache Plus is available on npm:
 After installing, it's easy to start using Memcache Plus:
 
 ```javascript
-var MemcachePlus = require('memcache-plus');
+const MemcachePlus = require('memcache-plus')
 
-var client = new MemcachePlus();
+const client = new MemcachePlus()
 ```
 
 Instantiating the client will automatically establish a connection between your
@@ -27,4 +27,11 @@ client
     .then(function(value) {
         console.log('my-key has a value of ', value);
     });
+```
+
+or with async/await
+
+```javascript
+const value = await client.get('my-key')
+console.log(`my-key has a value of ${ value }`)
 ```
