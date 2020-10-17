@@ -9,9 +9,17 @@ supply a key:
 client
     .delete('firstName')
     .then(function() {
-        console.log('Successfully deleted the value associated with key firstName');
-    });
+        console.log('Successfully deleted the value associated with key firstName')
+    })
 ```
+
+with async/await
+
+```javascript
+await client.delete('firstName')
+console.log('Successfully deleted the value associated with key firstName')
+```
+
 
 ### Delete Multi
 
@@ -26,5 +34,12 @@ client
     .then(function() {
         console.log('Successfully deleted all three values with the supplied keys');
     });
+```
+
+with async/await
+
+```javascript
+await client.deleteMulti(['firstName', 'middleName', 'lastName'])
+console.log('Successfully deleted all three values with the supplied keys')
 ```
 

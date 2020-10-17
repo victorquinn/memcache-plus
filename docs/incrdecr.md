@@ -5,7 +5,15 @@
 
 ```javascript
 // Increment myCountValue by 1, returns a promise
-client.incr('myCountValue');
+client.incr('myCountValue')
+```
+
+with async/await
+
+```javascript
+// Increment myCountValue by 1, wait for it
+await client.incr('myCountValue')
+console.log('myCountValue increased by 1')
 ```
 
 ## Decr
@@ -13,7 +21,15 @@ client.incr('myCountValue');
 
 ```javascript
 // Decrement myCountValue by 1, returns a promise
-client.decr('myCountValue');
+client.decr('myCountValue')
+```
+
+with async/await
+
+```javascript
+// Decrement myCountValue by 1, wait for it
+await client.decr('myCountValue')
+console.log('myCountValue decreased by 1')
 ```
 
 ## Notes
@@ -22,12 +38,12 @@ In cases where you just want to increase or decrease the value of an item, using
 incr/decr makes a lot more sense than performing a `get` then increasing or
 decreasing its value then performing a `set`.
 
-It is also helpful to eliminate race conditions. For example, if your Memcached
-server is shared by multiple hosts and multiple want to increment a key, you
-could have a scenario where both hosts perform the `get`, then increment then
-both perform the `set`. In this case where you'd expect the value to be
-incremented by 2, it may instead be incremented only by 1 because the two fought
-and neither won.
+It is also helpful to eliminate race conditions since it is an atomic operation.
+For example, if your Memcached server is shared by multiple hosts and multiple
+want to increment a key, you could have a scenario where both hosts perform the
+`get`, then increment then both perform the `set`. In this case where you'd
+expect the value to be incremented by 2, it may instead be incremented only by 1
+because the two fought and neither won.
 
 Using increment eliminates those kinds of race conditions since the whole thing
 is performed in a single Memcached command.
@@ -43,8 +59,16 @@ client
     .incr('myCountValue')
     .then(function(val) {
         // The new value will be exactly 1 more than the old one
-        console.log('the new value of myCountValue is', val);
-    });
+        console.log('the new value of myCountValue is', val)
+    })
+```
+
+with async/await
+
+```javascript
+const val = await client.incr('myCountValue')
+// The new value will be exactly 1 more than the old one
+console.log('the new value of myCountValue is', val)
 ```
 
 #### Can specify incr/decr amount
@@ -59,6 +83,14 @@ client
         // The new value will be exactly 5 less than the old one
         console.log('the new value of myCountValue is', val);
     });
+```
+
+with async/await
+
+```javascript
+const val = await client.decr('myCountValue', 5)
+// The new value will be exactly 5 less than the old one
+console.log('the new value of myCountValue is', val)
 ```
 
 #### Only works on numeric types

@@ -168,6 +168,11 @@ size. It is also helpful in situations where the memory allocated to your
 Memcache instance is limited, such as on a Raspberry Pi or some other embedded
 hardware.
 
+Note the maximum allowed value for a memcache item is set by the Memcached
+server and not something that can be tuned on the client alone. The default
+[is 1MB](https://docs.oracle.com/cd/E17952_01/mysql-5.6-en/ha-memcached-faq.html#faq-memcached-max-object-size)
+but it can be increased to up to 5MB
+
 For example, if your Memcache server is set with a limit of 1MB for a value and
 you attempt to store a 1.2MB object, the set will fail. However, enabling
 compression will cause the value to be compressed with zlib before it is stored

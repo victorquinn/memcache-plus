@@ -19,6 +19,17 @@ client
     });
 ```
 
+with async/await
+
+```javascript
+// Assuming you have a key called `milkshake` and it currently has the value
+//   `vanilla`
+
+await client.append('milkshake', ' malt')
+// now milkshake has a value of `vanilla malt`
+console.log('Successfully appended to the key milkshake')
+```
+
 ### Error if key doesn't yet exist
 
 If a key does not already exist and you try to use the `append` command,
@@ -27,27 +38,42 @@ Memcached will return an error which Memcache Plus will throw.
 ```javascript
 // If 'milkshake' does not already exist
 client
-    .replace('milkshake', ' malt')
+    .append('milkshake', ' malt')
     .then(function() {
         // This will not get hit because `append` will throw on error
-        console.log('Successfully replaced the key milkshake');
+        console.log('Successfully replaced the key milkshake')
     })
     .catch(function(err) {
         // Will print: 'Cannot "replace" for key "milkshake" because it does not exist'
-        console.error(err);
-    });
+        console.error(err)
+    })
+```
+
+with async/await
+
+```javascript
+try {
+    // If 'milkshake' does not already exist
+    await client.append('milkshake', ' malt')
+    // This will not get hit because `append` will throw on error
+    console.log('Successfully replaced the key milkshake')
+} catch (err) {
+    // Will print: 'Cannot "append" for key "milkshake" because it does not exist'
+    console.error(err)
+}
 ```
 
 ### Callbacks
 
-Memcache Plus will always return a [Promise](https://www.promisejs.org), but it
-can also take a traditional callback for any of its methods so it can work just
-like most of the other Memcache modules out there. For example:
+Memcache Plus will always return a [Promise](https://www.promisejs.org) which
+means it will work seamlessly with async/await as in many of the examples here
+but it can also take a traditional callback for any of its methods so it can work
+just like most of the other Memcache modules out there. For example:
 
 ```javascript
 client.append('milkshake', ' malt', function(err) {
     console.log('Successfully appended to the key milkshake');
-});
+})
 ```
 
 And if you try to append a key that does not already exist:
@@ -71,11 +97,22 @@ Will prepend data to the supplied key if and only if it already exists
 //   `meter`
 
 client
-    .prepend('meter', 'thermo')
+    .prepend('gauge', 'thermo')
     .then(function() {
-        // now milkshake has a value of `thermometer`
+        // now gauge has a value of `thermometer`
         console.log('Successfully prepended to the key meter');
     });
+```
+
+with async/await
+
+```javascript
+// Assuming you have a key called `gauge` and it currently has the value
+//   `meter`
+
+await client.prepend('gauge', 'thermo')
+// now gauge has a value of `thermometer`
+console.log('Successfully prepended to the key gauge')
 ```
 
 ### Error if key doesn't yet exist
@@ -86,7 +123,7 @@ Memcached will return an error which Memcache Plus will throw.
 ```javascript
 // If 'gauge' does not already exist
 client
-    .replace('gauge', 'thermo')
+    .prepend('gauge', 'thermo')
     .then(function() {
         // This will not get hit because `prepend` will throw on error
         console.log('Successfully replaced the key gauge');
@@ -95,6 +132,18 @@ client
         // Will print: 'Cannot "replace" for key "gauge" because it does not exist'
         console.error(err);
     });
+```
+
+```javascript
+// If 'gauge' does not already exist
+try {
+    await client.prepend('gauge', 'thermo')
+    // This will not get hit because `prepend` will throw on error
+    console.log('Successfully replaced the key gauge')
+} catch (err) {
+    // Will print: 'Cannot "prepend" for key "gauge" because it does not exist'
+    console.error(err)
+}
 ```
 
 ### Callbacks

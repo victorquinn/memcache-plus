@@ -8,8 +8,15 @@ Add sets a new value for a key if and only if that key doesn't already exist
 client
     .add('firstName', 'Victor')
     .then(function() {
-        console.log('Successfully added the key firstName');
-    });
+        console.log('Successfully added the key firstName')
+    })
+```
+
+with async/await
+
+```javascript
+await client.add('firstName', 'Victor')
+console.log('Successfully added the key firstName')
 ```
 
 ### Error if key already exists
@@ -29,6 +36,20 @@ client
         // Will print: 'Cannot "add" for key "firstName" because it already exists'
         console.error(err);
     });
+```
+
+with async/await
+
+```javascript
+// If 'firstName' already exists
+try {
+    await client.add('firstName', 'Victor')
+    // This will not get hit because `add` will throw on error
+    console.log('Successfully added the key firstName')
+} catch(err) {
+    // Will print: 'Cannot "add" for key "firstName" because it already exists'
+    console.error(err)
+}
 ```
 
 ### Callbacks

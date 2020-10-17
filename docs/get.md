@@ -13,6 +13,14 @@ client
     });
 ```
 
+or with async/await
+
+```javascript
+const firstName = await client.get('firstName')
+console.log(`Successfully got the key firstName: ${ firstName }`)
+// Would print: "Successfully got the key firstName: Victor"
+```
+
 Get takes 1 argument, the key, and it returns a Promise. It has an optional
 second argument which is an object to specify options for this retrieval.
 
@@ -29,6 +37,14 @@ client
         console.log('Successfully got the object: ', user);
         // Would print: "Successfully got the object: { firstName: 'Victor', lastName: 'Quinn' }"
     });
+```
+
+or with async/await
+
+```javascript
+const user = await client.get('user')
+console.log('Successfully got the object: ', user);
+// Would print: "Successfully got the object: { firstName: 'Victor', lastName: 'Quinn' }"
 ```
 
 ### Callbacks
@@ -59,6 +75,14 @@ client
     });
 ```
 
+with async/await
+
+```javascript
+const value = await client.get('keyThatDoesNotExist')
+console.log('The value is: ', value);
+// Would print: "The value is: null"
+```
+
 ### Compression
 
 If an item was written with `set()` with compression enabled, you can specify
@@ -71,6 +95,14 @@ client.get('firstName', { compressed: true })
         console.log('Successfully got the key firstName as compressed data: ', firstName);
         // Would print: "Successfully got the key firstName as compressed data: Victor"
     });
+```
+
+with async/await
+
+```javascript
+const firstName = await client.get('firstName', { compressed: true })
+console.log('Successfully got the key firstName as compressed data and automatically uncompressed it: ', firstName);
+// Would print: "Successfully got the key firstName as compressed data: Victor"
 ```
 
 However, compressed objects set by newer versions of Memcache Plus will

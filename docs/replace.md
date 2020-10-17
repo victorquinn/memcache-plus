@@ -8,8 +8,15 @@ Replace sets a new value for a key if and only if that key already exists
 client
     .replace('firstName', 'Victor')
     .then(function() {
-        console.log('Successfully replaced the value for the key firstName');
-    });
+        console.log('Successfully replaced the value for the key firstName')
+    })
+```
+
+with async/await
+
+```javascript
+await client.replace('firstName', 'Victor')
+console.log('Successfully replaced the value for the key firstName')
 ```
 
 ### Error if key does not already exist
