@@ -75,6 +75,11 @@
         <span class="pl-c">// Would print: &quot;Successfully got the key firstName: Victor&quot;</span>
     });
 </code></pre>
+<p>or with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-k">const</span> firstName = <span class="pl-k">await</span> client.get(<span class="pl-s">&apos;firstName&apos;</span>)
+<span class="pl-c1">console</span>.log(<span class="pl-s">`Successfully got the key firstName: <span class="hljs-subst">${ firstName }</span>`</span>)
+<span class="pl-c">// Would print: &quot;Successfully got the key firstName: Victor&quot;</span>
+</code></pre>
 <p>Get takes 1 argument, the key, and it returns a Promise. It has an optional
 second argument which is an object to specify options for this retrieval.</p>
 <p>The key must be a string. The value you get back from the resolution
@@ -87,6 +92,11 @@ object.</p>
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully got the object: &apos;</span>, user);
         <span class="pl-c">// Would print: &quot;Successfully got the object: { firstName: &apos;Victor&apos;, lastName: &apos;Quinn&apos; }&quot;</span>
     });
+</code></pre>
+<p>or with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-k">const</span> user = <span class="pl-k">await</span> client.get(<span class="pl-s">&apos;user&apos;</span>)
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully got the object: &apos;</span>, user);
+<span class="pl-c">// Would print: &quot;Successfully got the object: { firstName: &apos;Victor&apos;, lastName: &apos;Quinn&apos; }&quot;</span>
 </code></pre>
 <h3 id="callbacks">Callbacks</h3>
 <p>Memcache Plus will always return a <a href="https://www.promisejs.org">Promise</a>, but it
@@ -107,6 +117,11 @@ the value.</p>
         <span class="pl-c">// Would print: &quot;The value is: null&quot;</span>
     });
 </code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-k">const</span> value = <span class="pl-k">await</span> client.get(<span class="pl-s">&apos;keyThatDoesNotExist&apos;</span>)
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;The value is: &apos;</span>, value);
+<span class="pl-c">// Would print: &quot;The value is: null&quot;</span>
+</code></pre>
 <h3 id="compression">Compression</h3>
 <p>If an item was written with <code>set()</code> with compression enabled, you can specify
 that fact when retrieving the object or it will not be decompressed by Memcache
@@ -116,6 +131,11 @@ Plus:</p>
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully got the key firstName as compressed data: &apos;</span>, firstName);
         <span class="pl-c">// Would print: &quot;Successfully got the key firstName as compressed data: Victor&quot;</span>
     });
+</code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-k">const</span> firstName = <span class="pl-k">await</span> client.get(<span class="pl-s">&apos;firstName&apos;</span>, { <span class="hljs-attr">compressed</span>: <span class="pl-c1">true</span> })
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully got the key firstName as compressed data and automatically uncompressed it: &apos;</span>, firstName);
+<span class="pl-c">// Would print: &quot;Successfully got the key firstName as compressed data: Victor&quot;</span>
 </code></pre>
 <p>However, compressed objects set by newer versions of Memcache Plus will
 automatically be decompressed without having to provide this flag.</p>

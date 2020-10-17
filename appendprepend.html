@@ -84,28 +84,48 @@ client
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully appended to the key milkshake&apos;</span>);
     });
 </code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-c">// Assuming you have a key called `milkshake` and it currently has the value</span>
+<span class="pl-c">//   `vanilla`</span>
+
+<span class="pl-k">await</span> client.append(<span class="pl-s">&apos;milkshake&apos;</span>, <span class="pl-s">&apos; malt&apos;</span>)
+<span class="pl-c">// now milkshake has a value of `vanilla malt`</span>
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully appended to the key milkshake&apos;</span>)
+</code></pre>
 <h3 id="error-if-key-doesn&apos;t-yet-exist">Error if key doesn&apos;t yet exist</h3>
 <p>If a key does not already exist and you try to use the <code>append</code> command,
 Memcached will return an error which Memcache Plus will throw.</p>
 <pre><code class="lang-javascript"><span class="pl-c">// If &apos;milkshake&apos; does not already exist</span>
 client
-    .replace(<span class="pl-s">&apos;milkshake&apos;</span>, <span class="pl-s">&apos; malt&apos;</span>)
+    .append(<span class="pl-s">&apos;milkshake&apos;</span>, <span class="pl-s">&apos; malt&apos;</span>)
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
         <span class="pl-c">// This will not get hit because `append` will throw on error</span>
-        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully replaced the key milkshake&apos;</span>);
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully replaced the key milkshake&apos;</span>)
     })
     .catch(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">err</span>) </span>{
         <span class="pl-c">// Will print: &apos;Cannot &quot;replace&quot; for key &quot;milkshake&quot; because it does not exist&apos;</span>
-        <span class="pl-c1">console</span>.error(err);
-    });
+        <span class="pl-c1">console</span>.error(err)
+    })
+</code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-k">try</span> {
+    <span class="pl-c">// If &apos;milkshake&apos; does not already exist</span>
+    <span class="pl-k">await</span> client.append(<span class="pl-s">&apos;milkshake&apos;</span>, <span class="pl-s">&apos; malt&apos;</span>)
+    <span class="pl-c">// This will not get hit because `append` will throw on error</span>
+    <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully replaced the key milkshake&apos;</span>)
+} <span class="pl-k">catch</span> (err) {
+    <span class="pl-c">// Will print: &apos;Cannot &quot;append&quot; for key &quot;milkshake&quot; because it does not exist&apos;</span>
+    <span class="pl-c1">console</span>.error(err)
+}
 </code></pre>
 <h3 id="callbacks">Callbacks</h3>
-<p>Memcache Plus will always return a <a href="https://www.promisejs.org">Promise</a>, but it
-can also take a traditional callback for any of its methods so it can work just
-like most of the other Memcache modules out there. For example:</p>
+<p>Memcache Plus will always return a <a href="https://www.promisejs.org">Promise</a> which
+means it will work seamlessly with async/await as in many of the examples here
+but it can also take a traditional callback for any of its methods so it can work
+just like most of the other Memcache modules out there. For example:</p>
 <pre><code class="lang-javascript">client.append(<span class="pl-s">&apos;milkshake&apos;</span>, <span class="pl-s">&apos; malt&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">err</span>) </span>{
     <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully appended to the key milkshake&apos;</span>);
-});
+})
 </code></pre>
 <p>And if you try to append a key that does not already exist:</p>
 <pre><code class="lang-javascript"><span class="pl-c">// If &apos;milkshake&apos; does not already exist</span>
@@ -121,18 +141,26 @@ client.append(<span class="pl-s">&apos;milkshake&apos;</span>, <span class="pl-s
 <span class="pl-c">//   `meter`</span>
 
 client
-    .prepend(<span class="pl-s">&apos;meter&apos;</span>, <span class="pl-s">&apos;thermo&apos;</span>)
+    .prepend(<span class="pl-s">&apos;gauge&apos;</span>, <span class="pl-s">&apos;thermo&apos;</span>)
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
-        <span class="pl-c">// now milkshake has a value of `thermometer`</span>
+        <span class="pl-c">// now gauge has a value of `thermometer`</span>
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully prepended to the key meter&apos;</span>);
     });
+</code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-c">// Assuming you have a key called `gauge` and it currently has the value</span>
+<span class="pl-c">//   `meter`</span>
+
+<span class="pl-k">await</span> client.prepend(<span class="pl-s">&apos;gauge&apos;</span>, <span class="pl-s">&apos;thermo&apos;</span>)
+<span class="pl-c">// now gauge has a value of `thermometer`</span>
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully prepended to the key gauge&apos;</span>)
 </code></pre>
 <h3 id="error-if-key-doesn&apos;t-yet-exist">Error if key doesn&apos;t yet exist</h3>
 <p>If a key does not already exist and you try to use the <code>prepend</code> command,
 Memcached will return an error which Memcache Plus will throw.</p>
 <pre><code class="lang-javascript"><span class="pl-c">// If &apos;gauge&apos; does not already exist</span>
 client
-    .replace(<span class="pl-s">&apos;gauge&apos;</span>, <span class="pl-s">&apos;thermo&apos;</span>)
+    .prepend(<span class="pl-s">&apos;gauge&apos;</span>, <span class="pl-s">&apos;thermo&apos;</span>)
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
         <span class="pl-c">// This will not get hit because `prepend` will throw on error</span>
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully replaced the key gauge&apos;</span>);
@@ -141,6 +169,16 @@ client
         <span class="pl-c">// Will print: &apos;Cannot &quot;replace&quot; for key &quot;gauge&quot; because it does not exist&apos;</span>
         <span class="pl-c1">console</span>.error(err);
     });
+</code></pre>
+<pre><code class="lang-javascript"><span class="pl-c">// If &apos;gauge&apos; does not already exist</span>
+<span class="pl-k">try</span> {
+    <span class="pl-k">await</span> client.prepend(<span class="pl-s">&apos;gauge&apos;</span>, <span class="pl-s">&apos;thermo&apos;</span>)
+    <span class="pl-c">// This will not get hit because `prepend` will throw on error</span>
+    <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully replaced the key gauge&apos;</span>)
+} <span class="pl-k">catch</span> (err) {
+    <span class="pl-c">// Will print: &apos;Cannot &quot;prepend&quot; for key &quot;gauge&quot; because it does not exist&apos;</span>
+    <span class="pl-c1">console</span>.error(err)
+}
 </code></pre>
 <h3 id="callbacks">Callbacks</h3>
 <p>Memcache Plus will always return a <a href="https://www.promisejs.org">Promise</a>, but it

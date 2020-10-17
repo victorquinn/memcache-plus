@@ -66,6 +66,8 @@
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully retrieved these 5 keys&apos;</span>);
     });
 </code></pre>
+<p>The above would also fire off 5 separate calls from your client to your Memcached
+server.</p>
 <p>Thankfully Memcache Plus provides a convenience method called <code>getMulti()</code> that
 will combine these into a single call:</p>
 <pre><code class="lang-javascript">client
@@ -73,6 +75,15 @@ will combine these into a single call:</p>
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">values</span>) </span>{
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully retrieved these 5 keys&apos;</span>);
     });
+</code></pre>
+<p>or with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-k">const</span> values = <span class="pl-k">await</span> client.getMulti([<span class="pl-s">&apos;hydrogen&apos;</span>, <span class="pl-s">&apos;helium&apos;</span>, <span class="pl-s">&apos;oxygen&apos;</span>, <span class="pl-s">&apos;carbon&apos;</span>, <span class="pl-s">&apos;nitrogen&apos;</span>])
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully retrieved these 5 keys&apos;</span>);
+
+<span class="pl-c">// You can also use destructuring if you&apos;d like to get each of these as their</span>
+<span class="pl-c">// own variable</span>
+<span class="pl-k">const</span> [hydrogen, lithium, sodium] = <span class="pl-k">await</span> client.get([<span class="pl-s">&apos;hydrogen&apos;</span>, <span class="pl-s">&apos;lithium&apos;</span>, <span class="pl-s">&apos;sodium&apos;</span>])
+<span class="pl-c1">console</span>.log(<span class="pl-s">`<span class="hljs-subst">${ hydrogen }</span> and <span class="hljs-subst">${ lithium }</span> and <span class="hljs-subst">${ sodium }</span>`</span>
 </code></pre>
 
         </div>

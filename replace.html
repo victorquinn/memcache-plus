@@ -69,8 +69,12 @@
 <pre><code class="lang-javascript">client
     .replace(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>)
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
-        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully replaced the value for the key firstName&apos;</span>);
-    });
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully replaced the value for the key firstName&apos;</span>)
+    })
+</code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-k">await</span> client.replace(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>)
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully replaced the value for the key firstName&apos;</span>)
 </code></pre>
 <h3 id="error-if-key-does-not-already-exist">Error if key does not already exist</h3>
 <p>If a key does not already exist and you try to use the <code>replace</code> command,

@@ -69,8 +69,12 @@
 <pre><code class="lang-javascript">client
     .add(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>)
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
-        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully added the key firstName&apos;</span>);
-    });
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully added the key firstName&apos;</span>)
+    })
+</code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-k">await</span> client.add(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>)
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully added the key firstName&apos;</span>)
 </code></pre>
 <h3 id="error-if-key-already-exists">Error if key already exists</h3>
 <p>If a key already exists and you try to use the <code>add</code> command, Memcached will
@@ -86,6 +90,17 @@ client
         <span class="pl-c">// Will print: &apos;Cannot &quot;add&quot; for key &quot;firstName&quot; because it already exists&apos;</span>
         <span class="pl-c1">console</span>.error(err);
     });
+</code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-c">// If &apos;firstName&apos; already exists</span>
+<span class="pl-k">try</span> {
+    <span class="pl-k">await</span> client.add(<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;Victor&apos;</span>)
+    <span class="pl-c">// This will not get hit because `add` will throw on error</span>
+    <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully added the key firstName&apos;</span>)
+} <span class="pl-k">catch</span>(err) {
+    <span class="pl-c">// Will print: &apos;Cannot &quot;add&quot; for key &quot;firstName&quot; because it already exists&apos;</span>
+    <span class="pl-c1">console</span>.error(err)
+}
 </code></pre>
 <h3 id="callbacks">Callbacks</h3>
 <p>Memcache Plus will always return a <a href="https://www.promisejs.org">Promise</a>, but it

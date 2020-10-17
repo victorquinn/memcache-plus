@@ -67,23 +67,33 @@
 <h2 id="incr">Incr</h2>
 <p><code>incr</code> can be used to increment the value of a given key in a single command.</p>
 <pre><code class="lang-javascript"><span class="pl-c">// Increment myCountValue by 1, returns a promise</span>
-client.incr(<span class="pl-s">&apos;myCountValue&apos;</span>);
+client.incr(<span class="pl-s">&apos;myCountValue&apos;</span>)
+</code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-c">// Increment myCountValue by 1, wait for it</span>
+<span class="pl-k">await</span> client.incr(<span class="pl-s">&apos;myCountValue&apos;</span>)
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;myCountValue increased by 1&apos;</span>)
 </code></pre>
 <h2 id="decr">Decr</h2>
 <p><code>decr</code> can be used to decrement the value of a given key in a single command.</p>
 <pre><code class="lang-javascript"><span class="pl-c">// Decrement myCountValue by 1, returns a promise</span>
-client.decr(<span class="pl-s">&apos;myCountValue&apos;</span>);
+client.decr(<span class="pl-s">&apos;myCountValue&apos;</span>)
+</code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-c">// Decrement myCountValue by 1, wait for it</span>
+<span class="pl-k">await</span> client.decr(<span class="pl-s">&apos;myCountValue&apos;</span>)
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;myCountValue decreased by 1&apos;</span>)
 </code></pre>
 <h2 id="notes">Notes</h2>
 <p>In cases where you just want to increase or decrease the value of an item, using
 incr/decr makes a lot more sense than performing a <code>get</code> then increasing or
 decreasing its value then performing a <code>set</code>.</p>
-<p>It is also helpful to eliminate race conditions. For example, if your Memcached
-server is shared by multiple hosts and multiple want to increment a key, you
-could have a scenario where both hosts perform the <code>get</code>, then increment then
-both perform the <code>set</code>. In this case where you&apos;d expect the value to be
-incremented by 2, it may instead be incremented only by 1 because the two fought
-and neither won.</p>
+<p>It is also helpful to eliminate race conditions since it is an atomic operation.
+For example, if your Memcached server is shared by multiple hosts and multiple
+want to increment a key, you could have a scenario where both hosts perform the
+<code>get</code>, then increment then both perform the <code>set</code>. In this case where you&apos;d
+expect the value to be incremented by 2, it may instead be incremented only by 1
+because the two fought and neither won.</p>
 <p>Using increment eliminates those kinds of race conditions since the whole thing
 is performed in a single Memcached command.</p>
 <h4 id="defaults-to-1">Defaults to 1</h4>
@@ -94,8 +104,13 @@ with the updated value of that item.</p>
     .incr(<span class="pl-s">&apos;myCountValue&apos;</span>)
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params">val</span>) </span>{
         <span class="pl-c">// The new value will be exactly 1 more than the old one</span>
-        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;the new value of myCountValue is&apos;</span>, val);
-    });
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;the new value of myCountValue is&apos;</span>, val)
+    })
+</code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-k">const</span> val = <span class="pl-k">await</span> client.incr(<span class="pl-s">&apos;myCountValue&apos;</span>)
+<span class="pl-c">// The new value will be exactly 1 more than the old one</span>
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;the new value of myCountValue is&apos;</span>, val)
 </code></pre>
 <h4 id="can-specify-incrdecr-amount">Can specify incr/decr amount</h4>
 <p>However, you can also specify an increment/decrement amount. For instance, to
@@ -106,6 +121,11 @@ decrement a number by 5:</p>
         <span class="pl-c">// The new value will be exactly 5 less than the old one</span>
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;the new value of myCountValue is&apos;</span>, val);
     });
+</code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-k">const</span> val = <span class="pl-k">await</span> client.decr(<span class="pl-s">&apos;myCountValue&apos;</span>, <span class="hljs-number">5</span>)
+<span class="pl-c">// The new value will be exactly 5 less than the old one</span>
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;the new value of myCountValue is&apos;</span>, val)
 </code></pre>
 <h4 id="only-works-on-numeric-types">Only works on numeric types</h4>
 <p>Since it makes no sense to increment something like <code>&quot;banana&quot;</code> or

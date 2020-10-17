@@ -68,8 +68,12 @@ supply a key:</p>
 <pre><code class="lang-javascript">client
     .delete(<span class="pl-s">&apos;firstName&apos;</span>)
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
-        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully deleted the value associated with key firstName&apos;</span>);
-    });
+        <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully deleted the value associated with key firstName&apos;</span>)
+    })
+</code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-k">await</span> client.delete(<span class="pl-s">&apos;firstName&apos;</span>)
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully deleted the value associated with key firstName&apos;</span>)
 </code></pre>
 <h3 id="delete-multi">Delete Multi</h3>
 <p>However, if you need to delete multiple keys at once, calling <code>delete()</code> over
@@ -81,6 +85,10 @@ command will delete all of them at once from Memcache:</p>
     .then(<span class="hljs-function"><span class="pl-k">function</span>(<span class="hljs-params"></span>) </span>{
         <span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully deleted all three values with the supplied keys&apos;</span>);
     });
+</code></pre>
+<p>with async/await</p>
+<pre><code class="lang-javascript"><span class="pl-k">await</span> client.deleteMulti([<span class="pl-s">&apos;firstName&apos;</span>, <span class="pl-s">&apos;middleName&apos;</span>, <span class="pl-s">&apos;lastName&apos;</span>])
+<span class="pl-c1">console</span>.log(<span class="pl-s">&apos;Successfully deleted all three values with the supplied keys&apos;</span>)
 </code></pre>
 
         </div>
