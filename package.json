@@ -27,8 +27,7 @@
   "docpress": {
     "github": "victorquinn/memcache-plus",
     "googleAnalytics": {
-      "id": "UA-29142694-4",
-      "domain": "https://memcache-plus.com"
+      "id": "UA-29142694-4"
     }
   },
   "homepage": "https://github.com/victorquinn/memcache-plus",
