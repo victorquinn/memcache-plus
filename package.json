@@ -24,6 +24,13 @@
   "bugs": {
     "url": "https://github.com/victorquinn/memcache-plus/issues"
   },
+  "docpress": {
+    "github": "victorquinn/memcache-plus",
+    "googleAnalytics": {
+      "id": "UA-29142694-4",
+      "domain": "https://memcache-plus.com"
+    }
+  },
   "homepage": "https://github.com/victorquinn/memcache-plus",
   "devDependencies": {
     "chai": "^3.5.0",
