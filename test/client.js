@@ -83,7 +83,10 @@ describe('Client', function() {
         });
 
         it('throws an error if attempting to disconnect from a bogus host', function() {
-            var cache = new Client({ hosts: ['localhost:11211', '127.0.0.1:11211'] });
+            var cache = new Client({
+                hosts: ['localhost:11211', '127.0.0.1:11211'],
+                onNetError: function() {}
+            });
             cache.should.have.property('disconnect');
             cache.disconnect.should.be.a('function');
             expect(function() { cache.disconnect(['badserver:11211']); }).to.throw('Cannot disconnect from server unless connected');
@@ -131,7 +134,11 @@ describe('Client', function() {
         */
 
         it('throws on autodiscovery failure', function() {
-            var cache = new Client({ hosts: ['badserver:11211'], autodiscover: true });
+            var cache = new Client({
+                hosts: ['badserver:11211'],
+                autodiscover: true,
+                onNetError: function() {}
+            });
             var val = chance.word();
 
             return cache.set('test', val)
