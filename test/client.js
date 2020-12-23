@@ -225,7 +225,7 @@ describe('Client', function() {
             it('works of its own accord', function() {
                 var val = chance.word({ length: 1000 });
 
-                return misc.compress(new Buffer(val))
+                return misc.compress(Buffer.from(val))
                     .then(function(v) {
                         return misc.decompress(v);
                     })
@@ -344,7 +344,7 @@ describe('Client', function() {
         });
 
         it('get for val set as Buffer returns Buffer', function() {
-            var key = getKey(), val = new Buffer('blah blah test');
+            var key = getKey(), val = Buffer.from('blah blah test');
 
             return cache.set(key, val)
                         .then(function() {
