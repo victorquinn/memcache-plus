@@ -1266,7 +1266,7 @@ describe('Client', function() {
                 }).then(function (data) {
                     expect(data[0].key).to.be.defined;
                     done();
-                });
+                }).catch(done);
             });
 
             it('gets cache metadata with limit', function (done) {
@@ -1279,7 +1279,7 @@ describe('Client', function() {
                 }).then(function (data) {
                     expect(data.length).to.equal(1);
                     done();
-                });
+                }).catch(done);
             });
         });
     });
