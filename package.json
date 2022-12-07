@@ -51,7 +51,7 @@
     "carrier": "^0.3.0",
     "debug": "^2.2.0",
     "hashring": "^3.2.0",
-    "immutable": "^3.8.1",
+    "immutable": "^4.1.0",
     "lodash": "^4.14.0",
     "ramda": "^0.24.1"
   }
