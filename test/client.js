@@ -1254,34 +1254,38 @@ describe('Client', function() {
             cache.should.have.property('items');
         });
 
-        describe('should work', function() {
-            it('gets cache metadata', function (done) {
-                var key = getKey();
+        // Comment this test out because `stats cachedump` has been threatened to be removed
+        // for years and does not appear to be present on the memcached in Github Actions
+        // See https://groups.google.com/g/memcached/c/1-T8I-RVGKM?pli=1
 
-                // guarantee that we will at least have one result
-                cache.set(key, 'test').then(function() {
-                    return cache.items();
-                }).then(function (items) {
-                    return cache.cachedump(items[0].slab_id);
-                }).then(function (data) {
-                    expect(data[0].key).to.be.defined;
-                    done();
-                });
-            });
+        // describe('should work', function() {
+        //     it('gets cache metadata', function (done) {
+        //         var key = getKey();
 
-            it('gets cache metadata with limit', function (done) {
-                var key = getKey();
+        //         // guarantee that we will at least have one result
+        //         cache.set(key, 'test').then(function() {
+        //             return cache.items();
+        //         }).then(function (items) {
+        //             return cache.cachedump(items[0].slab_id);
+        //         }).then(function (data) {
+        //             expect(data[0].key).to.be.defined;
+        //             done();
+        //         });
+        //     });
 
-                cache.set(key, 'test').then(function() {
-                    return cache.items();
-                }).then(function (items) {
-                    return cache.cachedump(items[0].slab_id, 1);
-                }).then(function (data) {
-                    expect(data.length).to.equal(1);
-                    done();
-                });
-            });
-        });
+        //     it('gets cache metadata with limit', function (done) {
+        //         var key = getKey();
+
+        //         cache.set(key, 'test').then(function() {
+        //             return cache.items();
+        //         }).then(function (items) {
+        //             return cache.cachedump(items[0].slab_id, 1);
+        //         }).then(function (data) {
+        //             expect(data.length).to.equal(1);
+        //             done();
+        //         });
+        //     });
+        // });
     });
 
     describe('version', function () {
