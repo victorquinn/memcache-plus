@@ -22,8 +22,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Build
+    - name: Install Memcached
       uses: niden/actions-memcached@v7
+
+    - name: Build
       run: |
         yarn
         grunt test
