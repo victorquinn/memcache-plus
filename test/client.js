@@ -7,6 +7,10 @@ var _ = require('lodash'),
 
 var Client = require('../lib/client');
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 describe('Client', function() {
     var keys = [];
     // We want a method for generating keys which will store them so we can
@@ -177,7 +181,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.set(chance.string({length: 251}), chance.word()); }).to.throw('less than 250 characters');
+                expect(function() { cache.set(chance.string({length: 251}), chance.word()); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {
@@ -187,40 +191,28 @@ describe('Client', function() {
             });
         });
 
-        it('should work', function() {
+        it('should work', async function() {
             var key = getKey(), val = chance.word();
 
-            return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            val.should.equal(v);
-                        });
+            await cache.set(key, val);
+            let v = await cache.get(key);
+            val.should.equal(v);
         });
 
-        it.skip('works with values with newlines', function() {
+        it.skip('works with values with newlines', async function() {
             var key = getKey(), val = 'value\nwith newline';
 
-            return cache.set(key, val)
-                .then(function() {
-                    return cache.get(key);
-                })
-                .then(function(v) {
-                    val.should.equal(v);
-                });
+            await cache.set(key, val);
+            let v = await cache.get(key);
+            val.should.equal(v);
         });
     
-        it('works with very large values', function() {
+        it('works with very large values', async function() {
             var key = getKey(), val = chance.word({ length: 1000000 });
 
-            return cache.set(key, val)
-                .then(function() {
-                    return cache.get(key);
-                })
-                .then(function(v) {
-                    val.should.equal(v);
-                });
+            await cache.set(key, val);
+            let v = await cache.get(key);
+            val.should.equal(v);
         });
 
         describe('compression', function() {
@@ -229,79 +221,58 @@ describe('Client', function() {
                 return cache.set(key, val, { compressed: true });
             });
 
-            it('works of its own accord', function() {
+            it('works of its own accord', async function() {
                 var val = chance.word({ length: 1000 });
 
-                return misc.compress(Buffer.from(val))
-                    .then(function(v) {
-                        return misc.decompress(v);
-                    })
-                    .then(function(d) {
-                        d.toString().should.equal(val);
-                    });
+                let v = await misc.compress(Buffer.from(val));
+                let d = await misc.decompress(v);
+                d.toString().should.equal(val);
             });
 
-            it('get works with compression', function() {
+            it('get works with compression', async function() {
                 var key = getKey(), val = chance.word({ length: 1000 });
 
-                return cache.set(key, val, { compressed: true })
-                            .then(function() {
-                                return cache.get(key, { compressed: true });
-                            })
-                            .then(function(v) {
-                                val.should.equal(v);
-                            });
+                await cache.set(key, val, { compressed: true });
+                let v = await cache.get(key, { compressed: true });
+                val.should.equal(v);
             });
 
-            it('get works with compression without explicit get compressed flag', function() {
+            it('get works with compression without explicit get compressed flag', async function() {
                 var key = getKey(), val = chance.word({ length: 1000 });
 
-                return cache.set(key, val, { compressed: true })
-                            .then(function() {
-                                return cache.get(key);
-                            })
-                            .then(function(v) {
-                                val.should.equal(v);
-                            });
+                await cache.set(key, val, { compressed: true });
+                let v = await cache.get(key);
+                val.should.equal(v);
             });
 
-            it('getMulti works with compression', function() {
+            it('getMulti works with compression', async function() {
                 var key1 = getKey(), key2 = getKey(),
                     val1 = chance.word(), val2 = chance.word();
 
-                return Promise.all([cache.set(key1, val1, { compressed: true }), cache.set(key2, val2, { compressed: true })])
-                    .then(function() {
-                        return cache.getMulti([key1, key2], { compressed: true });
-                    })
-                    .then(function(vals) {
-                        vals.should.be.an('object');
-                        vals[key1].should.equal(val1);
-                        vals[key2].should.equal(val2);
-                    });
+                await Promise.all([cache.set(key1, val1, { compressed: true }), cache.set(key2, val2, { compressed: true })]);
+                let vals = await cache.getMulti([key1, key2], { compressed: true });
+                vals.should.be.an('object');
+                vals[key1].should.equal(val1);
+                vals[key2].should.equal(val2);
             });
 
-            it.skip('get works with a callback', function(done) {
+            it('get works with a callback', function(done) {
                 var key = getKey(), val = chance.word({ length: 1000 });
 
-                return cache.set(key, val, { compressed: true })
-                    .then(function() {
-                        cache.get(key, { compressed: true }, function(err, v) {
-                            val.should.equal(v);
-                            done(err);
-                        });
+                cache.set(key, val, { compressed: true }, function() {
+                    cache.get(key, { compressed: true }, function(err, v) {
+                      val.should.equal(v);
+                      done(err);
                     });
+                });
             });
 
-            it('get for key that should be compressed but is not returns null', function() {
+            it('get for key that should be compressed but is not returns null', async function() {
                 var key = getKey(), val = chance.word({ length: 1000 });
 
-                return cache.set(key, val)
-                            .then(function() {
-                                return cache.get(key, { compressed: true });
-                            })
-                            .then(function(v) {
-                                expect(v).to.be.null;
-                            });
+                await cache.set(key, val);
+                let v = await cache.get(key, { compressed: true });
+                expect(v).to.be.null;
             });
         });
 
@@ -311,108 +282,79 @@ describe('Client', function() {
             expect(function() { cache.set(key, val); }).to.not.throw();
         });
 
-        it('get for val set as number returns number', function() {
+        it('get for val set as number returns number', async function() {
             var key = getKey(), val = chance.integer();
 
-            return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            expect(v).to.be.a('number');
-                            v.should.equal(val);
-                        });
+            await cache.set(key, val);
+            let v = await cache.get(key);
+            expect(v).to.be.a('number');
+            v.should.equal(val);
         });
 
-        it('get for val set as floating number returns number', function() {
+        it('get for val set as floating number returns number', async function() {
             var key = getKey(), val = chance.floating();
 
-            return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            expect(v).to.be.a.number;
-                            v.should.equal(val);
-                        });
+            await cache.set(key, val);
+            let v = await cache.get(key);
+            expect(v).to.be.a.number;
+            v.should.equal(val);
         });
 
-        it('get for val set as object returns object', function() {
+        it('get for val set as object returns object', async function() {
             var key = getKey(), val = { num: chance.integer() };
 
-            return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            expect(v).to.be.an.object;
-                            (v.num).should.equal(val.num);
-                        });
+            await cache.set(key, val);
+            let v = await cache.get(key);
+            expect(v).to.be.an.object;
+            (v.num).should.equal(val.num);
         });
 
-        it('get for val set as Buffer returns Buffer', function() {
+        it('get for val set as Buffer returns Buffer', async function() {
             var key = getKey(), val = Buffer.from('blah blah test');
 
-            return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            expect(v).to.be.an.instanceof(Buffer);
-                            (v.toString()).should.equal(val.toString());
-                        });
+            await cache.set(key, val);
+            let v = await cache.get(key);
+            expect(v).to.be.an.instanceof(Buffer);
+            (v.toString()).should.equal(val.toString());
         });
 
-        it('get for val set as null returns null', function() {
+        it('get for val set as null returns null', async function() {
             var key = getKey(), val = null;
 
-            return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            expect(v).to.be.null;
-                        });
+            await cache.set(key, val);
+            let v = await cache.get(key);
+            expect(v).to.be.null;
         });
 
-        it('get for val set as array returns array', function() {
+        it('get for val set as array returns array', async function() {
             var key = getKey(), val = [ chance.integer(), chance.integer() ];
 
-            return cache.set(key, val)
-                        .then(function() {
-                            return cache.get(key);
-                        })
-                        .then(function(v) {
-                            expect(v).to.be.an.array;
-                            expect(v).to.deep.equal(val);
-                        });
+            await cache.set(key, val);
+            let v = await cache.get(key);
+            expect(v).to.be.an.array;
+            expect(v).to.deep.equal(val);
         });
 
-        it('throws error with enormous values (over memcache limit)', function() {
+        it('throws error with enormous values (over memcache limit)', async function() {
             // Limit is 1048577, 1 byte more throws error. We'll go up a few just to be safe
             var key = getKey(), val = chance.word({ length: 1048590 });
-            return cache.set(key, val)
-                .then(function() {
-                    throw new Error('this code should never get hit');
-                })
-                .catch(function(err) {
-                    err.should.be.ok;
-                    err.should.be.an.instanceof(Error);
-                    err.should.deep.equal(new Error('Value too large to set in memcache'));
-                });
+            try {
+                await cache.set(key, val);
+                throw new Error('this code should never get hit');
+            } catch (err) {
+                err.should.be.ok;
+                err.should.be.an.instanceof(Error);
+                err.should.deep.equal(new Error('Value too large to set in memcache'));
+            }
         });
 
-        it('works fine with special characters', function() {
+        it('works fine with special characters', async function() {
             var key = getKey(),
                 val = chance.string({ pool: 'ÀÈÌÒÙàèìòÁÉÍÓÚáéíóúÂÊÎÔÛâêîôûÃÑÕãñõÄËÏÖÜŸäëïöüÿæ☃', length: 1000 });
 
-            return cache.set(key, val)
-                .then(function() {
-                    return cache.get(key);
-                })
-                .then(function(v) {
-                    val.should.equal(v);
-                });
+            await cache.set(key, val);
+            let v = await cache.get(key);
+            val.should.equal(v);
         });
 
         it('works with callbacks as well', function(done) {
@@ -496,11 +438,9 @@ describe('Client', function() {
         });
 
         describe('get to key that does not exist returns null', function() {
-            it('with Promise', function() {
-                return cache.get(chance.guid())
-                    .then(function(v) {
-                        expect(v).to.be.null;
-                    });
+            it('with Promise', async function() {
+                let v = await cache.get(chance.guid());
+                expect(v).to.be.null;
             });
 
             it('with Callback', function(done) {
@@ -516,65 +456,49 @@ describe('Client', function() {
                 cache.should.have.property('getMulti');
             });
 
-            it('works', function() {
+            it('works', async function() {
                 var key1 = getKey(), key2 = getKey(),
                     val1 = chance.word(), val2 = chance.word();
 
-                return Promise.all([cache.set(key1, val1), cache.set(key2, val2)])
-                    .then(function() {
-                        return cache.getMulti([key1, key2]);
-                    })
-                    .then(function(vals) {
-                        vals.should.be.an('object');
-                        vals[key1].should.equal(val1);
-                        vals[key2].should.equal(val2);
-                    });
+                await Promise.all([cache.set(key1, val1), cache.set(key2, val2)]);
+                let vals = await cache.getMulti([key1, key2]);
+                vals.should.be.an('object');
+                vals[key1].should.equal(val1);
+                vals[key2].should.equal(val2);
             });
 
-            it('get with array of keys delegates to getMulti', function() {
+            it('get with array of keys delegates to getMulti', async function() {
                 var key1 = getKey(), key2 = getKey(),
                     val1 = chance.word(), val2 = chance.word();
 
-                return Promise.all([cache.set(key1, val1), cache.set(key2, val2)])
-                    .then(function() {
-                        return cache.get([key1, key2]);
-                    })
-                    .then(function(vals) {
-                        vals.should.be.an('object');
-                        vals[key1].should.equal(val1);
-                        vals[key2].should.equal(val2);
-                    });
+                await Promise.all([cache.set(key1, val1), cache.set(key2, val2)]);
+                let vals = await cache.get([key1, key2]);
+                vals.should.be.an('object');
+                vals[key1].should.equal(val1);
+                vals[key2].should.equal(val2);
             });
 
-            it('works if some values not found', function() {
+            it('works if some values not found', async function() {
                 var key1 = getKey(), key2 = getKey(),
                     val = chance.word();
 
-                return cache.set(key1, val)
-                    .then(function() {
-                        return cache.getMulti([key1, key2]);
-                    })
-                    .then(function(vals) {
-                        vals.should.be.an('object');
-                        vals[key1].should.equal(val);
-                        expect(vals[key2]).to.equal(null);
-                    });
+                await cache.set(key1, val);
+                let vals = await cache.getMulti([key1, key2]);
+                vals.should.be.an('object');
+                vals[key1].should.equal(val);
+                expect(vals[key2]).to.equal(null);
             });
 
-            it('works if all values not found', function() {
+            it('works if all values not found', async function() {
                 var key = getKey(), key2 = getKey(), key3 = getKey(),
                     val = chance.word();
 
-                return cache.set(key, val)
-                    .then(function() {
-                        return cache.getMulti([key2, key3]);
-                    })
-                    .then(function(vals) {
-                        vals.should.be.an('object');
-                        _.size(vals).should.equal(2);
-                        expect(vals[key2]).to.equal(null);
-                        expect(vals[key3]).to.equal(null);
-                    });
+                await cache.set(key, val);
+                let vals = await cache.getMulti([key2, key3]);
+                vals.should.be.an('object');
+                _.size(vals).should.equal(2);
+                expect(vals[key2]).to.equal(null);
+                expect(vals[key3]).to.equal(null);
             });
 
             it('works if all values not found with callback', function(done) {
@@ -595,23 +519,15 @@ describe('Client', function() {
         });
 
         describe('works with expiration', function() {
-            it('expires', function() {
+            it('expires', async function() {
                 var key = getKey(), val = chance.word();
 
-                return cache.set(key, val, 1)
-                    .then(function() {
-                        return cache.get(key);
-                    })
-                    .then(function(v) {
-                        val.should.equal(v);
-                    })
-                    .delay(1001)
-                    .then(function() {
-                        return cache.get(key);
-                    })
-                    .then(function(v) {
-                        expect(v).to.be.null;
-                    });
+                await cache.set(key, val, 1);
+                let v = await cache.get(key);
+                val.should.equal(v);
+                await sleep(1001);
+                v = await cache.get(key);
+                expect(v).to.be.null;
             });
         });
     });
@@ -626,78 +542,51 @@ describe('Client', function() {
             cache.should.have.property('gets');
         });
 
-        it('should return a cas value', function() {
+        it('should return a cas value', async function() {
             var key = getKey(), val = chance.word();
 
-            return cache.set(key, val)
-                        .then(function() {
-                            return cache.gets(key);
-                        })
-                        .spread(function(v, cas) {
-                            val.should.equal(v);
-                            expect(cas).to.exist;
-                        });
+            await cache.set(key, val);
+            let [v, cas] = await cache.gets(key);
+            val.should.equal(v);
+            expect(cas).to.exist;
         });
 
-        it('should store new value when given a matching cas', function() {
+        it('should store new value when given a matching cas', async function() {
             var key = getKey(), val = chance.word(), updatedVal = chance.word();
 
-            return cache.set(key, val)
-                        .then(function() {
-                            return cache.gets(key);
-                        })
-                        .spread(function(v, cas) {
-                            return cache.cas(key, updatedVal, cas);
-
-                        }).then(function(success) {
-                            expect(success).to.be.true;
-
-                            return cache.get(key);
-
-                        }).then(function(v) {
-                            expect(v).to.equal(updatedVal);
-
-                        });
+            await cache.set(key, val);
+            let [v, cas] = await cache.gets(key);
+            expect(v).to.not.be.null;
+            let success = await cache.cas(key, updatedVal, cas);
+            expect(success).to.be.true;
+            let v2 = await cache.get(key);
+            expect(v2).to.equal(updatedVal);
         });
 
-        it('should not store the new value when given an invalid cas value', function() {
+        it('should not store the new value when given an invalid cas value', async function() {
             var key = getKey(), val = chance.word(), updatedVal = chance.word();
 
-            return cache.set(key, val)
-                        .then(function() {
-                            return cache.gets(key);
-                        })
-                        .spread(function(v, cas) {
-                            var invalidCas;
-                            
-                            do {
-                              invalidCas = chance.string({pool: '0123456789', length: 15});
-                            } while (invalidCas === cas);
+            await cache.set(key, val);
+            let [v, cas] = await cache.gets(key);
+            expect(v).to.not.be.null;
+            var invalidCas;
+            do {
+                invalidCas = chance.string({pool: '0123456789', length: 15});
+            } while (invalidCas === cas);
 
-                            return cache.cas(key, updatedVal, invalidCas);
-
-                        }).then(function(success) {
-                            expect(success).to.be.false;
-
-                        });
+            let success = await cache.cas(key, updatedVal, invalidCas);
+            expect(success).to.be.false;
         });
 
-        it('should not store a value when given an invalid key value', function() {
+        it('should not store a value when given an invalid key value', async function() {
             var key = getKey(), invalidKey = getKey(),
                 val = chance.word(), updatedVal = chance.word();
 
-            return cache.set(key, val)
-                        .then(function() {
-                            return cache.gets(key);
-                        })
-                        .spread(function(v, cas) {
-                            
-                            return cache.cas(invalidKey, updatedVal, cas);
-
-                        }).then(function(success) {
-                            expect(success).to.be.false;
-
-                        });
+            await cache.set(key, val);
+            let [v, cas] = await cache.gets(key);
+            expect(v).to.not.be.null;
+            let success = await cache.cas(invalidKey, updatedVal, cas);
+            expect(success).to.be.false;
         });
     });
 
@@ -713,19 +602,13 @@ describe('Client', function() {
             cache.delete.should.be.a('function');
         });
 
-        it('works', function() {
+        it('works', async function() {
             var key = getKey();
 
-            return cache.set(key, 'myvalue')
-                .then(function() {
-                    return cache.delete(key);
-                })
-                .then(function() {
-                    return cache.get(key);
-                })
-                .then(function(v) {
-                    expect(v).to.be.null;
-                });
+            await cache.set(key, 'myvalue');
+            await cache.delete(key);
+            let v = await cache.get(key);
+            expect(v).to.be.null;
         });
 
         it('does not blow up if deleting key that does not exist', function() {
@@ -822,17 +705,13 @@ describe('Client', function() {
     });
 
     describe('Options', function() {
-        it('can be disabled', function() {
+        it('can be disabled', async function() {
             var client = new Client({ disabled: true });
             var key = getKey(), val = chance.word();
 
-            return client.set(key, val)
-                .then(function() {
-                    return client.get(key);
-                })
-                .then(function(v) {
-                    expect(v).to.be.null;
-                });
+            await client.set(key, val);
+            let v = await client.get(key);
+            expect(v).to.be.null;
         });
     });
 
@@ -852,7 +731,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.incr(chance.string({length: 251})); }).to.throw('less than 250 characters');
+                expect(function() { cache.incr(chance.string({length: 251})); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {
@@ -867,27 +746,20 @@ describe('Client', function() {
         });
 
         describe('should work', function() {
-            it('without an increment value', function() {
+            it('without an increment value', async function() {
                 var key = getKey(), val = chance.natural();
 
-                return cache.set(key, val)
-                            .then(function() {
-                                return cache.incr(key);
-                            })
-                            .then(function(v) {
-                                v.should.equal(val + 1);
-                            });
+                await cache.set(key, val);
+                let v = await cache.incr(key);
+                v.should.equal(val + 1);
             });
 
-            it('with an increment value', function() {
+            it('with an increment value', async function() {
                 var key = getKey(), val = chance.natural({ max: 20000000}), incr = chance.natural({ max: 1000 });
-                return cache.set(key, val)
-                            .then(function() {
-                                return cache.incr(key, incr);
-                            })
-                            .then(function(v) {
-                                v.should.equal(val + incr);
-                            });
+
+                await cache.set(key, val);
+                let v = await cache.incr(key, incr);
+                v.should.equal(val + incr);
             });
         });
     });
@@ -908,7 +780,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.decr(chance.string({length: 251})); }).to.throw('less than 250 characters');
+                expect(function() { cache.decr(chance.string({length: 251})); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {
@@ -923,27 +795,20 @@ describe('Client', function() {
         });
 
         describe('should work', function() {
-            it('without a decrement value', function() {
+            it('without a decrement value', async function() {
                 var key = getKey(), val = chance.natural();
 
-                return cache.set(key, val)
-                            .then(function() {
-                                return cache.decr(key);
-                            })
-                            .then(function(v) {
-                                v.should.equal(val - 1);
-                            });
+                await cache.set(key, val);
+                let v = await cache.decr(key);
+                v.should.equal(val - 1);
             });
 
-            it('with a decrement value', function() {
+            it('with a decrement value', async function() {
                 var key = getKey(), val = chance.natural({ max: 20000000}), decr = chance.natural({ max: 1000 });
-                return cache.set(key, val)
-                            .then(function() {
-                                return cache.decr(key, decr);
-                            })
-                            .then(function(v) {
-                                v.should.equal(val - decr);
-                            });
+
+                await cache.set(key, val);
+                let v = await cache.decr(key, decr);
+                v.should.equal(val - decr);
             });
         });
     });
@@ -959,49 +824,29 @@ describe('Client', function() {
         });
 
         describe('should work', function() {
-            it('removes all data', function () {
+            it('removes all data', async function () {
                 var key = getKey(), val = chance.natural();
 
-                return cache.set(key, val)
-                     .then(function() {
-                         return cache.get(key);
-                     })
-                     .then(function(v) {
-                         expect(v).to.equal(val);
-                         return cache.flush();
-                     })
-                     .then(function () {
-                         return cache.get(key);
-                     })
-                     .then(function (v) {
-                         expect(v).to.equal(null);
-                     });
+                await cache.set(key, val);
+                let v = await cache.get(key);
+                expect(v).to.equal(val);
+                await cache.flush();
+                let v2 = await cache.get(key);
+                expect(v2).to.equal(null);
             });
 
-            it('removes all data after a specified seconds', function () {
+            it('removes all data after a specified number of seconds', async function() {
                 var key = getKey(), val = chance.natural();
 
-                return cache.set(key, val)
-                     .then(function() {
-                         return cache.get(key);
-                     })
-                     .then(function(v) {
-                         expect(v).to.equal(val);
-                         return cache.flush(1);
-                     })
-                     .then(function () {
-                         return cache.get(key);
-                     })
-                     .then(function (v) {
-                         expect(v).to.equal(v);
-                     })
-                     .delay(1001)
-                     .then(function() {
-                         return cache.get(key);
-                     })
-                     .then(function (v) {
-                         expect(v).to.equal(null);
-                     });
+                await cache.set(key, val);
+                let v = await cache.get(key);
+                expect(v).to.equal(val);
+
+                await cache.flush(1);
+
+                await sleep(1001);
+                let v3 = await cache.get(key);
+                expect(v3).to.be.null;
             });
         });
     });
@@ -1022,7 +867,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.add(chance.string({length: 251})); }).to.throw('less than 250 characters');
+                expect(function() { cache.add(chance.string({length: 251})); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {
@@ -1033,28 +878,23 @@ describe('Client', function() {
         });
 
         describe('should work', function() {
-            it('with a brand new key', function() {
+            it('with a brand new key', async function() {
                 var key = getKey(), val = chance.natural();
 
-                return cache.add(key, val)
-                            .then(function() {
-                                return cache.get(key);
-                            })
-                            .then(function(v) {
-                                v.should.equal(val);
-                            });
+                await cache.add(key, val);
+                let v = await cache.get(key);
+                v.should.equal(val);
             });
 
-            it('should behave properly when add over existing key', function() {
+            it('should behave properly when add over existing key', async function() {
                 var key = getKey(), val = chance.natural();
 
-                return cache.add(key, val)
-                            .then(function() {
-                                return cache.add(key, val);
-                            })
-                            .catch(function(err) {
-                                expect(err.toString()).to.contain('it already exists');
-                            });
+                await cache.add(key, val);
+                try {
+                    await cache.add(key, val);
+                } catch (err) {
+                    expect(err.toString()).to.contain('it already exists');                  
+                }
             });
         });
     });
@@ -1075,7 +915,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.replace(chance.string({length: 251})); }).to.throw('less than 250 characters');
+                expect(function() { cache.replace(chance.string({length: 251})); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {
@@ -1086,28 +926,23 @@ describe('Client', function() {
         });
 
         describe('should work', function() {
-            it('as normal', function() {
+            it('as normal', async function() {
                 var key = getKey(), val = chance.natural(), val2 = chance.natural();
 
-                return cache.set(key, val)
-                            .then(function() {
-                                return cache.replace(key, val2);
-                            })
-                            .then(function() {
-                                return cache.get(key);
-                            })
-                            .then(function(v) {
-                                v.should.equal(val2);
-                            });
+                await cache.set(key, val);
+                await cache.replace(key, val2);
+                let v = await cache.get(key);
+                v.should.equal(val2);
             });
 
-            it('should behave properly when replace over non-existent key', function() {
+            it('should behave properly when replace over non-existent key', async function() {
                 var key = getKey(), val = chance.natural();
 
-                return cache.replace(key, val)
-                            .catch(function(err) {
-                                expect(err.toString()).to.contain('does not exist');
-                            });
+                try {
+                    await cache.replace(key, val);
+                } catch (err) {
+                    expect(err.toString()).to.contain('does not exist');
+                }
             });
         });
     });
@@ -1128,7 +963,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.append(chance.string({length: 251})); }).to.throw('less than 250 characters');
+                expect(function() { cache.append(chance.string({length: 251})); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {
@@ -1181,7 +1016,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.prepend(chance.string({length: 251})); }).to.throw('less than 250 characters');
+                expect(function() { cache.prepend(chance.string({length: 251})); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {

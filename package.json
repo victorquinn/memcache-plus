@@ -4,6 +4,7 @@
   "description": "Better memcache for node",
   "main": "index.js",
   "scripts": {
+    "watch": "grunt",
     "test": "grunt test",
     "build": "docpress build"
   },
@@ -38,7 +39,7 @@
     "docpress": "0.7.1",
     "git-update-ghpages": "1.3.0",
     "grunt": "^1.0.1",
-    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-jshint": "^3.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-mocha-test": "^0.13.2",
     "jshint-stylish": "^2.2.0",
