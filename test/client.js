@@ -181,7 +181,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.set(chance.string({length: 251}), chance.word()); }).to.throw('less than 250 characters');
+                expect(function() { cache.set(chance.string({length: 251}), chance.word()); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {
@@ -730,7 +730,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.incr(chance.string({length: 251})); }).to.throw('less than 250 characters');
+                expect(function() { cache.incr(chance.string({length: 251})); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {
@@ -779,7 +779,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.decr(chance.string({length: 251})); }).to.throw('less than 250 characters');
+                expect(function() { cache.decr(chance.string({length: 251})); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {
@@ -868,7 +868,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.add(chance.string({length: 251})); }).to.throw('less than 250 characters');
+                expect(function() { cache.add(chance.string({length: 251})); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {
@@ -916,7 +916,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.replace(chance.string({length: 251})); }).to.throw('less than 250 characters');
+                expect(function() { cache.replace(chance.string({length: 251})); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {
@@ -964,7 +964,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.append(chance.string({length: 251})); }).to.throw('less than 250 characters');
+                expect(function() { cache.append(chance.string({length: 251})); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {
@@ -1017,7 +1017,7 @@ describe('Client', function() {
             });
 
             it('with a key that is too long', function() {
-                expect(function() { cache.prepend(chance.string({length: 251})); }).to.throw('less than 250 characters');
+                expect(function() { cache.prepend(chance.string({length: 251})); }).to.throw('less than 250 bytes');
             });
 
             it('with a non-string key', function() {
