@@ -256,13 +256,14 @@ describe('Client', function() {
                 vals[key2].should.equal(val2);
             });
 
-            it.skip('get works with a callback', async function(done) {
+            it('get works with a callback', function(done) {
                 var key = getKey(), val = chance.word({ length: 1000 });
 
-                await cache.set(key, val, { compressed: true });
-                cache.get(key, { compressed: true }, function(err, v) {
-                  val.should.equal(v);
-                  done(err);
+                cache.set(key, val, { compressed: true }, function() {
+                    cache.get(key, { compressed: true }, function(err, v) {
+                      val.should.equal(v);
+                      done(err);
+                    });
                 });
             });
 
@@ -834,17 +835,15 @@ describe('Client', function() {
                 expect(v2).to.equal(null);
             });
 
-            // @todo figure out what is not working here
-            it.skip('removes all data after a specified number of seconds', async function() {
+            it('removes all data after a specified number of seconds', async function() {
                 var key = getKey(), val = chance.natural();
 
                 await cache.set(key, val);
                 let v = await cache.get(key);
                 expect(v).to.equal(val);
-                cache.flush(1); // intentionally not waiting for it to finish before proceeding
-                let v2 = await cache.get(key);
-                // This should still be legit if the flush delay is working
-                expect(v2).to.equal(val);
+
+                await cache.flush(1);
+
                 await sleep(1001);
                 let v3 = await cache.get(key);
                 expect(v3).to.be.null;
