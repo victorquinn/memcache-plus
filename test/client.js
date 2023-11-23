@@ -121,6 +121,25 @@ describe('Client', function() {
         });
 
         /**
+         *  To run this test, start up a local memcached server with TLS enabled
+         *  on port 11212 with a trusted certificate
+         */
+        it('with TLS enabled', async function() {
+            var cache_client = new Client({
+                hosts: ['127.0.0.1:11212'],
+                tls: {
+                    checkServerIdentity: () => {
+                        return undefined;
+                    }
+                }
+            });
+            var val = chance.word();
+            await cache_client.set('key', val);
+            let v = await cache_client.get('key');
+            val.should.equal(v);
+        });
+
+        /**
          * Only comment this out when we have an Elasticache autodiscovery cluster to test against.
          *   Ideally one day this can be mocked, but for now just selectively enabling it
         it('supports autodiscovery', function() {
