@@ -151,6 +151,7 @@ object containing any of the following options (default values in parentheses):
 |`queue`| `true` | Whether or not to queue commands issued before a connection is established or if the connection is dropped momentarily. |
 |`netTimeout`|500| Number of milliseconds to wait before assuming there is a network timeout. |
 |`reconnect` | `true` | Whether or not to automatically reconnect if the connection is lost. Memcache Plus includes an exponential backoff to prevent it from spamming a server that is offline |
+|`hashAlgorithm` | `md5` | Hash Algorithm to be used when creating hashring of servers
 
 Example:
 
